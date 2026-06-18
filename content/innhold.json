@@ -33,10 +33,6 @@
       "beskrivelse": "Alle innlegg om eldreboom, omsorg, rekruttering, teknologi, boformer og pårørende."
     },
     {
-      "tittel": "Bygg, struktur og organisering",
-      "beskrivelse": "Hvorfor vi må ha bedre oversikt, færre hastebeslutninger og mer langsiktige valg."
-    },
-    {
       "tittel": "Kommuneøkonomi",
       "beskrivelse": "Alle innlegg om prioriteringer, pengebruk, eiendomsskatt, drift, inntekter og effektivisering."
     },
@@ -59,16 +55,16 @@
   ],
   "meny": [
     {
-      "tittel": "Om siden",
+      "tittel": "Start her",
       "lenke": "om.html"
     },
     {
-      "tittel": "Serier",
-      "lenke": "#serier"
+      "tittel": "Modum framover",
+      "lenke": "serie.html?navn=Modum framover"
     },
     {
       "tittel": "Temaoversikt",
-      "lenke": "#temaer"
+      "lenke": "temaer.html"
     },
     {
       "tittel": "Alle innlegg",
