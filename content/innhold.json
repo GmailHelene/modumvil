@@ -43,5 +43,21 @@
       "tittel": "Kultur, idrett og frivillighet",
       "beskrivelse": "Hvordan fellesskap, arrangementer og frivillig innsats kan bli en motor for utvikling."
     }
-  ]
+  ],
+  "meny": [
+    {
+      "tittel": "Innlegg",
+      "lenke": "#innlegg"
+    },
+    {
+      "tittel": "Manifestet",
+      "lenke": "#manifest"
+    },
+    {
+      "tittel": "Temaoversikt",
+      "lenke": "#temaer"
+    }
+  ],
+  "kontaktTittel": "Vil du bidra til debatten?",
+  "kontaktTekst": "Framtidens Modum skapes ikke av en person alene. Har du innspill, tanker eller meninger om samfunnsutviklingen i kommunen vår? Ta kontakt, så tar vi praten videre."
 }
