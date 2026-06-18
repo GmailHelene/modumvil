@@ -3,7 +3,7 @@
     "navn": "ModumVil.no",
     "tittel": "Modum står ved et veiskille",
     "ingress": "Det finnes øyeblikk hvor en kommune må løfte blikket. Ikke bare spørre hvordan neste budsjett skal gå opp, men stille det store spørsmålet: Hva slags kommune skal Modum være i framtiden?",
-    "ctaTekst": "Modum framover",
+    "ctaTekst": "Start Modum framover",
     "heroBilde": "assets/drammenselva_septembermorgen_ved_elkogrunna_-_moberget_-2-.jpg",
     "epost": "paliryen@gmail.com",
     "facebook": ""
@@ -64,6 +64,10 @@
     {
       "tittel": "Modum framover",
       "lenke": "serie.html?navn=Modum framover"
+    },
+    {
+      "tittel": "Om siden",
+      "lenke": "om.html"
     },
     {
       "tittel": "Temaoversikt",
