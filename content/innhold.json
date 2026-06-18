@@ -58,20 +58,20 @@
   ],
   "meny": [
     {
-      "tittel": "Innlegg",
-      "lenke": "#innlegg"
+      "tittel": "Start her",
+      "lenke": "om.html"
     },
     {
-      "tittel": "Modum framover",
-      "lenke": "#Modum-framover"
+      "tittel": "Serier",
+      "lenke": "#serier"
     },
     {
       "tittel": "Temaoversikt",
       "lenke": "#temaer"
     },
     {
-      "tittel": "Om siden",
-      "lenke": "om.html"
+      "tittel": "Innlegg",
+      "lenke": "#innlegg"
     }
   ],
   "kontaktTittel": "Send innspill",
@@ -79,5 +79,11 @@
   "omTittel": "Hva er ModumVil.no?",
   "omTekst": "<p>ModumVil.no er en politisk blogg om framtidens Modum. Her vil jeg publisere egne innlegg, temaserier og etter hvert gjesteinnlegg fra folk som har tanker om hvordan kommunen vår bør utvikles. Første serie heter <em>Modum framover</em> og handler om vekst, tilflytting, skole, helse, næringsliv, kommuneøkonomi, tettsteder, kultur og frivillighet.</p>",
   "omSiden": "<p>ModumVil.no er en personlig politisk blogg startet av Pål Inge Ryen. Målet er å løfte debatten om hvilken retning Modum bør ta framover.</p><h3>Hvem står bak?</h3><p>Bak siden står jeg, Pål Inge Ryen. Tekstene uttrykker mine egne vurderinger, med mindre annet er oppgitt.</p><h3>Er dette en partikanal?</h3><p>Nei. Dette er en personlig blogg, ikke en kanal for noe parti. Jeg er engasjert i Høyre, og noe av det jeg skriver bygger på arbeid og tanker derfra, men innholdet her står for min egen regning.</p><h3>Hvorfor finnes siden?</h3><p>Fordi jeg mener Modum fortjener en tydeligere samtale om framtiden. Ikke bare hvem som skal styre, men hva vi faktisk vil styre mot.</p><h3>Kan andre bidra?</h3><p>Ja. På sikt åpner siden for gjesteinnlegg fra folk som har tanker om hvordan kommunen vår bør utvikles. Vil du bidra, kan du sende inn et innlegg via <a href=\"bidra.html\">skjemaet her</a>.</p>",
-  "bidraTekst": "<p>Har du tanker om hvordan Modum bør utvikles? Her kan du sende inn et gjesteinnlegg. Jeg leser gjennom alt som kommer inn, og publiserer de innleggene som passer. Du beholder navnet ditt på det du skriver.</p>"
+  "bidraTekst": "<p>Har du tanker om hvordan Modum bør utvikles? Her kan du sende inn et gjesteinnlegg. Jeg leser gjennom alt som kommer inn, og publiserer de innleggene som passer. Du beholder navnet ditt på det du skriver.</p>",
+  "serier": [
+    {
+      "tittel": "Modum framover",
+      "beskrivelse": "En serie i 10-12 deler om hvilken retning Modum bør ta: vekst, tilflytting, skole, helse, næringsliv, kommuneøkonomi, tettsteder, kultur og frivillighet."
+    }
+  ]
 }
