@@ -59,5 +59,7 @@
     }
   ],
   "kontaktTittel": "Vil du bidra til debatten?",
-  "kontaktTekst": "Framtidens Modum skapes ikke av en person alene. Har du innspill, tanker eller meninger om samfunnsutviklingen i kommunen vår? Ta kontakt, så tar vi praten videre."
+  "kontaktTekst": "Framtidens Modum skapes ikke av en person alene. Har du innspill, tanker eller meninger om samfunnsutviklingen i kommunen vår? Ta kontakt, så tar vi praten videre.",
+  "omTittel": "Hva er ModumVil.no?",
+  "omTekst": "<p>ModumVil.no er en politisk blogg om framtidens Modum. Her vil jeg publisere egne innlegg, temaserier og etter hvert gjesteinnlegg fra folk som har tanker om hvordan kommunen vår bør utvikles. Første serie heter <em>Modum framover</em> og handler om vekst, tilflytting, skole, helse, næringsliv, kommuneøkonomi, tettsteder, kultur og frivillighet.</p>"
 }
