@@ -3,7 +3,7 @@
     "navn": "ModumVil.no",
     "tittel": "Modum står ved et veiskille",
     "ingress": "Det finnes øyeblikk hvor en kommune må løfte blikket. Ikke bare spørre hvordan neste budsjett skal gå opp, men stille det store spørsmålet: Hva slags kommune skal Modum være i framtiden?",
-    "ctaTekst": "Start Modum framover",
+    "ctaTekst": "Modum framover",
     "heroBilde": "assets/drammenselva_septembermorgen_ved_elkogrunna_-_moberget_-2-.jpg",
     "epost": "paliryen@gmail.com",
     "facebook": ""
@@ -66,10 +66,6 @@
       "lenke": "serie.html?navn=Modum framover"
     },
     {
-      "tittel": "Om siden",
-      "lenke": "om.html"
-    },
-    {
       "tittel": "Temaoversikt",
       "lenke": "temaer.html"
     },
@@ -81,9 +77,9 @@
   "kontaktTittel": "Send innspill",
   "kontaktTekst": "Framtidens Modum skapes ikke av en person alene. Har du innspill, tanker eller meninger om samfunnsutviklingen i kommunen vår? Ta kontakt, så tar vi praten videre.",
   "omTittel": "Hva er ModumVil.no?",
-  "omTekst": "<p>ModumVil.no er en politisk blogg om framtidens Modum. Her vil jeg publisere egne innlegg, temaserier og etter hvert gjesteinnlegg fra folk som har tanker om hvordan kommunen vår bør utvikles. Første serie heter <em>Modum framover</em> og handler om vekst, tilflytting, skole, helse, næringsliv, kommuneøkonomi, tettsteder, kultur og frivillighet.</p>",
-  "omSiden": "<p>ModumVil.no er en personlig politisk blogg startet av Pål Inge Ryen. Målet er å løfte debatten om hvilken retning Modum bør ta framover.</p><h3>Hvem står bak?</h3><p>Bak siden står jeg, Pål Inge Ryen. Tekstene uttrykker mine egne vurderinger, med mindre annet er oppgitt.</p><h3>Er dette en partikanal?</h3><p>Nei. Dette er en personlig blogg, ikke en kanal for noe parti. Jeg er engasjert i Høyre, og noe av det jeg skriver bygger på arbeid og tanker derfra, men innholdet her står for min egen regning.</p><h3>Hvorfor finnes siden?</h3><p>Fordi jeg mener Modum fortjener en tydeligere samtale om framtiden. Ikke bare hvem som skal styre, men hva vi faktisk vil styre mot.</p><h3>Kan andre bidra?</h3><p>Ja. På sikt åpner siden for gjesteinnlegg fra folk som har tanker om hvordan kommunen vår bør utvikles. Vil du bidra, kan du sende inn et innlegg via <a href=\"bidra.html\">skjemaet her</a>.</p>",
-  "bidraTekst": "<p>Har du tanker om hvordan Modum bør utvikles? Her kan du sende inn et gjesteinnlegg. Jeg leser gjennom alt som kommer inn, og publiserer de innleggene som passer. Du beholder navnet ditt på det du skriver.</p>",
+  "omTekst": "<p>ModumVil.no er en politisk blogg om framtidens Modum.</p><p>Her publiseres innlegg og temaserier om hvordan kommunen vår bør utvikles.</p><p>Første serie heter <strong>Modum framover</strong>, er skrevet av <i>Pål Inge Ryen</i> og handler om valgene som vil forme Modum de neste årene.</p><p>Målet er enkelt: å løfte debatten om hvilken retning Modum bør ta.</p><p></p>",
+  "omSiden": "<p class=\"isSelectedEnd\"><span>ModumVil.no er en personlig politisk blogg om framtidens Modum, startet av Pål Inge Ryen.</span></p><p class=\"isSelectedEnd\"><span>Målet er å løfte debatten om hvilken retning kommunen vår bør ta framover. Ikke bare i enkeltsaker, men i de store spørsmålene om vekst, skole, helse, næringsliv, økonomi, tettsteder, kultur og frivillighet.</span></p><p class=\"isSelectedEnd\"><span>Dette er ikke en partikanal. Jeg er engasjert i Høyre, og noe av det jeg skriver bygger på arbeid og tanker derfra, men tekstene på denne siden står for mine egne vurderinger med mindre annet er oppgitt.</span></p><p class=\"isSelectedEnd\"><span>Første serie på siden heter </span><strong><span>Modum framover</span></strong><span>. Den handler om valgene som vil forme Modum de neste årene.</span></p><p><span>Jeg åpner for gjesteinnlegg fra folk som har tanker, erfaringer eller ideer om hvordan Modum kan utvikles.</span></p>",
+  "bidraTekst": "<p class=\"isSelectedEnd\"><span>Har du tanker om hvordan Modum bør utvikles?</span></p><p class=\"isSelectedEnd\"><span>Her kan du sende inn innlegg, ideer eller innspill til ModumVil.no. Alle bidrag vurderes før publisering, og innlegg som passer sidens formål kan bli publisert.</span></p><p><span>Du står selv som avsender av teksten din, og eventuelle endringer avklares før publisering.</span></p><p></p>",
   "serier": [
     {
       "tittel": "Modum framover",
