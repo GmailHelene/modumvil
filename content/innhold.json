@@ -62,16 +62,16 @@
       "lenke": "om.html"
     },
     {
-      "tittel": "Serier",
-      "lenke": "#serier"
+      "tittel": "Modum framover",
+      "lenke": "serie.html?navn=Modum framover"
     },
     {
       "tittel": "Temaoversikt",
-      "lenke": "#temaer"
+      "lenke": "temaer.html"
     },
     {
-      "tittel": "Innlegg",
-      "lenke": "#innlegg"
+      "tittel": "Alle innlegg",
+      "lenke": "arkiv.html"
     }
   ],
   "kontaktTittel": "Send innspill",
