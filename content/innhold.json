@@ -59,7 +59,7 @@
   ],
   "meny": [
     {
-      "tittel": "Start her",
+      "tittel": "Om siden",
       "lenke": "om.html"
     },
     {
@@ -68,7 +68,7 @@
     },
     {
       "tittel": "Temaoversikt",
-      "lenke": "temaer.html"
+      "lenke": "#temaer"
     },
     {
       "tittel": "Alle innlegg",
