@@ -13,35 +13,47 @@
   "temaer": [
     {
       "tittel": "Vekst og tilflytting",
-      "beskrivelse": "Hvordan Modum kan bli en mer attraktiv kommune for unge voksne, barnefamilier og hjemflyttere."
+      "beskrivelse": "Alle innlegg om befolkningsvekst, hjemflytting, barnefamilier, bolig, pendling og omdømme."
     },
     {
       "tittel": "Næringsliv og arbeidsplasser",
-      "beskrivelse": "Hvordan kommunen kan bli mer offensiv, mer næringsvennlig og enklere å samarbeide med."
+      "beskrivelse": "Alle innlegg om bedrifter, gründere, etableringer, arbeidsplasser, saksbehandling og næringsarealer."
     },
     {
       "tittel": "Skole og oppvekst",
-      "beskrivelse": "Hvordan vi kan skape trygge skoler, mer mestring og bedre sammenheng rundt barn og unge."
+      "beskrivelse": "Alle innlegg om skole, barnehage, SFO, mestring, fravær, laget rundt barna og familier."
+    },
+    {
+      "tittel": "Barn, ungdom og utenforskap",
+      "beskrivelse": "Alle innlegg om barn, ungdom, møteplasser, fritid, psykisk helse, forebygging og tilhørighet."
     },
     {
       "tittel": "Helse og eldreomsorg",
-      "beskrivelse": "Hvordan vi kan møte eldrebølgen med verdighet, nye løsninger og nok folk."
-    },
-    {
-      "tittel": "Kommuneøkonomi",
-      "beskrivelse": "Hvorfor Modum må bruke pengene smartere, slik at innbyggerne ikke blir bedt om å betale mer."
+      "beskrivelse": "Alle innlegg om eldreboom, omsorg, rekruttering, teknologi, boformer og pårørende."
     },
     {
       "tittel": "Bygg, struktur og organisering",
       "beskrivelse": "Hvorfor vi må ha bedre oversikt, færre hastebeslutninger og mer langsiktige valg."
     },
     {
+      "tittel": "Kommuneøkonomi",
+      "beskrivelse": "Alle innlegg om prioriteringer, pengebruk, eiendomsskatt, drift, inntekter og effektivisering."
+    },
+    {
+      "tittel": "Bygg, struktur og organisering",
+      "beskrivelse": "Alle innlegg om rådhus, kommunale bygg, vedlikehold, organisering, ledelse og langsiktige strukturvalg."
+    },
+    {
       "tittel": "Tettstedene våre",
-      "beskrivelse": "Hvordan Vikersund, Åmot, Geithus og bygdene kan utvikles med mer liv, identitet og stolthet."
+      "beskrivelse": "Alle innlegg om Vikersund, Åmot, Geithus, bygdene, sentrumsliv, møteplasser og stedsutvikling."
     },
     {
       "tittel": "Kultur, idrett og frivillighet",
-      "beskrivelse": "Hvordan fellesskap, arrangementer og frivillig innsats kan bli en motor for utvikling."
+      "beskrivelse": "Alle innlegg om arrangementer, frivillighet, idrett, kultur, festivaler og lokalt fellesskap."
+    },
+    {
+      "tittel": "Lokaldemokrati og politisk styring",
+      "beskrivelse": "Alle innlegg om åpenhet, samarbeid, politiske alternativer, innbyggerinvolvering og styring."
     }
   ],
   "meny": [
@@ -62,7 +74,7 @@
       "lenke": "om.html"
     }
   ],
-  "kontaktTittel": "Vil du bidra til debatten?",
+  "kontaktTittel": "Send innspill",
   "kontaktTekst": "Framtidens Modum skapes ikke av en person alene. Har du innspill, tanker eller meninger om samfunnsutviklingen i kommunen vår? Ta kontakt, så tar vi praten videre.",
   "omTittel": "Hva er ModumVil.no?",
   "omTekst": "<p>ModumVil.no er en politisk blogg om framtidens Modum. Her vil jeg publisere egne innlegg, temaserier og etter hvert gjesteinnlegg fra folk som har tanker om hvordan kommunen vår bør utvikles. Første serie heter <em>Modum framover</em> og handler om vekst, tilflytting, skole, helse, næringsliv, kommuneøkonomi, tettsteder, kultur og frivillighet.</p>",
