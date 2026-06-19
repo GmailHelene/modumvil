@@ -86,5 +86,21 @@
       "tittel": "Modum framover",
       "beskrivelse": "Modum framover er en serie i 10 deler skrevet av Pål Inge Ryen, om hvilken retning han mener Modum bør ta i årene framover.\n\nSerien tar for seg økonomi, struktur, næringsliv, skole, ungdom, helse, tettsteder, kultur, frivillighet og tilflytting.\n"
     }
+  ],
+  "fasteSkribenter": [
+    {
+      "navn": "Pål Inge Ryen",
+      "tittel": "Samfunnsengasjert moing",
+      "bilde": "",
+      "tekst": "Pål Inge Ryen er initiativtaker til ModumVil.no. Han er engasjert i Høyre, men skriver her for egen regning. Han er opptatt av lokalpolitikk, samfunnsutvikling og hvordan Modum kan bli en kommune flere velger, trives i og får mulighet til å bidra i.",
+      "lenke": ""
+    },
+    {
+      "navn": "Martin Kaggestad",
+      "tittel": "Daglig leder Modum Næringsforening",
+      "bilde": "assets/skjermbilde-2019-08-08-kl.-08.48.55.png",
+      "tekst": "Martin Kaggestad er daglig leder i Modum Næringsforening. Han arbeider med næringsutvikling, samarbeid mellom lokalt næringsliv og kommune, og saker som handler om vekst, etablering og utvikling i Modum.",
+      "lenke": "https://www.modumnf.no/"
+    }
   ]
 }
