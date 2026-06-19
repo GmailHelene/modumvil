@@ -3,15 +3,15 @@
   <channel>
     <title>ModumVil.no</title>
     <link>https://modumvil.no/</link>
-    <description>Det finnes øyeblikk hvor en kommune må løfte blikket. Ikke bare spørre hvordan neste budsjett skal gå opp, men stille det store spørsmålet: Hva slags kommune skal Modum være i framtiden?</description>
+    <description>ModumVil.no er en lokal idé- og debattplattform om framtidens Modum. Her samles innlegg, meninger og perspektiver om hvordan kommunen vår kan utvikles videre.</description>
     <language>nb-NO</language>
     <atom:link href="https://modumvil.no/rss.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Modum står ved et veiskille</title>
-      <link>https://modumvil.no/innlegg.html?slug=modum-staar-ved-et-veiskille</link>
-      <guid isPermaLink="true">https://modumvil.no/innlegg.html?slug=modum-staar-ved-et-veiskille</guid>
-      <pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate>
-      <description>Det finnes øyeblikk hvor en kommune må løfte blikket og spørre hva slags kommune vi vil være, ikke bare hvordan neste budsjett skal gå opp.</description>
+      <title>Hva er ModumVil?</title>
+      <link>https://modumvil.no/innlegg.html?slug=hva-er-modumvil</link>
+      <guid isPermaLink="true">https://modumvil.no/innlegg.html?slug=hva-er-modumvil</guid>
+      <pubDate>Fri, 19 Jun 2026 00:00:00 GMT</pubDate>
+      <description>ModumVil er et nytt lokalt initiativ for alle som bryr seg om Modum. Målet er å skape en åpen arena for tanker, idéer og perspektiver om hvor kommunen vår skal videre, og invitere flere stemmer inn i samtalen.</description>
     </item>
   </channel>
 </rss>

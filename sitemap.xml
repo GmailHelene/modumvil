@@ -5,6 +5,7 @@
   <url><loc>https://modumvil.no/arkiv.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://modumvil.no/temaer.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://modumvil.no/serier.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://modumvil.no/skribenter.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/bidra.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/serie.html?navn=Modum%20framover</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Vekst%20og%20tilflytting</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
@@ -12,11 +13,10 @@
   <url><loc>https://modumvil.no/tema.html?navn=Skole%20og%20oppvekst</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Barn%2C%20ungdom%20og%20utenforskap</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Helse%20og%20eldreomsorg</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://modumvil.no/tema.html?navn=Bygg%2C%20struktur%20og%20organisering</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Kommune%C3%B8konomi</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Bygg%2C%20struktur%20og%20organisering</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Tettstedene%20v%C3%A5re</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Kultur%2C%20idrett%20og%20frivillighet</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://modumvil.no/tema.html?navn=Lokaldemokrati%20og%20politisk%20styring</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://modumvil.no/innlegg.html?slug=modum-staar-ved-et-veiskille</loc><lastmod>2026-06-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://modumvil.no/innlegg.html?slug=hva-er-modumvil</loc><lastmod>2026-06-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
