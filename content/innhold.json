@@ -233,25 +233,75 @@
       ]
     },
     {
-      "tittel": "Innpendling",
+      "tittel": "Sysselsatte bosatt i Modum",
       "kategori": "Arbeid, pendling og næring",
-      "hovedtall": "2 537",
+      "hovedtall": "6 953",
       "enhet": "personer (2025)",
-      "endring": "+24",
-      "forklaring": "Innpendling sier noe om hvor attraktiv Modum er som arbeidssted. Et høyt antall innpendlere kan bety at kommunen har arbeidsplasser som trekker folk utenfra, men det kan også vise et potensial for tilflytting dersom flere av dem som jobber her kunne tenke seg å bo her. Tallet er viktig for debatten om næringsliv, arbeidsplasser, transport, bolig og hvordan Modum kan bli både en sterkere arbeidskommune og bokommune.",
+      "endring": "-37",
+      "forklaring": "Antall sysselsatte bosatt i Modum sier noe om hvor mange innbyggere som er i arbeid og bidrar i arbeidslivet. Utviklingen er viktig for kommuneøkonomi, skatteinntekter, pendling, lokal kjøpekraft og kommunens evne til å møte framtidens behov for arbeidskraft og tjenester.",
+      "kilde": "SSB / KommuneProfilen – sysselsatte med bosted og arbeidssted i kommunen.",
+      "kildeUrl": "https://www.ssb.no/statbank/table/03321",
+      "sistOppdatert": "juni 2026",
+      "historikk": [
+        {
+          "dato": "2024",
+          "verdi": "6 990",
+          "kilde": "SSB / KommuneProfilen – sysselsatte med bosted og arbeidssted i kommunen.",
+          "kommentar": ""
+        },
+        {
+          "dato": "2023",
+          "verdi": "7 046",
+          "kilde": "SSB / KommuneProfilen – sysselsatte med bosted og arbeidssted i kommunen.",
+          "kommentar": ""
+        }
+      ]
+    },
+    {
+      "tittel": "Arbeidsplasser i Modum",
+      "kategori": "Arbeid, pendling og næring",
+      "hovedtall": "6 174",
+      "enhet": "personer (2025)",
+      "endring": "+26",
+      "forklaring": "<p>Antall arbeidsplasser viser hvor sterkt Modum står som arbeidskommune. Utviklingen er viktig fordi lokale jobber påvirker næringsliv, pendling, handel, skatteinntekter og muligheten for at flere kan bo og jobbe i kommunen.</p>",
+      "kilde": "SSB / KommuneProfilen, sysselsatte med arbeidssted i kommunen",
+      "kildeUrl": "https://www.ssb.no/statbank/table/07984",
+      "sistOppdatert": "juni 2026",
+      "historikk": [
+        {
+          "dato": "2024",
+          "verdi": "6 148",
+          "kilde": "SSB / KommuneProfilen, sysselsatte med arbeidssted i kommunen",
+          "kommentar": ""
+        },
+        {
+          "dato": "2023",
+          "verdi": "5 825",
+          "kilde": "SSB / KommuneProfilen, sysselsatte med arbeidssted i kommunen",
+          "kommentar": ""
+        }
+      ]
+    },
+    {
+      "tittel": "Bor og jobber i Modum",
+      "kategori": "Arbeid, pendling og næring",
+      "hovedtall": "3 637",
+      "enhet": "personer (2025)",
+      "endring": "+2",
+      "forklaring": "Tallet sier noe om hvor mange innbyggere som har arbeidshverdagen sin i egen kommune. Det påvirker lokal aktivitet, handel, trafikk, pendling, næringsliv og hvor sterkt Modum står som både bosted og arbeidskommune. Utviklingen over tid kan vise om flere får mulighet til å bo og jobbe lokalt, eller om Modum i større grad blir en ren pendlerkommune.",
       "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
       "kildeUrl": "https://www.ssb.no/statbank/table/03321",
       "sistOppdatert": "juni 2026",
       "historikk": [
         {
           "dato": "2024",
-          "verdi": "2 513",
+          "verdi": "3 635",
           "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
           "kommentar": ""
         },
         {
           "dato": "2023",
-          "verdi": "2 160",
+          "verdi": "3 665",
           "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
           "kommentar": ""
         }
@@ -283,26 +333,26 @@
       ]
     },
     {
-      "tittel": "Arbeidsplasser i Modum",
+      "tittel": "Innpendling",
       "kategori": "Arbeid, pendling og næring",
-      "hovedtall": "6 174",
+      "hovedtall": "2 537",
       "enhet": "personer (2025)",
-      "endring": "+26",
-      "forklaring": "<p>Antall arbeidsplasser viser hvor sterkt Modum står som arbeidskommune. Utviklingen er viktig fordi lokale jobber påvirker næringsliv, pendling, handel, skatteinntekter og muligheten for at flere kan bo og jobbe i kommunen.</p>",
-      "kilde": "SSB / KommuneProfilen, sysselsatte med arbeidssted i kommunen",
-      "kildeUrl": "https://www.ssb.no/statbank/table/07984",
+      "endring": "+24",
+      "forklaring": "Innpendling sier noe om hvor attraktiv Modum er som arbeidssted. Et høyt antall innpendlere kan bety at kommunen har arbeidsplasser som trekker folk utenfra, men det kan også vise et potensial for tilflytting dersom flere av dem som jobber her kunne tenke seg å bo her. Tallet er viktig for debatten om næringsliv, arbeidsplasser, transport, bolig og hvordan Modum kan bli både en sterkere arbeidskommune og bokommune.",
+      "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
+      "kildeUrl": "https://www.ssb.no/statbank/table/03321",
       "sistOppdatert": "juni 2026",
       "historikk": [
         {
           "dato": "2024",
-          "verdi": "6 148",
-          "kilde": "SSB / KommuneProfilen, sysselsatte med arbeidssted i kommunen",
+          "verdi": "2 513",
+          "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
           "kommentar": ""
         },
         {
           "dato": "2023",
-          "verdi": "5 825",
-          "kilde": "SSB / KommuneProfilen, sysselsatte med arbeidssted i kommunen",
+          "verdi": "2 160",
+          "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
           "kommentar": ""
         }
       ]
@@ -347,56 +397,6 @@
           "dato": "2024",
           "verdi": "167,8",
           "kilde": "",
-          "kommentar": ""
-        }
-      ]
-    },
-    {
-      "tittel": "Sysselsatte bosatt i Modum",
-      "kategori": "Arbeid, pendling og næring",
-      "hovedtall": "6 953",
-      "enhet": "personer (2025)",
-      "endring": "-37",
-      "forklaring": "Antall sysselsatte bosatt i Modum sier noe om hvor mange innbyggere som er i arbeid og bidrar i arbeidslivet. Utviklingen er viktig for kommuneøkonomi, skatteinntekter, pendling, lokal kjøpekraft og kommunens evne til å møte framtidens behov for arbeidskraft og tjenester.",
-      "kilde": "SSB / KommuneProfilen – sysselsatte med bosted og arbeidssted i kommunen.",
-      "kildeUrl": "https://www.ssb.no/statbank/table/03321",
-      "sistOppdatert": "juni 2026",
-      "historikk": [
-        {
-          "dato": "2024",
-          "verdi": "6 990",
-          "kilde": "SSB / KommuneProfilen – sysselsatte med bosted og arbeidssted i kommunen.",
-          "kommentar": ""
-        },
-        {
-          "dato": "2023",
-          "verdi": "7 046",
-          "kilde": "SSB / KommuneProfilen – sysselsatte med bosted og arbeidssted i kommunen.",
-          "kommentar": ""
-        }
-      ]
-    },
-    {
-      "tittel": "Bor og jobber i Modum",
-      "kategori": "Arbeid, pendling og næring",
-      "hovedtall": "3 637",
-      "enhet": "personer (2025)",
-      "endring": "+2",
-      "forklaring": "Tallet sier noe om hvor mange innbyggere som har arbeidshverdagen sin i egen kommune. Det påvirker lokal aktivitet, handel, trafikk, pendling, næringsliv og hvor sterkt Modum står som både bosted og arbeidskommune. Utviklingen over tid kan vise om flere får mulighet til å bo og jobbe lokalt, eller om Modum i større grad blir en ren pendlerkommune.",
-      "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
-      "kildeUrl": "https://www.ssb.no/statbank/table/03321",
-      "sistOppdatert": "juni 2026",
-      "historikk": [
-        {
-          "dato": "2024",
-          "verdi": "3 635",
-          "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
-          "kommentar": ""
-        },
-        {
-          "dato": "2023",
-          "verdi": "3 665",
-          "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
           "kommentar": ""
         }
       ]
