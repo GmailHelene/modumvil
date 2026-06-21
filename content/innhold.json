@@ -132,14 +132,8 @@
       "sistOppdatert": "1. kvartal 2026",
       "historikk": [
         {
-          "dato": "1. kvartal 2024",
-          "verdi": "14 665",
-          "kilde": "Statistisk sentralbyrå, tabell 01222",
-          "kommentar": ""
-        },
-        {
-          "dato": "3. kvartal 2024",
-          "verdi": "14 617",
+          "dato": "3. kvartal 2025",
+          "verdi": "14 746",
           "kilde": "Statistisk sentralbyrå, tabell 01222",
           "kommentar": ""
         },
@@ -150,8 +144,14 @@
           "kommentar": ""
         },
         {
-          "dato": "3. kvartal 2025",
-          "verdi": "14 746",
+          "dato": "3. kvartal 2024",
+          "verdi": "14 617",
+          "kilde": "Statistisk sentralbyrå, tabell 01222",
+          "kommentar": ""
+        },
+        {
+          "dato": "1. kvartal 2024",
+          "verdi": "14 665",
           "kilde": "Statistisk sentralbyrå, tabell 01222",
           "kommentar": ""
         }
