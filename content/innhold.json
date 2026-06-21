@@ -156,6 +156,91 @@
           "kommentar": ""
         }
       ]
+    },
+    {
+      "tittel": "Innflytting og utflytting",
+      "kategori": "Befolkning",
+      "hovedtall": "ca. +35",
+      "enhet": "personer (netto innflytting per år)",
+      "endring": "",
+      "forklaring": "<p>Hvor mange flytter til Modum kontra ut. Netto innflytting (innflyttere minus utflyttere) er en av de viktigste indikatorene på om kommunen vokser eller krymper i befolkningstall. Positiv netto betyr at flere kommer enn drar.</p><p>NB: Tall må verifiseres mot SSB før publisering.</p>",
+      "kilde": "Statistisk sentralbyrå, tabell 09588",
+      "kildeUrl": "https://www.ssb.no/statbank/table/09588",
+      "sistOppdatert": "2023",
+      "historikk": []
+    },
+    {
+      "tittel": "Unge voksne (20-39 år)",
+      "kategori": "Befolkning",
+      "hovedtall": "ca. 3 350",
+      "enhet": "personer",
+      "endring": "",
+      "forklaring": "<p>Aldersgruppen som etablerer seg, kjøper bolig, får barn og skaper liv i lokalsamfunnet. Mange unge voksne betyr behov for familieboliger, barnehager og skoler, og er en forutsetning for å snu en aldrende befolkning.</p>",
+      "kilde": "Statistisk sentralbyrå, tabell 07459",
+      "kildeUrl": "https://www.ssb.no/statbank/table/07459",
+      "sistOppdatert": "1. kvartal 2025",
+      "historikk": []
+    },
+    {
+      "tittel": "Innbyggere over 80 år",
+      "kategori": "Befolkning",
+      "hovedtall": "ca. 740",
+      "enhet": "personer",
+      "endring": "",
+      "forklaring": "<p>Eldrebølgen treffer Modum som resten av landet. Tallet vil øke kraftig fram mot 2040 og påvirker behovet for hjemmetjenester, sykehjemsplasser, omsorgsboliger og pårørendestøtte.</p><p>Forholdet mellom denne gruppen og antall personer i arbeidsfør alder kalles ofte «forsørgerbyrde» og er sentralt i diskusjonen om kommuneøkonomi.</p>",
+      "kilde": "Statistisk sentralbyrå, tabell 07459",
+      "kildeUrl": "https://www.ssb.no/statbank/table/07459",
+      "sistOppdatert": "1. kvartal 2025",
+      "historikk": []
+    },
+    {
+      "tittel": "Utpendling",
+      "kategori": "Arbeid og næring",
+      "hovedtall": "ca. 2 500",
+      "enhet": "personer (bosatt i Modum, jobber utenfor)",
+      "endring": "",
+      "forklaring": "<p>Modum-innbyggere som arbeider i andre kommuner - særlig Drammen, Hokksund og videre mot Oslo-området. Høy utpendling tyder på at det er for få lokale arbeidsplasser, men også at Modum er en attraktiv bostedskommune.</p><p>Pendling i seg selv er ikke negativt, men en høy andel som pendler ut gjør kommunen sårbar for transport- og arbeidsmarkedsendringer.</p>",
+      "kilde": "Statistisk sentralbyrå, pendlingsstatistikk",
+      "kildeUrl": "https://www.ssb.no/arbeid-og-lonn/sysselsetting/statistikk/sysselsetting-registerbasert",
+      "sistOppdatert": "2023",
+      "historikk": []
+    },
+    {
+      "tittel": "Arbeidsplasser i Modum",
+      "kategori": "Arbeid og næring",
+      "hovedtall": "ca. 4 900",
+      "enhet": "sysselsatte med arbeidsplass i Modum",
+      "endring": "",
+      "forklaring": "<p>Antall arbeidsplasser i kommunen, uansett hvor de ansatte er bosatt. En sunn balanse mellom innbyggertall og arbeidsplasser reduserer pendling, styrker lokalt næringsliv og gir kommunen et bredere skattegrunnlag.</p><p>Til sammenligning har Modum ca. 14 800 innbyggere - så det er betydelig flere som bor her enn det er arbeidsplasser.</p>",
+      "kilde": "Statistisk sentralbyrå, sysselsettingsstatistikk",
+      "kildeUrl": "https://www.ssb.no/arbeid-og-lonn/sysselsetting/statistikk/sysselsetting-registerbasert",
+      "sistOppdatert": "2023",
+      "historikk": []
+    },
+    {
+      "tittel": "Netto driftsresultat",
+      "kategori": "Kommuneøkonomi",
+      "hovedtall": "verifiser",
+      "enhet": "% av brutto driftsinntekter",
+      "endring": "",
+      "forklaring": "<p>Det viktigste enkelttallet i kommuneøkonomien: hvor mye Modum sitter igjen med etter driftsutgifter. Brukes til å bygge buffer, betale ned gjeld og investere.</p><p>KS (Kommunenes Sentralforbund) anbefaler minst 1,75 % over tid for at kommunen skal være økonomisk bærekraftig på sikt. Under null betyr at kommunen «går i minus» på driften.</p>",
+      "kilde": "Modum kommunes årsregnskap",
+      "kildeUrl": "https://www.modum.kommune.no",
+      "sistOppdatert": "verifiser med siste årsregnskap",
+      "historikk": []
+    },
+    {
+      "tittel": "Disposisjonsfond",
+      "kategori": "Kommuneøkonomi",
+      "hovedtall": "verifiser",
+      "enhet": "mill. kr",
+      "endring": "",
+      "forklaring": "<p>Kommunens økonomiske «sparebøsse» - frie midler som kan brukes til engangsutgifter, uforutsette hendelser eller fremtidige investeringer uten å låne mer. Lavt disposisjonsfond gir lite handlingsrom når noe uforutsett skjer.</p><p>Som tommelfingerregel bør et disposisjonsfond utgjøre minst 5-10 % av brutto driftsinntekter for å gi nok buffer.</p>",
+      "kilde": "Modum kommunes årsregnskap / økonomiplan",
+      "kildeUrl": "https://www.modum.kommune.no",
+      "sistOppdatert": "verifiser med siste årsregnskap",
+      "historikk": []
     }
-  ]
+  ],
+  "faktaIntro": "<p>Her samles utvalgte nøkkeltall om Modum kommune. Tallene oppdateres jevnlig, slik at utviklingen kan følges over tid. Klikk et kort for å se forklaring, kilde og historikk.</p>"
 }
