@@ -310,8 +310,8 @@
     {
       "tittel": "Disposisjonsfond",
       "kategori": "Kommuneøkonomi",
-      "hovedtall": "221 638 000",
-      "enhet": "kr",
+      "hovedtall": "221,6",
+      "enhet": "mill. kr",
       "endring": "",
       "forklaring": "<br>Et sterkt disposisjonsfond gjør kommunen bedre rustet til å håndtere økonomiske svingninger, uforutsette utgifter og framtidige investeringer. Et lavt fond gir mindre handlingsrom og gjør kommunen mer sårbar når økonomien strammer seg til.",
       "kilde": "SSB tabell 12143 – Finansielle nøkkeltall i prosent av brutto driftsinntekter, kommunekonsern",
@@ -320,7 +320,7 @@
       "historikk": [
         {
           "dato": "2024",
-          "verdi": "167 857 000",
+          "verdi": "167,8",
           "kilde": "",
           "kommentar": ""
         }
