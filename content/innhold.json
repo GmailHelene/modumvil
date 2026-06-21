@@ -400,6 +400,31 @@
           "kommentar": ""
         }
       ]
+    },
+    {
+      "tittel": "Netto lånegjeld",
+      "kategori": "Kommuneøkonomi",
+      "hovedtall": "640,4",
+      "enhet": "mill. kr (2024)",
+      "endring": "-8,9 mill. kr",
+      "forklaring": "Gjeld påvirker kommunens framtidige handlingsrom. Høy gjeld kan føre til større rente- og avdragsutgifter, som igjen kan gi mindre penger til tjenester og drift. Utviklingen over tid sier noe om hvor sårbar kommunen er for renteøkninger, og hvor mye framtidige budsjetter belastes av investeringer som allerede er gjort.",
+      "kilde": "SSB / KommuneProfilen – kommuneregnskap, resultatposter. Tall i 1000 kr.",
+      "kildeUrl": "",
+      "sistOppdatert": "juni 2026",
+      "historikk": [
+        {
+          "dato": "2023",
+          "verdi": "649,3 mill. kr",
+          "kilde": "SSB / KommuneProfilen – kommuneregnskap, resultatposter. Tall i 1000 kr.",
+          "kommentar": ""
+        },
+        {
+          "dato": "2022",
+          "verdi": "677,6 mill. kr",
+          "kilde": "SSB / KommuneProfilen – kommuneregnskap, resultatposter. Tall i 1000 kr.",
+          "kommentar": ""
+        }
+      ]
     }
   ],
   "faktaIntro": "<p>Modum fakta samler utvalgte nøkkeltall om Modum kommune.</p><p>Målet er å gjøre viktig kunnskap enklere å finne, forstå og diskutere. Tallene oppdateres 1–2 ganger i året, slik at utviklingen kan følges over tid.</p><p>Dette er ikke ment som en full rapport, men som et enkelt kunnskapsgrunnlag for alle som vil forstå mer av debatten om framtidens Modum.</p><p>Tallene hentes fra offentlige kilder. Kilde og måleperiode oppgis der det er mulig. Skal tallene brukes i formelle sammenhenger, bør de kontrolleres mot originalkilden.</p>"
