@@ -233,6 +233,31 @@
       ]
     },
     {
+      "tittel": "Innpendling",
+      "kategori": "Arbeid og næring",
+      "hovedtall": "2 537",
+      "enhet": "personer (2025)",
+      "endring": "+24",
+      "forklaring": "Innpendling sier noe om hvor attraktiv Modum er som arbeidssted. Et høyt antall innpendlere kan bety at kommunen har arbeidsplasser som trekker folk utenfra, men det kan også vise et potensial for tilflytting dersom flere av dem som jobber her kunne tenke seg å bo her. Tallet er viktig for debatten om næringsliv, arbeidsplasser, transport, bolig og hvordan Modum kan bli både en sterkere arbeidskommune og bokommune.",
+      "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
+      "kildeUrl": "https://www.ssb.no/statbank/table/03321",
+      "sistOppdatert": "juni 2026",
+      "historikk": [
+        {
+          "dato": "2024",
+          "verdi": "2 513",
+          "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
+          "kommentar": ""
+        },
+        {
+          "dato": "2023",
+          "verdi": "2 160",
+          "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
+          "kommentar": ""
+        }
+      ]
+    },
+    {
       "tittel": "Utpendling",
       "kategori": "Arbeid og næring",
       "hovedtall": "3 316",
