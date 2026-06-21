@@ -469,6 +469,43 @@
           "kommentar": ""
         }
       ]
+    },
+    {
+      "tittel": "Fødselsbalanse i Modum",
+      "kategori": "Befolkning",
+      "hovedtall": "-11",
+      "enhet": "",
+      "endring": "(1. kvartal 2026)",
+      "forklaring": "Fødte og døde er en viktig del av befolkningsutviklingen. Sammen med flytting forklarer dette hvorfor folketallet i Modum øker eller går ned. Utviklingen sier også noe om alderssammensetning, framtidig behov for barnehage og skole, og presset på helse- og omsorgstjenestene over tid.",
+      "kilde": "SSB tabell 01222 – Befolkning og kvartalsvise endringer, etter region og kvartal.",
+      "kildeUrl": "https://www.ssb.no/statbank/table/01222",
+      "sistOppdatert": "juni 2026",
+      "historikk": [
+        {
+          "dato": "4. kvartal 2025",
+          "verdi": "-20",
+          "kilde": "",
+          "kommentar": ""
+        },
+        {
+          "dato": "3. kvartal 2025",
+          "verdi": "4",
+          "kilde": "",
+          "kommentar": ""
+        },
+        {
+          "dato": "2. kvartal 2025",
+          "verdi": "10",
+          "kilde": "",
+          "kommentar": ""
+        },
+        {
+          "dato": "1. kvartal 2025",
+          "verdi": "-5",
+          "kilde": "",
+          "kommentar": ""
+        }
+      ]
     }
   ],
   "faktaIntro": "<p>Modum fakta samler utvalgte nøkkeltall om Modum kommune.</p><p>Målet er å gjøre viktig kunnskap enklere å finne, forstå og diskutere. Tallene oppdateres 1–2 ganger i året, slik at utviklingen kan følges over tid.</p><p>Dette er ikke ment som en full rapport, men som et enkelt kunnskapsgrunnlag for alle som vil forstå mer av debatten om framtidens Modum.</p><p>Tallene hentes fra offentlige kilder. Kilde og måleperiode oppgis der det er mulig. Skal tallene brukes i formelle sammenhenger, bør de kontrolleres mot originalkilden.</p>"
