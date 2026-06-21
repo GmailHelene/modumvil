@@ -126,7 +126,7 @@
       "hovedtall": "14 776",
       "enhet": "innbyggere",
       "endring": "",
-      "forklaring": "Folketallet påvirker skatteinntekter, skolekapasitet, boligbehov, tjenester og kommunens framtidige handlingsrom",
+      "forklaring": "Endring siste 12 måneder. Folketallet påvirker skatteinntekter, skolekapasitet, boligbehov, tjenester og kommunens framtidige handlingsrom<br><br data-start=\"1389\" data-end=\"1392\"><br>",
       "kilde": "Statistisk sentralbyrå, tabell 01222",
       "kildeUrl": "https://www.ssb.no/statbank/table/01222",
       "sistOppdatert": "1. kvartal 2026",
@@ -163,7 +163,7 @@
       "hovedtall": "-5",
       "enhet": "personer",
       "endring": "",
-      "forklaring": "<p>Nettoinnflytting viser om flere flytter til Modum enn fra Modum. Over tid påvirker dette folketall, skatteinntekter, boligbehov, arbeidskraft, skolekapasitet og utviklingen av lokalsamfunnene våre.</p>",
+      "forklaring": "<p>Måleperiode: 1. kvartal 2026<br>Nettoinnflytting viser om flere flytter til Modum enn fra Modum. Over tid påvirker dette folketall, skatteinntekter, boligbehov, arbeidskraft, skolekapasitet og utviklingen av lokalsamfunnene våre.</p>",
       "kilde": "SSB tabell 01222 – Befolkning og kvartalsvise endringer",
       "kildeUrl": "https://www.ssb.no/statbank/table/01222",
       "sistOppdatert": "1. kvartal 2026",
@@ -172,6 +172,62 @@
           "dato": "3. kvartal 2025",
           "verdi": "22",
           "kilde": "SSB tabell 01222 – Befolkning og kvartalsvise endringer",
+          "kommentar": ""
+        }
+      ]
+    },
+    {
+      "tittel": "Unge voksne 20-34 år",
+      "kategori": "Befolkning",
+      "hovedtall": "2 324",
+      "enhet": "Personer",
+      "endring": "",
+      "forklaring": "Unge voksne er viktige for Modums framtid fordi mange i denne aldersgruppen etablerer seg, får barn, kjøper bolig, jobber og bidrar i lokalsamfunn, frivillighet og arbeidsliv.",
+      "kilde": "SSB tabell 07459 – Befolkning etter år, region, kjønn og alder",
+      "kildeUrl": "https://www.ssb.no/statbank/table/07459",
+      "sistOppdatert": "juni 2026",
+      "historikk": [
+        {
+          "dato": "2025",
+          "verdi": "2 345",
+          "kilde": "SSB tabell 07459 – Befolkning etter år, region, kjønn og alder",
+          "kommentar": ""
+        },
+        {
+          "dato": "2024",
+          "verdi": "2 416",
+          "kilde": "SSB tabell 07459 – Befolkning etter år, region, kjønn og alder",
+          "kommentar": ""
+        }
+      ]
+    },
+    {
+      "tittel": "Innbyggere over 80 år",
+      "kategori": "Befolkning",
+      "hovedtall": "870",
+      "enhet": "Personer",
+      "endring": "",
+      "forklaring": "<p>Antall innbyggere over 80 år sier mye om framtidens behov for helse- og omsorgstjenester. Når denne aldersgruppen vokser, øker behovet for hjemmetjenester, omsorgsboliger, sykehjemsplasser, pårørendestøtte og nok ansatte med riktig kompetanse. Utviklingen påvirker derfor både kommuneøkonomi, bemanning, boligpolitikk og hvordan Modum må planlegge tjenestene framover.</p><p></p>",
+      "kilde": "SSB tabell 07459 – Befolkning, etter år, region, kjønn og alder",
+      "kildeUrl": "https://www.ssb.no/statbank/table/07459",
+      "sistOppdatert": "juni 2026",
+      "historikk": [
+        {
+          "dato": "2025",
+          "verdi": "810",
+          "kilde": "SSB tabell 07459 – Befolkning, etter år, region, kjønn og alder",
+          "kommentar": ""
+        },
+        {
+          "dato": "2024",
+          "verdi": "763",
+          "kilde": "SSB tabell 07459 – Befolkning, etter år, region, kjønn og alder",
+          "kommentar": ""
+        },
+        {
+          "dato": "2023",
+          "verdi": "733",
+          "kilde": "SSB tabell 07459 – Befolkning, etter år, region, kjønn og alder",
           "kommentar": ""
         }
       ]
