@@ -169,9 +169,33 @@
       "sistOppdatert": "1. kvartal 2026",
       "historikk": [
         {
+          "dato": "4. kvartal 2025",
+          "verdi": "26",
+          "kilde": "",
+          "kommentar": ""
+        },
+        {
           "dato": "3. kvartal 2025",
           "verdi": "22",
           "kilde": "SSB tabell 01222 – Befolkning og kvartalsvise endringer",
+          "kommentar": ""
+        },
+        {
+          "dato": "2. kvartal 2025",
+          "verdi": "91",
+          "kilde": "",
+          "kommentar": ""
+        },
+        {
+          "dato": "1. kvartal 2025",
+          "verdi": "-14",
+          "kilde": "",
+          "kommentar": ""
+        },
+        {
+          "dato": "4. kvartal 2024",
+          "verdi": "29",
+          "kilde": "",
           "kommentar": ""
         }
       ]
