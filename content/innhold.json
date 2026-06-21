@@ -118,5 +118,44 @@
       "tekst": "Har du tanker, erfaringer eller ideer om framtidens Modum?\nPå ModumVil.no kan du bidra med enkeltinnlegg, skrive en egen serie eller bli fast skribent dersom du ønsker å skrive jevnlig om noe du er opptatt av.\n",
       "lenke": ""
     }
+  ],
+  "fakta": [
+    {
+      "tittel": "Folketall",
+      "kategori": "Befolkning",
+      "hovedtall": "14 776",
+      "enhet": "innbyggere",
+      "endring": "",
+      "forklaring": "Folketallet påvirker skatteinntekter, skolekapasitet, boligbehov, tjenester og kommunens framtidige handlingsrom",
+      "kilde": "Statistisk sentralbyrå, tabell 01222",
+      "kildeUrl": "https://www.ssb.no/statbank/table/01222",
+      "sistOppdatert": "1. kvartal 2026",
+      "historikk": [
+        {
+          "dato": "1. kvartal 2024",
+          "verdi": "14 665",
+          "kilde": "Statistisk sentralbyrå, tabell 01222",
+          "kommentar": ""
+        },
+        {
+          "dato": "3. kvartal 2024",
+          "verdi": "14 617",
+          "kilde": "Statistisk sentralbyrå, tabell 01222",
+          "kommentar": ""
+        },
+        {
+          "dato": "1. kvartal 2025",
+          "verdi": "14 664\t",
+          "kilde": "Statistisk sentralbyrå, tabell 01222",
+          "kommentar": ""
+        },
+        {
+          "dato": "3. kvartal 2025",
+          "verdi": "14 746",
+          "kilde": "Statistisk sentralbyrå, tabell 01222",
+          "kommentar": ""
+        }
+      ]
+    }
   ]
 }
