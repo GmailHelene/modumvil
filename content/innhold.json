@@ -125,8 +125,8 @@
       "kategori": "Befolkning",
       "hovedtall": "14 776",
       "enhet": "innbyggere",
-      "endring": "",
-      "forklaring": "Endring siste 12 måneder. Folketallet påvirker skatteinntekter, skolekapasitet, boligbehov, tjenester og kommunens framtidige handlingsrom<br><br data-start=\"1389\" data-end=\"1392\"><br>",
+      "endring": "+30",
+      "forklaring": "Endring fra forrige måling. Folketallet påvirker skatteinntekter, skolekapasitet, boligbehov, tjenester og kommunens framtidige handlingsrom<br><br data-start=\"1389\" data-end=\"1392\"><br>",
       "kilde": "Statistisk sentralbyrå, tabell 01222",
       "kildeUrl": "https://www.ssb.no/statbank/table/01222",
       "sistOppdatert": "1. kvartal 2026",
@@ -228,6 +228,31 @@
           "dato": "2023",
           "verdi": "733",
           "kilde": "SSB tabell 07459 – Befolkning, etter år, region, kjønn og alder",
+          "kommentar": ""
+        }
+      ]
+    },
+    {
+      "tittel": "Utpendling",
+      "kategori": "Arbeid og næring",
+      "hovedtall": "3 316",
+      "enhet": "Personer",
+      "endring": "-39",
+      "forklaring": "Utpendling sier noe om Modums rolle som bokommune og pendlerkommune. Tallet er viktig for debatten om kollektivtilbud, pendlerparkering, veier, arbeidsplasser, tilflytting og hvordan hverdagen fungerer for folk som bor i Modum, men jobber andre steder.",
+      "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
+      "kildeUrl": "https://www.ssb.no/statbank/table/03321",
+      "sistOppdatert": "juni 2026",
+      "historikk": [
+        {
+          "dato": "2024",
+          "verdi": "3 355",
+          "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
+          "kommentar": ""
+        },
+        {
+          "dato": "2023",
+          "verdi": "3 381",
+          "kilde": "SSB tabell 03321 – Sysselsatte 15–74 år per 4. kvartal. Pendlingsstrømmer.",
           "kommentar": ""
         }
       ]
