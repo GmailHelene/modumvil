@@ -1,15 +1,5 @@
 [
   {
-    "slug": "modum-framover-hvordan-skal-vi-rigge-modum-for-framtiden",
-    "tittel": "Modum framover: Hvordan skal vi rigge Modum for framtiden?",
-    "dato": "2026-06-21",
-    "forfatter": "Pål Inge Ryen",
-    "tema": "Lokaldemokrati og politisk styring",
-    "serie": "Modum framover",
-    "delnr": 1,
-    "ingress": "Hvor skal Modum? I denne serien vil jeg skrive om hvilke muligheter kommunen vår har, hvilke valg vi står foran, og hvordan jeg mener vi kan rigge Modum bedre for framtiden."
-  },
-  {
     "slug": "hva-er-egentlig-buskerudplanen-og-hvorfor-angar-den-modum",
     "tittel": "Hva er egentlig Buskerudplanen, og hvorfor angår den Modum?",
     "dato": "2026-06-21",
@@ -18,6 +8,17 @@
     "delnr": 0,
     "ingress": "Buskerudplanen er fylkets nye veikart for de neste 12 årene. Men hva betyr egentlig en slik plan for Modum? Her er en enkel forklaring på hva planen handler om, og hvorfor det kan være lurt at både politikere, næringsliv, frivillighet og innbyggere følger med.",
     "bilde": "assets/skjermbilde-2026-06-21-232903.png"
+  },
+  {
+    "slug": "modum-framover-hvordan-skal-vi-rigge-modum-for-framtiden",
+    "tittel": "Modum framover: Hvordan skal vi rigge Modum for framtiden?",
+    "dato": "2026-06-21",
+    "forfatter": "Pål Inge Ryen",
+    "tema": "Lokaldemokrati og politisk styring",
+    "serie": "Modum framover",
+    "delnr": 1,
+    "ingress": "Hvor skal Modum? I denne serien vil jeg skrive om hvilke muligheter kommunen vår har, hvilke valg vi står foran, og hvordan jeg mener vi kan rigge Modum bedre for framtiden.",
+    "bilde": "assets/adobestock_368231646.jpg"
   },
   {
     "slug": "hva-er-modumvil",
