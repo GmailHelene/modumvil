@@ -72,3 +72,26 @@ class Runner:
             i += 1
             if rounds is None or i < rounds:
                 time.sleep(interval_seconds)
+
+
+class PortfolioRunner:
+    """Kjører flere kryptopar samtidig — hvert par håndteres av sin egen Runner.
+
+    Å spre kapitalen over flere par (f.eks. BTC + ETH) reduserer risikoen: går
+    det dårlig med det ene, trenger ikke hele porteføljen å følge med ned.
+    """
+
+    def __init__(self, runners: list[Runner]):
+        self.runners = runners
+
+    def loop(self, interval_seconds: int = 3600, rounds: int | None = None):
+        i = 0
+        while rounds is None or i < rounds:
+            for r in self.runners:
+                try:
+                    print(r.step())
+                except Exception as exc:
+                    print(f"[feil på {r.symbol}] {exc}")
+            i += 1
+            if rounds is None or i < rounds:
+                time.sleep(interval_seconds)

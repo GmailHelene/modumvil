@@ -17,11 +17,14 @@ til ekte penger.
 
 - 📈 **5 strategier** — trend-filter, SMA-crossover, RSI, MACD og Bollinger — bytt fritt
 - ⚖️ **Sammenlign strategier** side om side i en tabell (`compare`)
+- 🔧 **Parameter-optimalisering** — finn de mest robuste tallene (`optimize`)
+- 🪙 **Flere kryptopar samtidig** — spre risikoen over f.eks. BTC + ETH (`portfolio`)
 - 🛡️ **Risikostyring:** stop-loss, take-profit og trailing stop automatisk per handel
 - 🔔 **Varsler på Telegram OG e-post** når boten kjøper/selger — slipp å stirre på skjermen
 - 📊 **Equity-graf** (SVG) av kapitalutviklingen mot kjøp-og-hold
 - 🧪 **Backtesting** med avkastning, max drawdown, gevinstandel og kjøp-og-hold-sammenligning
 - 💵 **Paper trading** (liksom-penger) → **ekte handel** bak flere sikkerhetslåser
+- 🚀 **Døgndrift** på Raspberry Pi, VPS eller Docker — se [DEPLOY.md](DEPLOY.md)
 
 ## Rekkefølgen (viktig!)
 
@@ -61,6 +64,18 @@ Sammenlign alle strategiene i én tabell:
 
 ```bash
 python main.py compare --demo
+```
+
+Finn de beste parametrene (les advarselen om overtilpasning i utskriften):
+
+```bash
+python main.py optimize --demo
+```
+
+Backtest flere kryptopar samtidig (sett `symbols:` i config først):
+
+```bash
+python main.py portfolio --demo
 ```
 
 ### 2. Paper trading (liksom-penger)
@@ -107,15 +122,19 @@ trading-bot/
 ├── requirements.txt
 ├── test_bot.py           # tester som kjører uten nett
 ├── GUIDE.md              # praktisk guide: rutine, når du kan gå live
+├── DEPLOY.md             # kjøre boten døgnet rundt (Pi / VPS / Docker)
+├── Dockerfile            # kjør hvor som helst
+├── deploy/               # systemd-tjeneste for autostart
 └── bot/
     ├── data.py           # henter prisdata (ekte + syntetiske testdata)
     ├── strategy.py       # 5 strategier for kjøp/salg
     ├── risk.py           # stop-loss / take-profit / trailing stop
+    ├── optimize.py       # parameter-optimalisering (grid search)
     ├── notify.py         # varsler (Telegram + e-post + konsoll)
     ├── plot.py           # equity-graf som SVG
     ├── backtest.py       # test på historiske data
     ├── broker.py         # PaperBroker (liksom) + LiveBroker (ekte)
-    ├── runner.py         # live-løkka
+    ├── runner.py         # live-løkka (+ PortfolioRunner for flere par)
     └── config.py         # leser config.yaml
 ```
 

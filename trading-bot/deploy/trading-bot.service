@@ -1,0 +1,24 @@
+# systemd-tjeneste for å kjøre trading-boten døgnet rundt.
+#
+# Installer:
+#   sudo cp deploy/trading-bot.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now trading-bot
+#
+# Juster User og WorkingDirectory til din bruker og sti.
+
+[Unit]
+Description=Krypto trading-bot (paper trading)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/crypto-trading-bot
+ExecStart=/usr/bin/python3 main.py paper --interval 3600
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

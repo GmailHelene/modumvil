@@ -18,10 +18,19 @@ from bot.broker import LiveBroker, PaperBroker
 from bot.config import load_config
 from bot.data import fetch_ohlcv, synthetic_ohlcv
 from bot.notify import Notifier
+from bot.optimize import DEFAULT_GRIDS, grid_search
 from bot.plot import save_equity_svg
 from bot.risk import RiskManager
-from bot.runner import Runner
+from bot.runner import PortfolioRunner, Runner
 from bot.strategy import STRATEGIES, build_strategy
+
+
+def _load_df(cfg: dict, args, symbol: str | None = None):
+    """Hjelper: hent data enten fra innebygde testdata (--demo) eller ekte børs."""
+    if getattr(args, "demo", False):
+        return synthetic_ohlcv(n=600)
+    sym = symbol or cfg["symbol"]
+    return fetch_ohlcv(cfg["exchange"], sym, cfg["timeframe"], limit=600)
 
 
 def build_risk(cfg: dict) -> RiskManager:
@@ -108,15 +117,76 @@ def cmd_compare(cfg: dict, args) -> None:
     print("En strategi du klarer å holde ut i nedgangstider slår en du får panikk av.")
 
 
+def cmd_optimize(cfg: dict, args) -> None:
+    """Prøv mange parameter-varianter og finn de mest robuste."""
+    name = cfg["strategy"]["name"]
+    df = _load_df(cfg, args)
+    if args.demo:
+        print(f"Optimaliserer '{name}' på innebygde testdata (offline).\n")
+    else:
+        print(f"Optimaliserer '{name}' på {cfg['symbol']} fra {cfg['exchange']} ...\n")
+
+    results = grid_search(df, name, DEFAULT_GRIDS.get(name),
+                          cfg["starting_cash"], cfg["order_fraction"], cfg["fee"],
+                          risk=build_risk(cfg))
+
+    print(f"{'Parametre':<40}{'Avkastn.':>10}{'Max fall':>10}{'Score':>9}")
+    print("-" * 69)
+    for r in results[:10]:                       # topp 10
+        params = ", ".join(f"{k}={v}" for k, v in r["params"].items())
+        print(f"{params:<40}{r['return_pct']:>+9.2f}%{r['max_drawdown_pct']:>9.2f}%{r['score']:>9.2f}")
+    print("-" * 69)
+    print("\n⚠️  Advarsel om overtilpasning: de beste tallene her passer FORTIDEN.")
+    print("   Test dem alltid på en annen periode før du stoler på dem live.")
+    print("   'Score' = avkastning / (1 + max fall) — premierer jevn, ikke ekstrem, ytelse.")
+
+
+def _split_cash(cfg: dict) -> float:
+    """Fordel startkapitalen likt over alle parene."""
+    return cfg["starting_cash"] / max(len(cfg["symbols"]), 1)
+
+
+def cmd_portfolio(cfg: dict, args) -> None:
+    """Backtest strategien på FLERE par og vis samlet resultat."""
+    symbols = cfg["symbols"]
+    cash_each = _split_cash(cfg)
+    print(f"Portefølje-backtest på {len(symbols)} par: {', '.join(symbols)}")
+    print(f"Kapital fordelt likt: {cash_each:,.0f} per par\n")
+
+    print(f"{'Par':<14}{'Avkastning':>12}{'Max fall':>12}{'Handler':>10}")
+    print("-" * 48)
+    total_start = total_end = 0.0
+    for sym in symbols:
+        df = _load_df(cfg, args, symbol=sym)
+        strat = build_strategy(cfg["strategy"]["name"], cfg["strategy"]["params"])
+        res = run_backtest(df, strat, cash_each, cfg["order_fraction"], cfg["fee"],
+                           risk=build_risk(cfg))
+        total_start += res.start_equity
+        total_end += res.end_equity
+        print(f"{sym:<14}{res.return_pct:>+11.2f}%{res.max_drawdown_pct:>11.2f}%{res.trades:>10}")
+    print("-" * 48)
+    total_ret = (total_end - total_start) / total_start * 100
+    print(f"{'SAMLET':<14}{total_ret:>+11.2f}%   (startkapital {total_start:,.0f} → {total_end:,.0f})")
+    print("\nÅ spre kapitalen over flere par demper svingningene i porteføljen.")
+
+
+def _build_runners(cfg: dict, brokers: list, mode: str) -> list[Runner]:
+    notifier = build_notifier(cfg)
+    runners = []
+    for sym, broker in zip(cfg["symbols"], brokers):
+        runners.append(Runner(
+            broker, build_strategy(cfg["strategy"]["name"], cfg["strategy"]["params"]),
+            cfg["exchange"], sym, cfg["timeframe"], cfg["order_fraction"], mode=mode,
+            risk=build_risk(cfg), notifier=notifier,
+        ))
+    return runners
+
+
 def cmd_paper(cfg: dict, args) -> None:
-    broker = PaperBroker(cash=cfg["starting_cash"], fee=cfg["fee"])
-    strat = build_strategy(cfg["strategy"]["name"], cfg["strategy"]["params"])
-    runner = Runner(
-        broker, strat, cfg["exchange"], cfg["symbol"], cfg["timeframe"],
-        cfg["order_fraction"], mode="paper",
-        risk=build_risk(cfg), notifier=build_notifier(cfg),
-    )
-    print(f"Paper trading {cfg['symbol']} — liksom-penger, null risiko. Ctrl+C for å stoppe.\n")
+    cash_each = _split_cash(cfg)
+    brokers = [PaperBroker(cash=cash_each, fee=cfg["fee"]) for _ in cfg["symbols"]]
+    runner = PortfolioRunner(_build_runners(cfg, brokers, "paper"))
+    print(f"Paper trading {', '.join(cfg['symbols'])} — liksom-penger, null risiko. Ctrl+C for å stoppe.\n")
     runner.loop(interval_seconds=args.interval, rounds=args.rounds)
 
 
@@ -126,17 +196,14 @@ def cmd_live(cfg: dict, args) -> None:
         sys.exit("Avbrutt: ekte handel krever flagget --i-understand-the-risk")
     if not live.get("enabled"):
         sys.exit("Avbrutt: sett live.enabled: true i config.yaml først")
-    broker = LiveBroker(
-        cfg["exchange"], cfg["symbol"], live["api_key"], live["api_secret"],
-        max_order_value=live["max_order_value"], fee=cfg["fee"],
-    )
-    strat = build_strategy(cfg["strategy"]["name"], cfg["strategy"]["params"])
-    runner = Runner(
-        broker, strat, cfg["exchange"], cfg["symbol"], cfg["timeframe"],
-        cfg["order_fraction"], mode="LIVE",
-        risk=build_risk(cfg), notifier=build_notifier(cfg),
-    )
-    print(f"!!! EKTE HANDEL på {cfg['symbol']}. Maks {live['max_order_value']} per ordre. Ctrl+C for å stoppe.\n")
+    brokers = [
+        LiveBroker(cfg["exchange"], sym, live["api_key"], live["api_secret"],
+                   max_order_value=live["max_order_value"], fee=cfg["fee"])
+        for sym in cfg["symbols"]
+    ]
+    runner = PortfolioRunner(_build_runners(cfg, brokers, "LIVE"))
+    print(f"!!! EKTE HANDEL på {', '.join(cfg['symbols'])}. "
+          f"Maks {live['max_order_value']} per ordre. Ctrl+C for å stoppe.\n")
     runner.loop(interval_seconds=args.interval, rounds=args.rounds)
 
 
@@ -153,6 +220,12 @@ def main() -> None:
     p_cmp = sub.add_parser("compare", help="Sammenlign alle strategiene i en tabell")
     p_cmp.add_argument("--demo", action="store_true", help="Bruk innebygde testdata (offline)")
 
+    p_opt = sub.add_parser("optimize", help="Finn de beste parametrene (forsiktig: overtilpasning)")
+    p_opt.add_argument("--demo", action="store_true", help="Bruk innebygde testdata (offline)")
+
+    p_pf = sub.add_parser("portfolio", help="Backtest flere par samtidig (fra 'symbols' i config)")
+    p_pf.add_argument("--demo", action="store_true", help="Bruk innebygde testdata (offline)")
+
     p_paper = sub.add_parser("paper", help="Paper trading med liksom-penger")
     p_paper.add_argument("--interval", type=int, default=3600, help="Sekunder mellom runder (default 1t)")
     p_paper.add_argument("--rounds", type=int, default=None, help="Antall runder (default: uendelig)")
@@ -168,6 +241,8 @@ def main() -> None:
     {
         "backtest": cmd_backtest,
         "compare": cmd_compare,
+        "optimize": cmd_optimize,
+        "portfolio": cmd_portfolio,
         "paper": cmd_paper,
         "live": cmd_live,
     }[args.command](cfg, args)

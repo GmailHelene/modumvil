@@ -85,6 +85,26 @@ def test_equity_svg_is_valid():
     print("OK: equity-graf genererer gyldig SVG")
 
 
+def test_grid_search_ranks_results():
+    from bot.optimize import grid_search
+    df = synthetic_ohlcv(n=400)
+    grid = {"fast": [10, 20], "slow": [50, 100]}
+    results = grid_search(df, "sma_crossover", grid, 1000, 0.5, 0.001,
+                          risk=RiskManager(stop_loss_pct=0.05, take_profit_pct=0.10))
+    assert len(results) == 4                      # 2 x 2 kombinasjoner
+    scores = [r["score"] for r in results]
+    assert scores == sorted(scores, reverse=True) # sortert best først
+    print(f"OK: parameter-optimalisering rangerte {len(results)} varianter")
+
+
+def test_config_normalizes_symbols():
+    from bot.config import load_config
+    cfg = load_config("finnes-ikke.yaml")         # bruker standardverdier
+    assert isinstance(cfg["symbols"], list) and len(cfg["symbols"]) >= 1
+    assert cfg["symbol"] == cfg["symbols"][0]
+    print("OK: config normaliserer symbols til en liste")
+
+
 if __name__ == "__main__":
     test_paper_broker_roundtrip()
     test_backtest_runs()
@@ -93,4 +113,6 @@ if __name__ == "__main__":
     test_backtest_with_risk_tracks_winrate()
     test_all_strategies_run()
     test_equity_svg_is_valid()
+    test_grid_search_ranks_results()
+    test_config_normalizes_symbols()
     print("\nAlle tester bestått ✅")

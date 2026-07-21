@@ -9,6 +9,7 @@ import yaml
 DEFAULTS = {
     "exchange": "binance",
     "symbol": "BTC/USDT",
+    "symbols": [],             # flere par samtidig, f.eks. [BTC/USDT, ETH/USDT]
     "timeframe": "1h",
     "strategy": {"name": "trend_filter", "params": {"fast": 20, "slow": 50, "trend": 200}},
     "starting_cash": 1000,
@@ -39,4 +40,9 @@ def load_config(path: str = "config.yaml") -> dict:
             "telegram": {**DEFAULTS["notifications"]["telegram"], **notif.get("telegram", {})},
             "email": {**DEFAULTS["notifications"]["email"], **notif.get("email", {})},
         }
+
+    # Normaliser til en liste med par. Bruk 'symbols' hvis satt, ellers 'symbol'.
+    symbols = cfg.get("symbols") or [cfg["symbol"]]
+    cfg["symbols"] = symbols
+    cfg["symbol"] = symbols[0]     # bakoverkompatibelt for enkelt-par-kommandoer
     return cfg

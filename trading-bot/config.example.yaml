@@ -4,7 +4,12 @@
 # ---------------------------------------------------------------------------
 
 exchange: binance          # Hvilken børs (binance, coinbase, kraken ...)
-symbol: BTC/USDT           # Hva vi handler
+symbol: BTC/USDT           # Ett par (brukes av backtest/compare/optimize)
+
+# Flere par samtidig? Fyll inn 'symbols' (brukes av paper/live/portfolio).
+# La den stå tom for å bruke bare 'symbol' over. Kapitalen fordeles likt.
+symbols: []                # f.eks. [BTC/USDT, ETH/USDT, SOL/USDT]
+
 timeframe: 1h              # Candlestick-lengde (1m, 5m, 15m, 1h, 4h, 1d)
 
 # --- Strategi -------------------------------------------------------------
