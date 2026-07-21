@@ -1,0 +1,4 @@
+# Kjernebiblioteker for trading-boten
+ccxt>=4.2.0        # Snakker med kryptobørser (Binance, Coinbase, Kraken ...) via ett felles API
+pandas>=2.0.0     # Håndtering av prisdata (candlesticks)
+PyYAML>=6.0       # Leser config.yaml

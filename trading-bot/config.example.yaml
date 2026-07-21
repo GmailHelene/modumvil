@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# Kopier denne filen til "config.yaml" og fyll inn dine egne verdier.
+# config.yaml er ignorert av git, så API-nøklene dine havner ALDRI på GitHub.
+# ---------------------------------------------------------------------------
+
+exchange: binance          # Hvilken børs (binance, coinbase, kraken ...)
+symbol: BTC/USDT           # Hva vi handler
+timeframe: 1h              # Candlestick-lengde (1m, 5m, 15m, 1h, 4h, 1d)
+
+# --- Strategi -------------------------------------------------------------
+strategy:
+  name: sma_crossover      # Se bot/strategy.py for tilgjengelige strategier
+  params:
+    fast: 20               # Kort glidende snitt
+    slow: 50               # Langt glidende snitt
+
+# --- Penger og risiko -----------------------------------------------------
+starting_cash: 1000        # Startkapital (kun for paper trading / backtest)
+order_fraction: 0.25       # Hvor stor andel av kapitalen per handel (0.25 = 25 %)
+fee: 0.001                 # Børsavgift per handel (0.001 = 0.1 %)
+
+# --- Sikkerhet ------------------------------------------------------------
+# EKTE handel er slått AV som standard. Den slås kun på med "live"-kommandoen
+# OG når du har fylt inn nøkler under. Start ALLTID med paper trading.
+live:
+  enabled: false           # Ekstra sikkerhetslås
+  max_order_value: 50      # Maks verdi (i quote-valuta, f.eks. USDT) per ordre
+  api_key: ""              # Fylles inn KUN når du er klar for ekte handel
+  api_secret: ""
