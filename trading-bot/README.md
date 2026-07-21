@@ -15,9 +15,11 @@ til ekte penger.
 
 ## Hva boten kan
 
-- 📈 **Strategier** med trend-filter (`trend_filter`), SMA-crossover og RSI — bytt fritt
+- 📈 **5 strategier** — trend-filter, SMA-crossover, RSI, MACD og Bollinger — bytt fritt
+- ⚖️ **Sammenlign strategier** side om side i en tabell (`compare`)
 - 🛡️ **Risikostyring:** stop-loss, take-profit og trailing stop automatisk per handel
-- 🔔 **Varsler på Telegram** når boten kjøper/selger — slipp å stirre på skjermen
+- 🔔 **Varsler på Telegram OG e-post** når boten kjøper/selger — slipp å stirre på skjermen
+- 📊 **Equity-graf** (SVG) av kapitalutviklingen mot kjøp-og-hold
 - 🧪 **Backtesting** med avkastning, max drawdown, gevinstandel og kjøp-og-hold-sammenligning
 - 💵 **Paper trading** (liksom-penger) → **ekte handel** bak flere sikkerhetslåser
 
@@ -49,6 +51,18 @@ python main.py backtest            # bruker ekte data fra børsen (krever intern
 Du får avkastning, største fall (max drawdown), antall handler — og en
 sammenligning mot enkel «kjøp-og-hold». Slår ikke strategien det, bør du tenke deg om.
 
+Lag en graf av kapitalutviklingen (åpnes i nettleser):
+
+```bash
+python main.py backtest --demo --plot        # lagrer equity_curve.svg
+```
+
+Sammenlign alle strategiene i én tabell:
+
+```bash
+python main.py compare --demo
+```
+
 ### 2. Paper trading (liksom-penger)
 
 ```bash
@@ -76,6 +90,10 @@ Strategiene ligger i `bot/strategy.py`. Innebygd:
 - `trend_filter` — trend-følgende med filter (**standard, anbefalt**)
 - `sma_crossover` — glidende snitt-kryssing
 - `rsi_reversion` — RSI mean-reversion
+- `macd` — MACD momentum-kryssing
+- `bollinger` — Bollinger-bånd mean-reversion
+
+Kjør `python main.py compare --demo` for å se hvordan de gjør det mot hverandre.
 
 Lag din egen: arv fra `Strategy`, implementer `signal()` (returner +1 kjøp,
 0 hold, -1 selg), og legg den i `STRATEGIES`. Endre `strategy.name` i config.
@@ -91,9 +109,10 @@ trading-bot/
 ├── GUIDE.md              # praktisk guide: rutine, når du kan gå live
 └── bot/
     ├── data.py           # henter prisdata (ekte + syntetiske testdata)
-    ├── strategy.py       # reglene for kjøp/salg
+    ├── strategy.py       # 5 strategier for kjøp/salg
     ├── risk.py           # stop-loss / take-profit / trailing stop
-    ├── notify.py         # varsler (Telegram + konsoll)
+    ├── notify.py         # varsler (Telegram + e-post + konsoll)
+    ├── plot.py           # equity-graf som SVG
     ├── backtest.py       # test på historiske data
     ├── broker.py         # PaperBroker (liksom) + LiveBroker (ekte)
     ├── runner.py         # live-løkka

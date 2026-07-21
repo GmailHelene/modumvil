@@ -18,9 +18,10 @@ from bot.broker import LiveBroker, PaperBroker
 from bot.config import load_config
 from bot.data import fetch_ohlcv, synthetic_ohlcv
 from bot.notify import Notifier
+from bot.plot import save_equity_svg
 from bot.risk import RiskManager
 from bot.runner import Runner
-from bot.strategy import build_strategy
+from bot.strategy import STRATEGIES, build_strategy
 
 
 def build_risk(cfg: dict) -> RiskManager:
@@ -33,9 +34,10 @@ def build_risk(cfg: dict) -> RiskManager:
 
 
 def build_notifier(cfg: dict) -> Notifier:
-    tg = cfg["notifications"]["telegram"]
-    return Notifier(telegram_token=tg["token"], telegram_chat_id=tg["chat_id"],
-                    enabled=tg["enabled"])
+    return Notifier(
+        telegram=cfg["notifications"]["telegram"],
+        email=cfg["notifications"]["email"],
+    )
 
 
 def cmd_backtest(cfg: dict, args) -> None:
@@ -64,6 +66,46 @@ def cmd_backtest(cfg: dict, args) -> None:
     print(f"Til sammenligning, kjøp-og-hold: {bh_return:+.2f} %")
     if result.return_pct < bh_return:
         print("=> Strategien slo IKKE kjøp-og-hold her. Det er helt normalt og verdt å lære av.")
+
+    if args.plot:
+        # Kjøp-og-hold-kurve i samme skala som strategien (samme startkapital)
+        first = df["close"].iloc[0]
+        bh_curve = [cfg["starting_cash"] * (p / first) for p in df["close"]]
+        save_equity_svg(args.plot, result.equity_curve, bh_curve,
+                        title=f"{cfg['strategy']['name']} — {cfg['symbol']}")
+        print(f"\nGraf lagret: {args.plot}  (åpne i nettleser)")
+
+
+def cmd_compare(cfg: dict, args) -> None:
+    """Kjør ALLE strategiene på samme data og sett dem opp mot hverandre."""
+    if args.demo:
+        print("Sammenligner strategier på innebygde testdata (offline).\n")
+        df = synthetic_ohlcv(n=600)
+    else:
+        print(f"Henter {cfg['symbol']} fra {cfg['exchange']} ...\n")
+        df = fetch_ohlcv(cfg["exchange"], cfg["symbol"], cfg["timeframe"], limit=600)
+
+    bh_return = (df["close"].iloc[-1] - df["close"].iloc[0]) / df["close"].iloc[0] * 100
+
+    print(f"{'Strategi':<16}{'Avkastning':>12}{'Max fall':>12}{'Handler':>10}{'Gevinst%':>10}")
+    print("-" * 60)
+    rows = []
+    for name in STRATEGIES:
+        try:
+            strat = build_strategy(name)
+            res = run_backtest(df, strat, cfg["starting_cash"], cfg["order_fraction"],
+                               cfg["fee"], risk=build_risk(cfg))
+            rows.append((name, res))
+        except Exception as exc:
+            print(f"{name:<16}  (hoppet over: {exc})")
+    # Sorter best avkastning øverst
+    for name, res in sorted(rows, key=lambda r: r[1].return_pct, reverse=True):
+        print(f"{name:<16}{res.return_pct:>+11.2f}%{res.max_drawdown_pct:>11.2f}%"
+              f"{res.trades:>10}{res.win_rate:>9.0f}%")
+    print("-" * 60)
+    print(f"{'kjøp-og-hold':<16}{bh_return:>+11.2f}%")
+    print("\nTips: høyest avkastning er ikke alltid best — se på 'Max fall' også.")
+    print("En strategi du klarer å holde ut i nedgangstider slår en du får panikk av.")
 
 
 def cmd_paper(cfg: dict, args) -> None:
@@ -105,6 +147,11 @@ def main() -> None:
 
     p_bt = sub.add_parser("backtest", help="Test strategien på historiske data")
     p_bt.add_argument("--demo", action="store_true", help="Bruk innebygde testdata (offline)")
+    p_bt.add_argument("--plot", nargs="?", const="equity_curve.svg", default=None,
+                      metavar="FIL", help="Lagre equity-graf som SVG (default: equity_curve.svg)")
+
+    p_cmp = sub.add_parser("compare", help="Sammenlign alle strategiene i en tabell")
+    p_cmp.add_argument("--demo", action="store_true", help="Bruk innebygde testdata (offline)")
 
     p_paper = sub.add_parser("paper", help="Paper trading med liksom-penger")
     p_paper.add_argument("--interval", type=int, default=3600, help="Sekunder mellom runder (default 1t)")
@@ -118,7 +165,12 @@ def main() -> None:
     args = parser.parse_args()
     cfg = load_config(args.config)
 
-    {"backtest": cmd_backtest, "paper": cmd_paper, "live": cmd_live}[args.command](cfg, args)
+    {
+        "backtest": cmd_backtest,
+        "compare": cmd_compare,
+        "paper": cmd_paper,
+        "live": cmd_live,
+    }[args.command](cfg, args)
 
 
 if __name__ == "__main__":

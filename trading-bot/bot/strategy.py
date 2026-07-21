@@ -123,11 +123,67 @@ class TrendFilter(Strategy):
         return 0
 
 
+class MACD(Strategy):
+    """MACD — populær momentum-indikator.
+
+    Regner differansen mellom et raskt og et tregt eksponentielt snitt (EMA),
+    og et "signalsnitt" av den differansen. Kjøp når MACD krysser over signalet
+    (momentum snur opp), selg når den krysser under.
+    """
+
+    def __init__(self, fast: int = 12, slow: int = 26, signal: int = 9):
+        self.fast = fast
+        self.slow = slow
+        self.signal_period = signal
+
+    def signal(self, df: pd.DataFrame) -> int:
+        if len(df) < self.slow + self.signal_period:
+            return 0
+        close = df["close"]
+        ema_fast = close.ewm(span=self.fast, adjust=False).mean()
+        ema_slow = close.ewm(span=self.slow, adjust=False).mean()
+        macd_line = ema_fast - ema_slow
+        signal_line = macd_line.ewm(span=self.signal_period, adjust=False).mean()
+        if macd_line.iloc[-1] > signal_line.iloc[-1]:
+            return 1
+        if macd_line.iloc[-1] < signal_line.iloc[-1]:
+            return -1
+        return 0
+
+
+class Bollinger(Strategy):
+    """Bollinger-bånd (mean-reversion).
+
+    Legger et bånd på +/- N standardavvik rundt et glidende snitt. Ideen er at
+    prisen "spretter tilbake": kjøp når prisen faller under nedre bånd
+    (uvanlig lavt), selg når den stiger over øvre bånd (uvanlig høyt).
+    """
+
+    def __init__(self, period: int = 20, num_std: float = 2.0):
+        self.period = period
+        self.num_std = num_std
+
+    def signal(self, df: pd.DataFrame) -> int:
+        if len(df) < self.period:
+            return 0
+        close = df["close"]
+        mid = close.rolling(self.period).mean().iloc[-1]
+        std = close.rolling(self.period).std().iloc[-1]
+        price = close.iloc[-1]
+        if price < mid - self.num_std * std:
+            return 1
+        if price > mid + self.num_std * std:
+            return -1
+        return 0
+
+
 # Registreringstabell: navn i config.yaml -> klasse
 STRATEGIES = {
     "sma_crossover": SMACrossover,
     "rsi_reversion": RSIReversion,
     "trend_filter": TrendFilter,
+    "macd": MACD,
+    "bollinger": Bollinger,
 }
 
 

@@ -15,7 +15,11 @@ DEFAULTS = {
     "order_fraction": 0.25,
     "fee": 0.001,
     "risk": {"stop_loss_pct": 0.05, "take_profit_pct": 0.10, "trailing_stop_pct": 0.0},
-    "notifications": {"telegram": {"enabled": False, "token": "", "chat_id": ""}},
+    "notifications": {
+        "telegram": {"enabled": False, "token": "", "chat_id": ""},
+        "email": {"enabled": False, "smtp_host": "smtp.gmail.com", "smtp_port": 587,
+                  "username": "", "password": "", "to": ""},
+    },
     "live": {"enabled": False, "max_order_value": 50, "api_key": "", "api_secret": ""},
 }
 
@@ -32,6 +36,7 @@ def load_config(path: str = "config.yaml") -> dict:
         cfg["live"] = {**DEFAULTS["live"], **loaded.get("live", {})}
         notif = loaded.get("notifications", {})
         cfg["notifications"] = {
-            "telegram": {**DEFAULTS["notifications"]["telegram"], **notif.get("telegram", {})}
+            "telegram": {**DEFAULTS["notifications"]["telegram"], **notif.get("telegram", {})},
+            "email": {**DEFAULTS["notifications"]["email"], **notif.get("email", {})},
         }
     return cfg

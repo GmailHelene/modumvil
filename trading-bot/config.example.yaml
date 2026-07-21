@@ -27,11 +27,19 @@ risk:
   trailing_stop_pct: 0.0   # Flyttende stop (0 = av; f.eks. 0.05 = 5 % under toppen)
 
 # --- Varsler (få beskjed når boten handler) -------------------------------
+# Begge kanaler er valgfrie og kan brukes samtidig. Se bot/notify.py for oppsett.
 notifications:
   telegram:
     enabled: false         # Sett true når du har fylt inn token + chat_id
-    token: ""              # Fra @BotFather i Telegram (se bot/notify.py)
+    token: ""              # Fra @BotFather i Telegram
     chat_id: ""            # Din chat-id
+  email:
+    enabled: false         # Sett true når feltene under er fylt inn
+    smtp_host: smtp.gmail.com
+    smtp_port: 587
+    username: ""           # Din e-postadresse (avsender)
+    password: ""           # App-passord (IKKE ditt vanlige passord)
+    to: ""                 # Hvem varselet skal sendes til
 
 # --- Sikkerhet: EKTE handel ----------------------------------------------
 # EKTE handel er slått AV som standard. Start ALLTID med paper trading.

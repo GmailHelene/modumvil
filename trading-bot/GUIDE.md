@@ -131,10 +131,24 @@ Behandle eventuell gevinst som en bonus, ikke som en plan for å bli rik.
 ## Kjappe kommandoer
 
 ```bash
-python main.py backtest --demo     # test offline, ingen nøkler
-python main.py backtest            # test på ekte historiske data
-python main.py paper               # paper trading (liksom-penger)
-python main.py paper --rounds 3    # kjør bare 3 runder og stopp
+python main.py backtest --demo         # test offline, ingen nøkler
+python main.py backtest --demo --plot  # samme, men lager equity_curve.svg
+python main.py backtest                # test på ekte historiske data
+python main.py compare --demo          # sammenlign ALLE strategiene i en tabell
+python main.py paper                   # paper trading (liksom-penger)
+python main.py paper --rounds 3        # kjør bare 3 runder og stopp
 python main.py live --i-understand-the-risk   # ekte handel (etter sjekklisten!)
-python test_bot.py                 # kjør testene
+python test_bot.py                     # kjør testene
 ```
+
+## Velg strategi med `compare`
+
+Kjør `python main.py compare --demo` for å se alle strategiene mot hverandre:
+
+- **Avkastning** — hvor mye tjente/tapte den
+- **Max fall** — verste nedtur underveis (lavt = roligere å eie)
+- **Gevinst%** — andel handler som gikk i pluss
+
+Ikke velg bare på høyest avkastning. En strategi med litt lavere avkastning men
+mye lavere «max fall» er ofte den du faktisk klarer å holde ut i praksis — og da
+tjener du mer i lengden fordi du ikke får panikk og hopper av på bunnen.

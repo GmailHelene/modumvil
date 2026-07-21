@@ -68,10 +68,29 @@ def test_backtest_with_risk_tracks_winrate():
           f"{res.win_rate:.0f} % gevinst")
 
 
+def test_all_strategies_run():
+    from bot.strategy import STRATEGIES
+    df = synthetic_ohlcv(n=400)
+    for name in STRATEGIES:
+        res = run_backtest(df, build_strategy(name), 1000, 0.5, 0.001)
+        assert res.end_equity > 0
+    print(f"OK: alle {len(STRATEGIES)} strategiene kjører i backtest")
+
+
+def test_equity_svg_is_valid():
+    from bot.plot import equity_svg
+    svg = equity_svg([1000, 1050, 1020, 1100], [1000, 1010, 1030, 1040])
+    assert svg.startswith("<svg") and svg.rstrip().endswith("</svg>")
+    assert "polyline" in svg
+    print("OK: equity-graf genererer gyldig SVG")
+
+
 if __name__ == "__main__":
     test_paper_broker_roundtrip()
     test_backtest_runs()
     test_strategy_signals_are_valid()
     test_risk_manager()
     test_backtest_with_risk_tracks_winrate()
+    test_all_strategies_run()
+    test_equity_svg_is_valid()
     print("\nAlle tester bestått ✅")
