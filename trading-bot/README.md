@@ -10,6 +10,17 @@ til ekte penger.
 > virker og teste ideer trygt — ikke å bli rik uten innsats. Handle aldri for
 > mer enn du har råd til å tape.
 
+> 👉 **Les [GUIDE.md](GUIDE.md)** for praktiske svar: beste strategi, hvor ofte
+> du bør sjekke, og hvordan/når du trygt går over til ekte penger.
+
+## Hva boten kan
+
+- 📈 **Strategier** med trend-filter (`trend_filter`), SMA-crossover og RSI — bytt fritt
+- 🛡️ **Risikostyring:** stop-loss, take-profit og trailing stop automatisk per handel
+- 🔔 **Varsler på Telegram** når boten kjøper/selger — slipp å stirre på skjermen
+- 🧪 **Backtesting** med avkastning, max drawdown, gevinstandel og kjøp-og-hold-sammenligning
+- 💵 **Paper trading** (liksom-penger) → **ekte handel** bak flere sikkerhetslåser
+
 ## Rekkefølgen (viktig!)
 
 ```
@@ -62,7 +73,8 @@ python main.py live --i-understand-the-risk
 ## Bytt eller lag din egen strategi
 
 Strategiene ligger i `bot/strategy.py`. Innebygd:
-- `sma_crossover` — glidende snitt-kryssing (standard)
+- `trend_filter` — trend-følgende med filter (**standard, anbefalt**)
+- `sma_crossover` — glidende snitt-kryssing
 - `rsi_reversion` — RSI mean-reversion
 
 Lag din egen: arv fra `Strategy`, implementer `signal()` (returner +1 kjøp,
@@ -76,9 +88,12 @@ trading-bot/
 ├── config.example.yaml   # mal — kopier til config.yaml
 ├── requirements.txt
 ├── test_bot.py           # tester som kjører uten nett
+├── GUIDE.md              # praktisk guide: rutine, når du kan gå live
 └── bot/
     ├── data.py           # henter prisdata (ekte + syntetiske testdata)
     ├── strategy.py       # reglene for kjøp/salg
+    ├── risk.py           # stop-loss / take-profit / trailing stop
+    ├── notify.py         # varsler (Telegram + konsoll)
     ├── backtest.py       # test på historiske data
     ├── broker.py         # PaperBroker (liksom) + LiveBroker (ekte)
     ├── runner.py         # live-løkka

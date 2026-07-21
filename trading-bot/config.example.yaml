@@ -9,19 +9,32 @@ timeframe: 1h              # Candlestick-lengde (1m, 5m, 15m, 1h, 4h, 1d)
 
 # --- Strategi -------------------------------------------------------------
 strategy:
-  name: sma_crossover      # Se bot/strategy.py for tilgjengelige strategier
+  name: trend_filter       # Anbefalt. Se bot/strategy.py for alle strategier.
   params:
     fast: 20               # Kort glidende snitt
-    slow: 50               # Langt glidende snitt
+    slow: 50               # Mellomlangt glidende snitt
+    trend: 200             # Langt snitt = trendfilter (kjøper kun i opptrend)
 
-# --- Penger og risiko -----------------------------------------------------
+# --- Penger -------------------------------------------------------------
 starting_cash: 1000        # Startkapital (kun for paper trading / backtest)
 order_fraction: 0.25       # Hvor stor andel av kapitalen per handel (0.25 = 25 %)
 fee: 0.001                 # Børsavgift per handel (0.001 = 0.1 %)
 
-# --- Sikkerhet ------------------------------------------------------------
-# EKTE handel er slått AV som standard. Den slås kun på med "live"-kommandoen
-# OG når du har fylt inn nøkler under. Start ALLTID med paper trading.
+# --- Risikostyring (automatisk beskyttelse per handel) --------------------
+risk:
+  stop_loss_pct: 0.05      # Selg automatisk hvis prisen faller 5 % fra kjøp
+  take_profit_pct: 0.10    # Selg automatisk hvis prisen stiger 10 %
+  trailing_stop_pct: 0.0   # Flyttende stop (0 = av; f.eks. 0.05 = 5 % under toppen)
+
+# --- Varsler (få beskjed når boten handler) -------------------------------
+notifications:
+  telegram:
+    enabled: false         # Sett true når du har fylt inn token + chat_id
+    token: ""              # Fra @BotFather i Telegram (se bot/notify.py)
+    chat_id: ""            # Din chat-id
+
+# --- Sikkerhet: EKTE handel ----------------------------------------------
+# EKTE handel er slått AV som standard. Start ALLTID med paper trading.
 live:
   enabled: false           # Ekstra sikkerhetslås
   max_order_value: 50      # Maks verdi (i quote-valuta, f.eks. USDT) per ordre

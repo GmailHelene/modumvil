@@ -17,8 +17,25 @@ from bot.backtest import run_backtest
 from bot.broker import LiveBroker, PaperBroker
 from bot.config import load_config
 from bot.data import fetch_ohlcv, synthetic_ohlcv
+from bot.notify import Notifier
+from bot.risk import RiskManager
 from bot.runner import Runner
 from bot.strategy import build_strategy
+
+
+def build_risk(cfg: dict) -> RiskManager:
+    r = cfg["risk"]
+    return RiskManager(
+        stop_loss_pct=r["stop_loss_pct"],
+        take_profit_pct=r["take_profit_pct"],
+        trailing_stop_pct=r["trailing_stop_pct"],
+    )
+
+
+def build_notifier(cfg: dict) -> Notifier:
+    tg = cfg["notifications"]["telegram"]
+    return Notifier(telegram_token=tg["token"], telegram_chat_id=tg["chat_id"],
+                    enabled=tg["enabled"])
 
 
 def cmd_backtest(cfg: dict, args) -> None:
@@ -35,6 +52,7 @@ def cmd_backtest(cfg: dict, args) -> None:
         starting_cash=cfg["starting_cash"],
         order_fraction=cfg["order_fraction"],
         fee=cfg["fee"],
+        risk=build_risk(cfg),
     )
     print(f"Strategi: {cfg['strategy']['name']}  {cfg['strategy']['params']}")
     print("-" * 40)
@@ -54,6 +72,7 @@ def cmd_paper(cfg: dict, args) -> None:
     runner = Runner(
         broker, strat, cfg["exchange"], cfg["symbol"], cfg["timeframe"],
         cfg["order_fraction"], mode="paper",
+        risk=build_risk(cfg), notifier=build_notifier(cfg),
     )
     print(f"Paper trading {cfg['symbol']} — liksom-penger, null risiko. Ctrl+C for å stoppe.\n")
     runner.loop(interval_seconds=args.interval, rounds=args.rounds)
@@ -73,6 +92,7 @@ def cmd_live(cfg: dict, args) -> None:
     runner = Runner(
         broker, strat, cfg["exchange"], cfg["symbol"], cfg["timeframe"],
         cfg["order_fraction"], mode="LIVE",
+        risk=build_risk(cfg), notifier=build_notifier(cfg),
     )
     print(f"!!! EKTE HANDEL på {cfg['symbol']}. Maks {live['max_order_value']} per ordre. Ctrl+C for å stoppe.\n")
     runner.loop(interval_seconds=args.interval, rounds=args.rounds)
@@ -87,12 +107,12 @@ def main() -> None:
     p_bt.add_argument("--demo", action="store_true", help="Bruk innebygde testdata (offline)")
 
     p_paper = sub.add_parser("paper", help="Paper trading med liksom-penger")
-    p_paper.add_argument("--interval", type=int, default=60, help="Sekunder mellom runder")
+    p_paper.add_argument("--interval", type=int, default=3600, help="Sekunder mellom runder (default 1t)")
     p_paper.add_argument("--rounds", type=int, default=None, help="Antall runder (default: uendelig)")
 
     p_live = sub.add_parser("live", help="EKTE handel (les README!)")
     p_live.add_argument("--i-understand-the-risk", action="store_true")
-    p_live.add_argument("--interval", type=int, default=60)
+    p_live.add_argument("--interval", type=int, default=3600)
     p_live.add_argument("--rounds", type=int, default=None)
 
     args = parser.parse_args()

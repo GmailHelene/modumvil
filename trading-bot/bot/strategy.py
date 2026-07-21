@@ -84,10 +84,50 @@ class RSIReversion(Strategy):
         return 0
 
 
+class TrendFilter(Strategy):
+    """Trend-følgende strategi med filter — vanligvis det beste utgangspunktet.
+
+    Ideen: ikke kjemp mot hovedtrenden. Vi kjøper KUN når:
+      1. prisen er over et langt snitt (marked i opptrend), OG
+      2. det korte snittet er over det mellomlange (momentum opp)
+    Vi selger når momentum snur ned. Dette filteret kutter mange av de dårlige
+    handlene en ren SMA-crossover gjør i sidelengs marked ("whipsaws").
+
+    Kombinert med stop-loss/take-profit (se bot/risk.py) gir dette en ryddig,
+    regelbasert tilnærming du kan stole på og forstå.
+    """
+
+    def __init__(self, fast: int = 20, slow: int = 50, trend: int = 200):
+        if not (fast < slow < trend):
+            raise ValueError("Krav: fast < slow < trend")
+        self.fast = fast
+        self.slow = slow
+        self.trend = trend
+
+    def signal(self, df: pd.DataFrame) -> int:
+        if len(df) < self.trend:
+            return 0
+        close = df["close"]
+        fast_ma = close.rolling(self.fast).mean().iloc[-1]
+        slow_ma = close.rolling(self.slow).mean().iloc[-1]
+        trend_ma = close.rolling(self.trend).mean().iloc[-1]
+        price = close.iloc[-1]
+
+        in_uptrend = price > trend_ma
+        momentum_up = fast_ma > slow_ma
+
+        if in_uptrend and momentum_up:
+            return 1
+        if not momentum_up:
+            return -1
+        return 0
+
+
 # Registreringstabell: navn i config.yaml -> klasse
 STRATEGIES = {
     "sma_crossover": SMACrossover,
     "rsi_reversion": RSIReversion,
+    "trend_filter": TrendFilter,
 }
 
 
