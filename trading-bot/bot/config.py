@@ -15,7 +15,7 @@ DEFAULTS = {
     "starting_cash": 1000,
     "order_fraction": 0.25,
     "fee": 0.001,
-    "risk": {"stop_loss_pct": 0.05, "take_profit_pct": 0.10, "trailing_stop_pct": 0.0},
+    "risk": {"stop_loss_pct": 0.05, "take_profit_pct": 0.10, "trailing_stop_pct": 0.08},
     "notifications": {
         "telegram": {"enabled": False, "token": "", "chat_id": ""},
         "email": {"enabled": False, "smtp_host": "smtp.gmail.com", "smtp_port": 587,

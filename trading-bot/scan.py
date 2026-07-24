@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
-"""scan.py — skann en watchlist med aksjer og vis kjøps-/salgssignaler.
+"""scan.py — skann en watchlist med SAMSTEMTE signaler (consensus).
 
-Henter EKTE aksjedata (Yahoo Finance — gratis, ingen API-nøkkel) og kjører
-strategien på hver aksje i watchlist.txt. Viser 🟢 KJØP / 🔴 SALG / ⚪ VENT,
-pluss en lenke så du kommer rett til aksjen for å handle selv.
+I stedet for å stole på én strategi, spør vi ALLE fem og teller stemmene.
+Boten sier KJØP kun når nok strategier er enige — det gir færre, men mer
+overbeviste signaler (høyere «treffsikkerhet»).
+
+Henter ekte aksjedata (Yahoo Finance — gratis, ingen API-nøkkel).
 
 Bruk:
     python scan.py
 
 ⚠️  ÆRLIG ADVARSEL — LES DETTE:
-Dette er IKKE aksjeråd. Boten finner ikke gode aksjer for deg. Den sier bare
-hvilke av DINE valgte aksjer strategien tilfeldigvis signaliserer akkurat nå,
-etter mekaniske regler. Et signal er ikke en anbefaling om at noe er lurt å
-kjøpe. Gjør alltid din egen vurdering — og handle aldri for mer enn du tåler
-å tape.
+Dette er IKKE aksjeråd. At flere strategier er enige gjør et signal mer
+robust, men det er fortsatt bare mekaniske regler på historiske data — ingen
+garanti for fremtiden. Gjør alltid din egen vurdering, og handle aldri for
+mer enn du tåler å tape.
 """
 
 from __future__ import annotations
@@ -24,11 +25,19 @@ from bot.strategy import build_strategy
 
 # --- Innstillinger (endre fritt) ------------------------------------------
 WATCHLIST_FILE = "watchlist.txt"
-STRATEGY_NAME = "trend_filter"
-STRATEGY_PARAMS = {"fast": 20, "slow": 50, "trend": 100}
 
-# Lenke-mal: {q} byttes ut med aksjens navn. Standard = søk (øverste treff er
-# som regel Nordnet-siden). Vil du ha et annet mønster, bytt bare denne linja.
+# Alle strategiene som får stemme, med parametre tilpasset dagsdata.
+VOTERS = {
+    "trend_filter": {"fast": 20, "slow": 50, "trend": 100},
+    "sma_crossover": {"fast": 20, "slow": 50},
+    "rsi_reversion": {"period": 14, "low": 30, "high": 70},
+    "macd": {"fast": 12, "slow": 26, "signal": 9},
+    "bollinger": {"period": 20, "num_std": 2.0},
+}
+BUY_THRESHOLD = 3      # minst så mange strategier må si KJØP
+SELL_THRESHOLD = 3     # minst så mange må si SALG
+
+# Lenke-mal: {q} byttes ut med aksjens navn. Bytt gjerne til et eget mønster.
 LINK_TEMPLATE = "https://www.google.com/search?q={q}"
 
 
@@ -39,33 +48,48 @@ def load_watchlist(path: str) -> list[str]:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith("#"):
-                    tickers.append(line.split()[0])   # ta kun ticker, ikke kommentar
+                    tickers.append(line.split()[0])
     except FileNotFoundError:
         print(f"Fant ikke {path}. Lag en fil med én ticker per linje.")
     return tickers
 
 
 def fetch_ohlcv(ticker: str):
-    """Hent ~2 år med dagsdata for én aksje via Yahoo Finance.
-
-    Returnerer None ved feil (f.eks. ukjent ticker eller nettverksproblem),
-    slik at én aksje som feiler ikke stopper hele skanningen.
-    """
+    """Hent ~2 år med dagsdata for én aksje. None ved feil (én aksje stopper ikke resten)."""
     try:
         import yfinance as yf
 
         df = yf.Ticker(ticker).history(period="2y", interval="1d")
         if df is None or df.empty:
             return None
-        df = df.rename(columns=str.lower)             # 'Close' -> 'close' osv.
+        df = df.rename(columns=str.lower)
         return df[["open", "high", "low", "close", "volume"]].reset_index(drop=True)
     except Exception:
         return None
 
 
 def trade_link(ticker: str) -> str:
-    navn = ticker.replace(".OL", "")                  # rydd bort børs-endelsen
+    navn = ticker.replace(".OL", "")
     return LINK_TEMPLATE.format(q=urllib.parse.quote(f"{navn} aksje nordnet"))
+
+
+def consensus(df) -> tuple[int, int, int]:
+    """Spør alle strategiene. Returner (beslutning, antall kjøp, antall salg).
+
+    beslutning: 1 = KJØP, -1 = SALG, 0 = VENT.
+    """
+    buy = sell = 0
+    for name, params in VOTERS.items():
+        sig = build_strategy(name, params).signal(df)
+        if sig == 1:
+            buy += 1
+        elif sig == -1:
+            sell += 1
+    if buy >= BUY_THRESHOLD and buy > sell:
+        return 1, buy, sell
+    if sell >= SELL_THRESHOLD and sell > buy:
+        return -1, buy, sell
+    return 0, buy, sell
 
 
 def main() -> None:
@@ -73,31 +97,33 @@ def main() -> None:
     if not tickers:
         return
 
-    strat = build_strategy(STRATEGY_NAME, STRATEGY_PARAMS)
-    print(f"Skanner {len(tickers)} aksjer med strategi '{STRATEGY_NAME}' ...\n")
-    print(f"{'Aksje':<10}{'Signal':<12}{'Pris':>12}   Handle her")
-    print("-" * 70)
+    total = len(VOTERS)
+    print(f"Skanner {len(tickers)} aksjer — {total} strategier stemmer, "
+          f"minst {BUY_THRESHOLD} må være enige.\n")
+    print(f"{'Aksje':<10}{'Signal':<10}{'Stemmer':<16}{'Pris':>12}   Handle her")
+    print("-" * 78)
 
     buys = []
     for ticker in tickers:
         df = fetch_ohlcv(ticker)
         if df is None:
-            print(f"{ticker:<10}{'(ingen data)':<12}")
+            print(f"{ticker:<10}{'(ingen data)':<10}")
             continue
-        sig = strat.signal(df)
+        decision, buy, sell = consensus(df)
         price = df["close"].iloc[-1]
-        label = {1: "🟢 KJØP", -1: "🔴 SALG"}.get(sig, "⚪ VENT")
-        link = trade_link(ticker) if sig != 0 else ""
-        print(f"{ticker:<10}{label:<12}{price:>12,.2f}   {link}")
-        if sig == 1:
+        label = {1: "🟢 KJØP", -1: "🔴 SALG"}.get(decision, "⚪ VENT")
+        votes = f"{buy}/{total} kjøp, {sell}/{total} salg"
+        link = trade_link(ticker) if decision != 0 else ""
+        print(f"{ticker:<10}{label:<10}{votes:<16}{price:>12,.2f}   {link}")
+        if decision == 1:
             buys.append(ticker)
 
-    print("-" * 70)
+    print("-" * 78)
     if buys:
-        print(f"Strategien signaliserer KJØP på: {', '.join(buys)}")
+        print(f"Samstemt KJØP på: {', '.join(buys)}")
     else:
-        print("Ingen kjøpssignaler akkurat nå. Det er helt greit — vent på et bedre tidspunkt.")
-    print("\n⚠️  Husk: dette er mekaniske signaler, ikke aksjeråd. Vurder alltid selv.")
+        print("Ingen samstemte kjøpssignaler nå. Det er helt greit — tålmodighet lønner seg.")
+    print("\n⚠️  Samstemte signaler er mer robuste, men fortsatt ikke aksjeråd. Vurder selv.")
 
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@ fee: 0.001                 # Børsavgift per handel (0.001 = 0.1 %)
 risk:
   stop_loss_pct: 0.05      # Selg automatisk hvis prisen faller 5 % fra kjøp
   take_profit_pct: 0.10    # Selg automatisk hvis prisen stiger 10 %
-  trailing_stop_pct: 0.0   # Flyttende stop (0 = av; f.eks. 0.05 = 5 % under toppen)
+  trailing_stop_pct: 0.08  # Flyttende stop: låser inn gevinst, selger 8 % under toppen (0 = av)
 
 # --- Varsler (få beskjed når boten handler) -------------------------------
 # Begge kanaler er valgfrie og kan brukes samtidig. Se bot/notify.py for oppsett.
