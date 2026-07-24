@@ -49,6 +49,12 @@ def build_notifier(cfg: dict) -> Notifier:
     )
 
 
+def _period_str(df) -> str:
+    """Kort tekst med hvilken periode dataene faktisk dekker."""
+    return (f"Periode: {df['timestamp'].iloc[0].date()} til "
+            f"{df['timestamp'].iloc[-1].date()}  ({len(df)} datapunkter)")
+
+
 def cmd_backtest(cfg: dict, args) -> None:
     if args.demo:
         print("Bruker innebygde testdata (offline).\n")
@@ -57,6 +63,7 @@ def cmd_backtest(cfg: dict, args) -> None:
         print(f"Henter {cfg['symbol']} fra {cfg['exchange']} ...\n")
         df = fetch_ohlcv(cfg["exchange"], cfg["symbol"], cfg["timeframe"], limit=600)
 
+    print(_period_str(df) + "\n")
     strat = build_strategy(cfg["strategy"]["name"], cfg["strategy"]["params"])
     result = run_backtest(
         df, strat,
@@ -96,6 +103,7 @@ def cmd_compare(cfg: dict, args) -> None:
 
     bh_return = (df["close"].iloc[-1] - df["close"].iloc[0]) / df["close"].iloc[0] * 100
 
+    print(_period_str(df) + "\n")
     print(f"{'Strategi':<16}{'Avkastning':>12}{'Max fall':>12}{'Handler':>10}{'Gevinst%':>10}")
     print("-" * 60)
     rows = []
