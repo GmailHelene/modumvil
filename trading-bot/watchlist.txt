@@ -1,0 +1,15 @@
+# Din watchlist — aksjer scan-funksjonen skal sjekke.
+# Én ticker per linje. Alt etter # er kommentar. Rediger fritt!
+#
+# Norske aksjer (Oslo Børs) må ha .OL bak seg:
+EQNR.OL     # Equinor
+DNB.OL      # DNB Bank
+NHY.OL      # Norsk Hydro
+TEL.OL      # Telenor
+YAR.OL      # Yara
+
+# Amerikanske aksjer (ingen endelse):
+AAPL        # Apple
+MSFT        # Microsoft
+NVDA        # Nvidia
+TSLA        # Tesla
