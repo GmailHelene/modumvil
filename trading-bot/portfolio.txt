@@ -1,0 +1,9 @@
+# Din portefølje — aksjer du FAKTISK har kjøpt.
+# Systemet kan ikke lese Nordnet automatisk, så du logger kjøpene her selv.
+#
+# Format:  TICKER, antall, kjøpspris
+# (kjøpspris = det du betalte per aksje, i aksjens egen valuta)
+#
+# Eksempler (bytt ut med dine egne, eller slett dem):
+EQNR.OL, 10, 380.00
+AAPL, 5, 300.00
