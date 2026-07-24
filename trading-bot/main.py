@@ -63,8 +63,8 @@ def cmd_backtest(cfg: dict, args) -> None:
         print(f"Henter {cfg['symbol']} fra {cfg['exchange']} ...\n")
         df = fetch_ohlcv(cfg["exchange"], cfg["symbol"], cfg["timeframe"], limit=600)
 
-    print(_period_str(df) + "\n")
     strat = build_strategy(cfg["strategy"]["name"], cfg["strategy"]["params"])
+    print(_period_str(df) + "\n")
     result = run_backtest(
         df, strat,
         starting_cash=cfg["starting_cash"],
