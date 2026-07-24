@@ -1,10 +1,9 @@
 name: Daglig aksje-skanning
 
-# Kjører skanningen automatisk – uten at PC-en din er på.
+# Kjører skanning + porteføljesjekk automatisk – uten at PC-en din er på.
 on:
   schedule:
-    # Hverdager kl. 21:30 UTC (ca. 23:30 norsk tid, etter at både Oslo Børs
-    # og USA har stengt). GitHub kan forsinke starten noen minutter.
+    # Hverdager kl. 21:30 UTC (ca. 23:30 norsk tid, etter børsslutt i USA).
     - cron: "30 21 * * 1-5"
   workflow_dispatch: {}          # lar deg også kjøre den manuelt fra GitHub
 
@@ -26,11 +25,18 @@ jobs:
       - name: Kjør skanningen
         run: python scan.py | tee scan_output.txt
 
+      - name: Sjekk porteføljen
+        run: python portfolio.py | tee portfolio_output.txt
+
       - name: Legg resultatet i sammendraget
         run: |
           echo "## Aksje-skanning $(date +%Y-%m-%d)" >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
           cat scan_output.txt >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo "## Din portefølje" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          cat portfolio_output.txt >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Send Telegram-varsel (valgfritt)
