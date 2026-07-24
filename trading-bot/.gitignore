@@ -1,0 +1,7 @@
+# Hemmeligheter og lokale filer — skal aldri på GitHub
+config.yaml
+*.svg
+
+# Python
+__pycache__/
+*.pyc
