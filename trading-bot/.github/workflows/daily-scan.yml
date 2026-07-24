@@ -1,0 +1,40 @@
+name: Daglig aksje-skanning
+
+# Kjører skanningen automatisk – uten at PC-en din er på.
+on:
+  schedule:
+    # Hverdager kl. 21:30 UTC (ca. 23:30 norsk tid, etter at både Oslo Børs
+    # og USA har stengt). GitHub kan forsinke starten noen minutter.
+    - cron: "30 21 * * 1-5"
+  workflow_dispatch: {}          # lar deg også kjøre den manuelt fra GitHub
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hent koden
+        uses: actions/checkout@v4
+
+      - name: Sett opp Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installer avhengigheter
+        run: pip install -r requirements.txt
+
+      - name: Kjør skanningen
+        run: python scan.py | tee scan_output.txt
+
+      - name: Legg resultatet i sammendraget
+        run: |
+          echo "## Aksje-skanning $(date +%Y-%m-%d)" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          cat scan_output.txt >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Send Telegram-varsel (valgfritt)
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python notify_scan.py
