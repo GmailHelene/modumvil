@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Spansk, steg for steg</title>
+  <meta name="description" content="Et lite spanskkurs for norsktalende: korte leksjoner, gjentakelse og lyd." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#2eaf5b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Spansk" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/spansk.css" />
+</head>
+<body>
+
+  <!-- Oppstart / tilpasning -->
+  <div id="skjermOppstart" class="skjult">
+    <div class="oppstart" id="oppstartInnhold"></div>
+  </div>
+
+  <!-- Hovedskjermer -->
+  <div id="skjermApp" class="skjult">
+    <header class="topp">
+      <div class="topp__inner">
+        <span class="teller teller--strek" id="tellerStrek" title="Dager på rad">
+          <span class="teller__ikon">&#128293;</span><span id="strekTall">0</span>
+        </span>
+        <span class="teller teller--xp" title="Poeng totalt">
+          <span class="teller__ikon">&#128142;</span><span id="xpTall">0</span>
+        </span>
+        <span class="teller teller--hjerte" id="tellerHjerte" title="Liv">
+          <span class="teller__ikon">&#10084;&#65039;</span><span id="hjerteTall">5</span>
+        </span>
+      </div>
+    </header>
+
+    <main>
+      <section id="sideSti"></section>
+      <section id="sideOrdliste" class="skjult"></section>
+      <section id="sideMeg" class="skjult"></section>
+    </main>
+
+    <nav class="bunn" aria-label="Hovedmeny">
+      <div class="bunn__inner">
+        <button class="bunn__kn" data-side="sti" aria-current="page"><span>&#127793;</span>Lær</button>
+        <button class="bunn__kn" data-side="repeter"><span>&#128260;</span>Repeter</button>
+        <button class="bunn__kn" data-side="ordliste"><span>&#128214;</span>Ordliste</button>
+        <button class="bunn__kn" data-side="meg"><span>&#128100;</span>Meg</button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Leksjon -->
+  <div id="skjermOving" class="skjult">
+    <div class="oving__topp">
+      <button class="lukk" id="ovingLukk" aria-label="Avslutt leksjonen">&times;</button>
+      <div class="stolpe" style="flex:1"><div class="stolpe__fyll" id="ovingStolpe" style="width:0%"></div></div>
+      <span class="teller teller--hjerte" id="ovingHjerter"><span class="teller__ikon">&#10084;&#65039;</span><span id="ovingHjerteTall">5</span></span>
+    </div>
+    <div class="oving" id="ovingInnhold"></div>
+    <div class="handlingsfelt" id="handlingsfelt">
+      <div class="handlingsfelt__inner">
+        <button class="kn kn--stille" id="knHopp">Vet ikke</button>
+        <button class="kn kn--full" id="knSjekk" disabled>Sjekk</button>
+      </div>
+    </div>
+    <div class="fasit" id="fasit" role="status" aria-live="polite">
+      <div class="fasit__inner">
+        <div class="fasit__tekst">
+          <div class="fasit__tittel" id="fasitTittel"></div>
+          <div class="fasit__svar" id="fasitSvar"></div>
+        </div>
+        <button class="kn" id="knFortsett">Fortsett</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ferdig -->
+  <div id="skjermFerdig" class="skjult">
+    <div class="feiring" id="ferdigInnhold"></div>
+  </div>
+
+  <script src="js/spansk-kurs.js"></script>
+  <script src="js/spansk.js"></script>
+</body>
+</html>

@@ -32,5 +32,29 @@ Enkeltinnlegg setter tittel/meta/Open Graph via JavaScript ved innlasting.
 Det er greit for en opinionsblogg. Vil du ha forhåndsrendret SEO (server-side),
 er neste steg å bygge malen med Astro/Eleventy.
 
+## Spanskkurs (`spansk.html`)
+
+En liten, selvstendig språk-app som ligger i samme repo, men er helt frikoblet
+fra bloggen: eget design, egen JS, ingen lenke fra menyen og `noindex` +
+`Disallow` i robots.txt.
+
+- `spansk.html` - skallet
+- `css/spansk.css` - stilen (lys og mørk modus)
+- `js/spansk-kurs.js` - innholdet: 8 enheter, 24 leksjoner, 252 ord og setninger
+- `js/spansk.js` - kursmotoren
+
+Slik virker den: ved første besøk stilles fire spørsmål (navn, hva du vil bruke
+spansken til, hvor mye du kan, dagsmål). Svarene bestemmer rekkefølgen på
+enhetene og hvor mange leksjoner som åpnes med én gang. Hver leksjon blander
+flervalg, lytting, ordbank, oversettelse og pare-oppgaver, og oppgavetypen
+velges ut fra hvor godt du kan hvert enkelt ord. Feil svar legges bakerst i køen
+og kommer igjen. «Repeter» henter de svakeste ordene på tvers av alt du har
+gjort.
+
+Framgang (poeng, dager på rad, liv, ordstyrke) ligger i `localStorage` på
+enheten. Ingen konto, ingen server, ingenting sendes noe sted. Uttalen bruker
+nettleserens egen talesyntese - finnes ingen spansk stemme, faller lytteøvelsene
+bort av seg selv.
+
 ---
 Laget av [helene.cloud](https://helene.cloud)
