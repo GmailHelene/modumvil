@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /spansk.html
 
 Sitemap: https://modumvil.no/sitemap.xml
