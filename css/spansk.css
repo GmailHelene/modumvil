@@ -17,11 +17,16 @@
   --radius: 16px;
   --font: "Nunito", ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif;
 }
+/* Mørk modus: både etter systemvalget og etter et uttrykkelig temavalg. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #14181c; --bg-2: #1b2126; --ink: #eef3f6; --ink-soft: #9aa8b3;
     --line: #2a3238; --line-sterk: #3a444c; --gronn-lys: #14301f; --korall-lys: #331a17;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #14181c; --bg-2: #1b2126; --ink: #eef3f6; --ink-soft: #9aa8b3;
+  --line: #2a3238; --line-sterk: #3a444c; --gronn-lys: #14301f; --korall-lys: #331a17;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-text-size-adjust: 100%; }
