@@ -1,71 +1,56 @@
-// Levels, question generation and answer checking. No DOM.
+// Question generation and answer checking. No DOM.
 import {
   phrase, digital, partOfDay, zoneOf, mod, toDial, addMinutes, durationText, explain, capitalize,
 } from './time-no.js';
+import { LEVELS, WORLDS } from './levels.js';
 
-export const ROUND_LENGTH = 10;
 export const MAX_REPEATS = 3;
 
-export const LEVELS = [
-  {
-    id: 1, title: 'Hele og halve', icon: '🕐',
-    intro: 'Klokka er hel når den lange viseren peker rett opp. Halv betyr halvveis til neste time: halv tre er 2:30.',
-    minutes: [0, 30], step: 5, kinds: ['readWords', 'set'],
-  },
-  {
-    id: 2, title: 'Kvart over og kvart på', icon: '🍕',
-    intro: 'En kvart er 15 minutter. Kvart over to er 2:15. Kvart på tre er 2:45, altså 15 minutter før tre.',
-    minutes: [0, 15, 30, 45], step: 5, kinds: ['readWords', 'readDigital', 'set'],
-  },
-  {
-    id: 3, title: 'Fem og ti over og på', icon: '🖐️',
-    intro: 'Hvert tall på klokka er 5 minutter for den lange viseren. Peker den på 2, er det ti over. Peker den på 10, er det ti på.',
-    minutes: [0, 5, 10, 15, 30, 45, 50, 55], step: 5, kinds: ['readWords', 'readDigital', 'set', 'setDigital'],
-  },
-  {
-    id: 4, title: 'På halv og over halv', icon: '🎯',
-    intro: 'Den vanskelige midten: 2:25 er «fem på halv tre», og 2:35 er «fem over halv tre». Vi teller fra halv.',
-    minutes: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], focus: [20, 25, 35, 40], step: 5,
-    kinds: ['readWords', 'readDigital', 'set', 'setDigital'],
-  },
-  {
-    id: 5, title: 'Hvert eneste minutt', icon: '🔬',
-    intro: 'Nå teller vi de små strekene. Hver strek er ett minutt. 2:17 er «sytten minutter over to».',
-    minutes: 'all', step: 1, kinds: ['readWords', 'readDigital', 'set', 'setDigital'],
-  },
-  {
-    id: 6, title: '24-timers klokka', icon: '🌙',
-    intro: 'Den analoge klokka går rundt to ganger i døgnet. Etter tolv på dagen legger vi til 12: kvart over tre om ettermiddagen er 15:15.',
-    minutes: 'five', step: 5, kinds: ['read24', 'set24'],
-  },
-  {
-    id: 7, title: 'Tidsregning', icon: '🧮',
-    intro: 'Hvor lenge til bussen går? Når er filmen ferdig? Her bruker du klokka til ekte ting.',
-    minutes: 'five', step: 5, kinds: ['mathLater', 'mathWait', 'mathEnd'],
-  },
-];
-
-export const STAR_LIMITS = [5, 7, 9]; // correct first tries for 1, 2, 3 stars
-export const UNLOCK_STARS = 2;
-
-export function starsFor(correct) {
-  return STAR_LIMITS.filter((limit) => correct >= limit).length;
-}
-
-export function levelById(id) {
-  return LEVELS.find((l) => l.id === id);
-}
-
-// ---- randomness (injectable for tests) ----
+// ---- randomness (injectable for tests and seeded daily challenges) ----
 
 let rand = Math.random;
 export function setRandom(fn) {
   rand = fn;
 }
-function int(n) {
+export function random() {
+  return rand();
+}
+
+// Small, fast seeded generator. Same seed -> same sequence on every device.
+export function mulberry32(seed) {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+export function seedFrom(text) {
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i += 1) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+export function withRandom(fn, gen) {
+  const before = rand;
+  rand = gen;
+  try {
+    return fn();
+  } finally {
+    rand = before;
+  }
+}
+
+export function int(n) {
   return Math.floor(rand() * n);
 }
-function pick(arr) {
+export function pick(arr) {
   return arr[int(arr.length)];
 }
 export function shuffle(arr) {
@@ -77,10 +62,14 @@ export function shuffle(arr) {
   return a;
 }
 
-function minutePool(level) {
-  if (level.minutes === 'all') return Array.from({ length: 60 }, (_, i) => i);
-  if (level.minutes === 'five') return Array.from({ length: 12 }, (_, i) => i * 5);
-  return level.minutes;
+export function minutePool(level) {
+  const m = level.minutes;
+  if (m === 'all') return Array.from({ length: 60 }, (_, i) => i);
+  if (m === 'five') return Array.from({ length: 12 }, (_, i) => i * 5);
+  if (m && typeof m === 'object' && !Array.isArray(m)) {
+    return Array.from({ length: m.to - m.from + 1 }, (_, i) => m.from + i);
+  }
+  return m;
 }
 
 // Weighted pick: weak zones (from stats) and the level's focus minutes come up more often.
@@ -89,7 +78,7 @@ export function pickMinute(level, zoneStats = {}) {
   const weights = pool.map((m) => {
     let w = 1;
     if (level.focus && level.focus.includes(m)) w += 1.5;
-    if (level.minutes === 'all' && m % 5 !== 0) w += 0.5;
+    if (level.step === 1 && m % 5 !== 0) w += 0.5;
     const s = zoneStats[zoneOf(m)];
     if (s && s.seen >= 3) w += 2 * (s.wrong / s.seen);
     return w;
@@ -127,31 +116,87 @@ function confusions(h, m, step) {
   return out;
 }
 
+// Three wrong times, built from typical mistakes.
+export function wrongTimes(h, m, step = 5, count = 3) {
+  const key = (t) => toDial(t.h, t.m);
+  const seen = new Set([key({ h, m })]);
+  const out = [];
+  for (const t of confusions(h, m, step)) {
+    const n = { h: mod(t.h, 12), m: t.m };
+    if (!seen.has(key(n))) {
+      seen.add(key(n));
+      out.push(n);
+    }
+    if (out.length === count) return out;
+  }
+  while (out.length < count) {
+    const n = { h: int(12), m: pick([0, 15, 30, 45, mod(m + 10, 60), mod(m + 20, 60)]) };
+    if (!seen.has(key(n))) {
+      seen.add(key(n));
+      out.push(n);
+    }
+  }
+  return out;
+}
+
 export function buildOptions(h, m, format, step = 5) {
   const label = (t) => (format === 'digital' ? digital(t.h, t.m, false) : phrase(t.h, t.m));
-  const correctLabel = label({ h, m });
-  const seen = new Set([correctLabel]);
-  const wrong = [];
-  for (const t of [...confusions(h, m, step)]) {
-    const l = label({ h: mod(t.h, 12), m: t.m });
-    if (!seen.has(l)) {
-      seen.add(l);
-      wrong.push(l);
-    }
-    if (wrong.length === 3) break;
-  }
-  while (wrong.length < 3) {
-    const l = label({ h: int(12), m: pick([0, 15, 30, 45, mod(m + 10, 60)]) });
-    if (!seen.has(l)) {
-      seen.add(l);
-      wrong.push(l);
-    }
-  }
   return shuffle([
-    { label: correctLabel, correct: true },
-    ...wrong.map((l) => ({ label: l, correct: false })),
+    { label: label({ h, m }), correct: true },
+    ...wrongTimes(h, m, step).map((t) => ({ label: label(t), correct: false })),
   ]);
 }
+
+// ---- text variety ----
+
+const NAMES = ['Emma', 'Noah', 'Sara', 'Ali', 'Ingrid', 'Jonas', 'Maja', 'Elias', 'Nora', 'Filip', 'Leah', 'Oskar', 'Amina', 'Theo', 'Ella', 'Lukas'];
+
+const READ_PROMPTS = ['Hva er klokka?', 'Hvor mye er klokka?', 'Les klokka!', 'Hva viser klokka?', 'Klarer du denne?'];
+const DIGITAL_PROMPTS = ['Hvilken digital tid viser klokka?', 'Hva står det på en digital klokke?', 'Skriv den digitalt: hvilken passer?'];
+const SET_PROMPTS = ['Still klokka til', 'Dra viserne til', 'Vis meg', 'Kan du stille klokka til'];
+
+const LATER = [
+  (n, d) => `Hva er klokka om ${d}?`,
+  (n, d) => `${n} skal ut om ${d}. Hva er klokka da?`,
+  (n, d) => `Om ${d} ringer det inn. Hva er klokka da?`,
+  (n, d) => `${n} setter på en timer på ${d}. Hva er klokka når den piper?`,
+  (n, d) => `Pausen varer ${d}. Hva er klokka når den er slutt?`,
+];
+
+const WAIT = [
+  ['Bussen går', 'Hvor lenge må du vente?'],
+  ['Fotballtreningen starter', 'Hvor lenge er det til treningen?'],
+  ['Middagen er klar', 'Hvor lenge må du vente på middagen?'],
+  ['Bursdagsselskapet begynner', 'Hvor lenge er det til selskapet?'],
+  ['Filmen på kino starter', 'Hvor lenge er det til filmen?'],
+  ['Svømmehallen åpner', 'Hvor lenge må dere vente?'],
+  ['Toget går', 'Hvor lenge er det til toget går?'],
+  ['Gamingturneringen starter', 'Hvor lenge er det til start?'],
+  ['Mormor kommer', 'Hvor lenge er det til hun kommer?'],
+  ['Skolen slutter', 'Hvor lenge er det igjen av skoledagen?'],
+];
+
+const END = [
+  ['Filmen starter', 'og varer', 'Når er filmen ferdig?'],
+  ['Du begynner å game', 'og har lov til å spille i', 'Når må du slutte?'],
+  ['Pizzaen settes i ovnen', 'og skal steke i', 'Når er pizzaen ferdig?'],
+  ['Første skoletime starter', 'og varer', 'Når er timen ferdig?'],
+  ['Kampen starter', 'og varer', 'Når er kampen slutt?'],
+  ['{n} begynner på leksene', 'og bruker', 'Når er leksene ferdige?'],
+  ['Turen starter', 'og tar', 'Når er dere framme?'],
+  ['Kaka settes i ovnen', 'og skal steke i', 'Når må den tas ut?'],
+  ['Konserten begynner', 'og varer', 'Når er konserten slutt?'],
+  ['{n} legger seg for å sove middag', 'og sover i', 'Når våkner {n}?'],
+];
+
+const BEFORE = [
+  (n, d) => `Hva var klokka for ${d} siden?`,
+  (n, d) => `${n} kom hjem for ${d} siden. Når kom ${n} hjem?`,
+  (n, d) => `Bussen gikk for ${d} siden. Når gikk den?`,
+  (n, d) => `Kaka har stått i ovnen i ${d}. Når ble den satt inn?`,
+  (n, d) => `${n} har gamet i ${d}. Når begynte ${n}?`,
+  (n, d) => `Friminuttet begynte for ${d} siden. Når begynte det?`,
+];
 
 // ---- question factories ----
 
@@ -160,7 +205,10 @@ function randomHour12(level) {
 }
 
 function randomHour24(level) {
-  return level.forceH ?? 6 + int(17); // 06-22, the hours a kid is awake
+  if (level.forceH !== undefined) return level.forceH;
+  if (Array.isArray(level.hours)) return pick(level.hours);
+  if (level.hours === 'all') return int(24);
+  return 6 + int(17); // 06-22, the hours a kid is awake
 }
 
 function baseQuestion(kind, h, m, extra = {}) {
@@ -174,7 +222,22 @@ function baseQuestion(kind, h, m, extra = {}) {
   };
 }
 
-const READ_PROMPTS = ['Hva er klokka?', 'Hvor mye er klokka?', 'Les klokka!'];
+function pad2(n) {
+  return String(n).padStart(2, '0');
+}
+
+function digital12(h, m) {
+  return digital(mod(h, 12) || 12, m, false);
+}
+
+function durationOptions(correct) {
+  const options = new Map([[correct, true]]);
+  for (const d of shuffle([correct + 5, correct - 5, correct + 10, correct - 10, 60 - correct, correct + 30, correct + 60])) {
+    if (d > 0 && d < 240 && !options.has(d)) options.set(d, false);
+    if (options.size === 4) break;
+  }
+  return shuffle([...options].map(([d, ok]) => ({ label: durationText(d), correct: ok })));
+}
 
 const factories = {
   readWords(level, stats) {
@@ -190,16 +253,16 @@ const factories = {
     const h = randomHour12(level);
     const m = pickMinute(level, stats);
     return baseQuestion('read', h, m, {
-      prompt: 'Hvilken digital tid viser klokka?',
+      prompt: pick(DIGITAL_PROMPTS),
       options: buildOptions(h, m, 'digital', level.step),
-      answerText: digital(h, m, false),
+      answerText: digital12(h, m),
     });
   },
   set(level, stats) {
     const h = randomHour12(level);
     const m = pickMinute(level, stats);
     return baseQuestion('set', h, m, {
-      prompt: 'Still klokka til',
+      prompt: pick(SET_PROMPTS),
       target: capitalize(phrase(h, m)),
       answerText: phrase(h, m),
     });
@@ -207,10 +270,9 @@ const factories = {
   setDigital(level, stats) {
     const h = randomHour12(level);
     const m = pickMinute(level, stats);
-    const hDisp = h === 0 ? 12 : h;
     return baseQuestion('set', h, m, {
-      prompt: 'Still klokka til',
-      target: digital(hDisp, m, false),
+      prompt: pick(SET_PROMPTS),
+      target: digital12(h, m),
       answerText: phrase(h, m),
     });
   },
@@ -250,13 +312,13 @@ const factories = {
     const h24 = randomHour24(level);
     const m = pickMinute(level, stats);
     return baseQuestion('set', h24, m, {
-      prompt: 'Still klokka til',
+      prompt: pick(SET_PROMPTS),
       target: digital(h24, m, true),
       answerText: `${phrase(h24, m)} ${partOfDay(h24)}`,
       explain: [
-        h24 >= 12
-          ? `${pad2(h24)} er etter tolv på dagen. Trekk fra 12: ${h24} - 12 = ${mod(h24, 12) || 12}.`
-          : `${pad2(h24)} er før tolv, så timen er ${h24}.`,
+        h24 > 12
+          ? `${pad2(h24)} er etter tolv på dagen. Trekk fra 12: ${h24} - 12 = ${h24 - 12}.`
+          : `${pad2(h24)}: timen på klokka er ${mod(h24, 12) || 12}.`,
         ...explain(h24, m),
       ],
     });
@@ -264,75 +326,73 @@ const factories = {
   mathLater(level, stats) {
     const h = 1 + int(11);
     const m = pickMinute(level, stats);
-    const delta = pick([10, 15, 20, 25, 30, 40, 45, 50, 60, 75, 90]);
+    const delta = pick(level.deltas || [10, 15, 20, 25, 30, 40, 45, 50, 60, 75, 90]);
     const t = addMinutes(h, m, delta);
     return baseQuestion('read', h, m, {
-      prompt: `Hva er klokka om ${durationText(delta)}?`,
+      prompt: pick(LATER)(pick(NAMES), durationText(delta)),
       options: buildOptions(t.h, t.m, 'words', 5),
       answerText: phrase(t.h, t.m),
       explain: [
-        `Klokka viser ${phrase(h, m)} (${digital(h, m, false)}).`,
-        `Legg til ${durationText(delta)}: ${digital(h, m, false)} + ${delta} min = ${digital(mod(t.h, 12) || 12, t.m, false)}.`,
+        `Klokka viser ${phrase(h, m)} (${digital12(h, m)}).`,
+        `Legg til ${durationText(delta)}: ${digital12(h, m)} + ${delta} min = ${digital12(t.h, t.m)}.`,
+        `Svar: ${phrase(t.h, t.m)}.`,
+      ],
+    });
+  },
+  mathBefore(level, stats) {
+    const h = 1 + int(11);
+    const m = pickMinute(level, stats);
+    const delta = pick(level.deltas || [5, 10, 15, 20, 30, 45, 60]);
+    const t = addMinutes(h, m, -delta);
+    return baseQuestion('read', h, m, {
+      prompt: pick(BEFORE)(pick(NAMES), durationText(delta)),
+      options: buildOptions(t.h, t.m, 'words', 5),
+      answerText: phrase(t.h, t.m),
+      explain: [
+        `Klokka viser ${phrase(h, m)} (${digital12(h, m)}).`,
+        `Trekk fra ${durationText(delta)}: ${digital12(h, m)} - ${delta} min = ${digital12(t.h, t.m)}.`,
         `Svar: ${phrase(t.h, t.m)}.`,
       ],
     });
   },
   mathWait(level, stats) {
-    const scenes = [
-      ['Bussen går', 'Hvor mange minutter må du vente?'],
-      ['Fotballtreningen starter', 'Hvor lenge er det til treningen starter?'],
-      ['Middagen er klar', 'Hvor lenge må du vente på middagen?'],
-      ['Bursdagsselskapet begynner', 'Hvor lenge er det til selskapet begynner?'],
-    ];
-    const [what, ask] = pick(scenes);
+    const [what, ask] = pick(WAIT);
     const h = 1 + int(11);
     const m = pickMinute(level, stats);
-    const wait = pick([5, 10, 15, 20, 25, 30, 35, 40, 45, 50]);
+    const wait = pick([5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 70, 90]);
     const t = addMinutes(h, m, wait);
-    const options = new Map([[wait, true]]);
-    for (const d of shuffle([wait + 5, wait - 5, wait + 10, wait - 10, 60 - wait, wait + 30])) {
-      if (d > 0 && d < 120 && !options.has(d)) options.set(d, false);
-      if (options.size === 4) break;
-    }
     return baseQuestion('read', h, m, {
       prompt: `${what} ${phrase(t.h, t.m)}. Klokka er som vist. ${ask}`,
-      options: shuffle([...options].map(([d, correct]) => ({ label: durationText(d), correct }))),
+      options: durationOptions(wait),
       answerText: durationText(wait),
       explain: [
-        `Nå: ${phrase(h, m)} (${digital(h, m, false)}).`,
-        `${what}: ${phrase(t.h, t.m)} (${digital(mod(t.h, 12) || 12, t.m, false)}).`,
-        `Tell minuttene fra ${digital(h, m, false)} til ${digital(mod(t.h, 12) || 12, t.m, false)}: ${wait} minutter.`,
+        `Nå: ${phrase(h, m)} (${digital12(h, m)}).`,
+        `${what}: ${phrase(t.h, t.m)} (${digital12(t.h, t.m)}).`,
+        `Tell fra ${digital12(h, m)} til ${digital12(t.h, t.m)}: ${durationText(wait)}.`,
       ],
     });
   },
   mathEnd(level, stats) {
-    const scenes = [
-      ['Filmen starter', 'og varer', 'Når er filmen ferdig?'],
-      ['Du begynner å game', 'og har lov til å spille i', 'Når må du slutte?'],
-      ['Pizzaen settes i ovnen', 'og skal steke i', 'Når er pizzaen ferdig?'],
-      ['Skoledagen starter', 'og første økt varer', 'Når er første økt ferdig?'],
-    ];
-    const [start, mid, ask] = pick(scenes);
+    const name = pick(NAMES);
+    const [start, mid, ask] = pick(END).map((s) => s.replaceAll('{n}', name));
     const h = 1 + int(11);
     const m = pickMinute(level, stats);
-    const dur = pick([15, 20, 30, 45, 50, 60, 75, 90, 105, 120]);
+    const dur = pick(level.deltas || [15, 20, 30, 45, 50, 60, 75, 90, 105, 120]);
     const t = addMinutes(h, m, dur);
     return baseQuestion('read', h, m, {
       prompt: `${start} som vist på klokka, ${mid} ${durationText(dur)}. ${ask}`,
       options: buildOptions(t.h, t.m, 'words', 5),
       answerText: phrase(t.h, t.m),
       explain: [
-        `Start: ${phrase(h, m)} (${digital(h, m, false)}).`,
-        `${durationText(dur)} senere: ${digital(mod(t.h, 12) || 12, t.m, false)}.`,
+        `Start: ${phrase(h, m)} (${digital12(h, m)}).`,
+        `${capitalize(durationText(dur))} senere: ${digital12(t.h, t.m)}.`,
         `Svar: ${phrase(t.h, t.m)}.`,
       ],
     });
   },
 };
 
-function pad2(n) {
-  return String(n).padStart(2, '0');
-}
+export const FACTORY_NAMES = Object.keys(factories);
 
 export function makeQuestion(level, stats = {}, kind = null) {
   const k = kind || pick(level.kinds);
@@ -341,33 +401,42 @@ export function makeQuestion(level, stats = {}, kind = null) {
   q.levelId = level.id;
   q.step = level.step;
   q.is24 = k === 'read24' || k === 'set24';
+  q.isMath = k.startsWith('math');
   return q;
 }
 
+export function questionKey(q) {
+  return `${q.factory}:${q.h}:${q.m}:${q.isMath ? q.prompt.length : ''}`;
+}
+
 // A round alternates question kinds so every round both reads and sets.
-export function makeRound(level, stats = {}) {
+// `recent` holds keys from earlier rounds: we try hard to avoid repeating them.
+export function makeRound(level, stats = {}, recent = []) {
+  const avoid = new Set(recent);
   const kinds = shuffle(level.kinds);
   const qs = [];
   const used = new Set();
+  const length = level.length || 10;
   let guard = 0;
-  while (qs.length < ROUND_LENGTH && guard < 200) {
+  while (qs.length < length && guard < 400) {
     guard += 1;
     const q = makeQuestion(level, stats, kinds[qs.length % kinds.length]);
-    const key = `${q.factory}-${q.h}-${q.m}`;
-    if (!used.has(key)) {
-      used.add(key);
-      qs.push(q);
-    }
+    const key = questionKey(q);
+    if (used.has(key)) continue;
+    // After many tries, allow old questions back (small pools would starve otherwise).
+    if (avoid.has(key) && guard < 150) continue;
+    used.add(key);
+    qs.push(q);
   }
   return qs;
 }
 
 // Repeat a missed time later in the round, as the other kind of task.
 export function repeatOf(q, level) {
+  if (q.isMath) return null;
   const kind = q.kind === 'read'
-    ? (level.kinds.includes('set24') && q.is24 ? 'set24' : 'set')
+    ? (q.is24 ? 'set24' : 'set')
     : (q.is24 ? 'read24' : 'readWords');
-  if (!factories[kind] || q.factory.startsWith('math')) return null;
   const fixed = { ...level, minutes: [q.m], focus: null, forceH: q.h };
   const r = makeQuestion(fixed, {}, kind);
   r.repeat = true;
@@ -379,10 +448,124 @@ export function checkSet(q, dial) {
   return toDial(q.h, q.m) === mod(dial, 720);
 }
 
-// Lightning round: random read questions from unlocked levels 1-6.
-export function makeLightningQuestion(unlockedIds, stats = {}) {
-  const levels = LEVELS.filter((l) => unlockedIds.includes(l.id) && l.id <= 6);
-  const level = levels.length ? pick(levels) : LEVELS[0];
+// ---- daily challenge ----
+
+export function dailyLevel(dateKey, unlockedIds = []) {
+  // Difficulty grows with progress, but the questions are the same for everyone with the same progress.
+  const open = LEVELS.filter((l) => unlockedIds.includes(l.id) && !l.kinds.some((k) => k.startsWith('math')));
+  const top = open.length ? open[open.length - 1] : LEVELS[0];
+  return {
+    id: 'daily',
+    world: 0,
+    title: 'Dagens utfordring',
+    intro: 'Ti nye oppgaver hver dag. Første gang du fullfører i dag får du 50 bonus-XP.',
+    minutes: top.minutes,
+    step: top.step,
+    numbers: 'arabic',
+    kinds: ['readWords', 'readDigital', 'set', 'setDigital'],
+    length: 10,
+    seed: seedFrom(`klokkemester-${dateKey}-${top.id}`),
+  };
+}
+
+export function makeDailyRound(dateKey, unlockedIds) {
+  const level = dailyLevel(dateKey, unlockedIds);
+  const round = withRandom(() => makeRound(level), mulberry32(level.seed));
+  return { level, round };
+}
+
+// ---- arcade helpers ----
+
+// Levels the arcade may draw from: everything unlocked, and always world 1.
+const hasRead = (l) => l.kinds.some((k) => k.startsWith('read'));
+const isMath = (l) => l.kinds.some((k) => k.startsWith('math'));
+
+export function arcadeLevels(unlockedIds) {
+  return LEVELS.filter((l) => (unlockedIds.includes(l.id) || l.world === 1) && !isMath(l) && hasRead(l));
+}
+
+export function arcadeQuestion(unlockedIds, stats = {}) {
+  const level = pick(arcadeLevels(unlockedIds));
   const kind = pick(level.kinds.filter((k) => k.startsWith('read')));
   return makeQuestion(level, stats, kind);
 }
+
+// One time from the arcade pool: { h, m, step }.
+export function arcadeTime(unlockedIds) {
+  const level = pick(arcadeLevels(unlockedIds));
+  const h = level.kinds.includes('read24') ? int(12) : randomHour12(level);
+  return { h, m: pickMinute(level), step: level.step };
+}
+
+// "Sant eller usant": a clock and a statement that is true half the time.
+export function trueFalseQuestion(unlockedIds) {
+  const { h, m, step } = arcadeTime(unlockedIds);
+  const truth = rand() < 0.5;
+  const shown = truth ? { h, m } : pick(wrongTimes(h, m, step));
+  const digitalForm = rand() < 0.3;
+  return {
+    h, m, truth,
+    statement: digitalForm ? digital12(shown.h, shown.m) : capitalize(phrase(shown.h, shown.m)),
+    answerText: phrase(h, m),
+  };
+}
+
+// "Finn klokka": a phrase and four clocks.
+export function pickClockQuestion(unlockedIds) {
+  const { h, m, step } = arcadeTime(unlockedIds);
+  const clocks = shuffle([{ h, m, correct: true }, ...wrongTimes(h, m, step).map((t) => ({ ...t, correct: false }))]);
+  return {
+    h, m, clocks,
+    target: rand() < 0.3 ? digital12(h, m) : capitalize(phrase(h, m)),
+  };
+}
+
+// Memory: `pairs` different times, each as a clock card and a text card.
+export function memoryCards(unlockedIds, pairs = 6) {
+  const times = [];
+  const seen = new Set();
+  let guard = 0;
+  while (times.length < pairs && guard < 500) {
+    guard += 1;
+    const { h, m } = arcadeTime(unlockedIds);
+    const k = toDial(h, m);
+    if (!seen.has(k)) {
+      seen.add(k);
+      times.push({ h, m });
+    }
+  }
+  const cards = [];
+  times.forEach((t, i) => {
+    cards.push({ pair: i, type: 'clock', h: t.h, m: t.m });
+    cards.push({ pair: i, type: 'text', label: rand() < 0.35 ? digital12(t.h, t.m) : capitalize(phrase(t.h, t.m)) });
+  });
+  return shuffle(cards);
+}
+
+// Tidslinja: four times within a few hours, to tap in order.
+export function orderSet(unlockedIds, count = 4) {
+  const level = pick(arcadeLevels(unlockedIds));
+  const baseH = 1 + int(8);
+  const pool = level.step === 1 ? 1 : 5;
+  const seen = new Set();
+  const times = [];
+  while (times.length < count) {
+    const total = baseH * 60 + int(Math.floor(180 / pool)) * pool;
+    if (!seen.has(total)) {
+      seen.add(total);
+      times.push({ h: Math.floor(total / 60), m: total % 60, total });
+    }
+  }
+  return shuffle(times);
+}
+
+// Overlevelse: difficulty follows the score.
+export function survivalQuestion(score, stats = {}) {
+  const ladder = LEVELS.filter((l) => !isMath(l) && hasRead(l) && !l.boss);
+  const idx = Math.min(ladder.length - 1, Math.floor(score / 3));
+  const level = ladder[Math.max(0, idx - int(3))];
+  const kind = pick(level.kinds.filter((k) => k.startsWith('read')));
+  return makeQuestion(level, stats, kind);
+}
+
+export { WORLDS };

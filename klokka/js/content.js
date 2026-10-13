@@ -1,4 +1,4 @@
-// Lessons and badges. Plain data so it is easy to edit the texts.
+// Lessons. Plain data so it is easy to edit the texts.
 
 export const LESSONS = [
   {
@@ -49,20 +49,16 @@ export const LESSONS = [
     examples: [{ h: 15, m: 15 }, { h: 18, m: 30 }, { h: 21, m: 45 }],
     helper: false, zones: false, show24: true,
   },
-];
-
-export const BADGES = [
-  { id: 'forste', icon: '⏱️', title: 'Første tikk', desc: 'Svar riktig for første gang' },
-  { id: 'rekke5', icon: '🔥', title: 'Fem på rad', desc: '5 riktige svar på rad' },
-  { id: 'rekke10', icon: '🚀', title: 'Ti på rad', desc: '10 riktige svar på rad' },
-  { id: 'feilfri', icon: '💎', title: 'Feilfri', desc: '10 av 10 i en runde' },
-  { id: 'halvhelt', icon: '🦸', title: 'Halv-helt', desc: '25 riktige med halv, på halv eller over halv' },
-  { id: 'lyn10', icon: '⚡', title: 'Lynrask', desc: '10 poeng i en lynrunde' },
-  { id: 'lyn20', icon: '🌩️', title: 'Lynmester', desc: '20 poeng i en lynrunde' },
-  { id: 'regnemester', icon: '🧮', title: 'Tidsregner', desc: 'Minst 2 stjerner på Tidsregning' },
-  { id: 'allenivaer', icon: '🗺️', title: 'Hele kartet', desc: 'Minst 2 stjerner på alle nivåer' },
-  { id: 'stjerner', icon: '🌟', title: 'Stjernesamler', desc: 'Alle 21 stjerner' },
-  { id: 'hundre', icon: '💯', title: 'Hundre riktige', desc: '100 riktige svar til sammen' },
-  { id: 'dager3', icon: '📅', title: 'Tre dager', desc: 'Spill tre dager på rad' },
-  { id: 'dager7', icon: '🏆', title: 'En hel uke', desc: 'Spill sju dager på rad' },
+  {
+    title: 'Romertall',
+    text: 'Gamle klokker og kirketårn bruker romertall: I = 1, V = 5 og X = 10. IV er 5 minus 1 = 4, og IX er 10 minus 1 = 9. Viserne virker helt likt, du må bare kjenne igjen tallene.',
+    examples: [{ h: 4, m: 0 }, { h: 9, m: 30 }, { h: 11, m: 45 }],
+    helper: false, zones: false, numbers: 'roman',
+  },
+  {
+    title: 'Klokker uten tall',
+    text: 'Mange klokker har bare streker. 12 er alltid rett opp, 3 rett til høyre, 6 rett ned og 9 rett til venstre. Tell de tykke strekene fra 12 for å finne de andre tallene.',
+    examples: [{ h: 3, m: 0 }, { h: 7, m: 15 }, { h: 10, m: 40 }],
+    helper: false, zones: false, numbers: 'none',
+  },
 ];

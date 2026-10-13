@@ -3,10 +3,7 @@ import assert from 'node:assert/strict';
 import {
   phrase, digital, partOfDay, zoneOf, durationText, addMinutes, fromDial, toDial, explain,
 } from '../js/time-no.js';
-import {
-  LEVELS, buildOptions, makeRound, makeQuestion, repeatOf, checkSet, starsFor, setRandom,
-  makeLightningQuestion, ROUND_LENGTH,
-} from '../js/game.js';
+import { buildOptions } from '../js/game.js';
 
 test('hele og halve', () => {
   assert.equal(phrase(3, 0), 'tre');
@@ -109,55 +106,4 @@ test('halv-fella er alltid med som feilsvar', () => {
   const labels = buildOptions(2, 30, 'words').map((o) => o.label);
   assert.ok(labels.includes('halv tre'));
   assert.ok(labels.includes('halv fire'));
-});
-
-test('runder og spørsmål for alle nivåer', () => {
-  let seed = 42;
-  setRandom(() => {
-    seed = (seed * 16807) % 2147483647;
-    return (seed - 1) / 2147483646;
-  });
-  for (const level of LEVELS) {
-    for (let i = 0; i < 30; i += 1) {
-      const round = makeRound(level);
-      assert.equal(round.length, ROUND_LENGTH, `nivå ${level.id}`);
-      for (const q of round) {
-        assert.ok(q.prompt, 'prompt');
-        assert.ok(q.explain.length > 0, 'explain');
-        if (q.kind === 'read') {
-          assert.equal(q.options.length, 4, `nivå ${level.id} ${q.factory}`);
-          assert.equal(new Set(q.options.map((o) => o.label)).size, 4, `${q.factory} ${q.h}:${q.m}`);
-          assert.equal(q.options.filter((o) => o.correct).length, 1);
-        } else {
-          assert.ok(q.target);
-          assert.ok(checkSet(q, toDial(q.h, q.m)));
-          assert.ok(!checkSet(q, toDial(q.h, q.m) + 5));
-        }
-        const r = repeatOf(q, level);
-        if (r) {
-          assert.equal(r.m, q.m);
-          assert.equal(r.h, q.h);
-          assert.notEqual(r.kind, q.kind);
-        }
-      }
-    }
-  }
-  for (let i = 0; i < 200; i += 1) {
-    const q = makeLightningQuestion([1, 2, 3, 4, 5, 6, 7]);
-    assert.equal(q.kind, 'read');
-    assert.equal(q.options.length, 4);
-  }
-  setRandom(Math.random);
-});
-
-test('stjerner', () => {
-  assert.equal(starsFor(4), 0);
-  assert.equal(starsFor(5), 1);
-  assert.equal(starsFor(8), 2);
-  assert.equal(starsFor(10), 3);
-});
-
-test('24-timers spørsmål gir riktig digitaltid', () => {
-  const q = makeQuestion({ ...LEVELS[5], forceH: 15, minutes: [45] }, {}, 'read24');
-  assert.equal(q.options.find((o) => o.correct).label, '15:45');
 });

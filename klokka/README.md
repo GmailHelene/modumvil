@@ -6,12 +6,26 @@ Ren statisk side: HTML, CSS og JavaScript-moduler. Ingen byggsteg, ingen avhengi
 
 ## Innhold
 
-- **7 nivåer** à 10 oppgaver: hele og halve, kvart, fem og ti over/på, på halv og over halv, hvert minutt, 24-timers klokke, tidsregning (buss, film, gaming-tid).
-- **To oppgavetyper**: lese klokka (fire svaralternativer) og stille klokka (dra viserne).
-- **Lynrunde**: 60 sekunder, feil svar koster 3 sekunder.
-- **Øv fritt**: dra viserne og se norsk tekst, 12- og 24-timers tid live, med fargesoner og minutt-tall.
-- **Lær klokka**: 8 korte leksjoner med eksempler.
-- **Motivasjon**: XP og rangtitler, stjerner, 13 merker, dager på rad.
+- **Eventyret:** 6 verdener med 6 nivåer hver (36 nivåer). Hver verden ender med en boss: lengre runde, ofte med tidsfrist og færre tall på klokka.
+  1. Klokkeskogen: hele, halve, kvart over og kvart på
+  2. Femminuttsfjellet: fem og ti over/på, romertall
+  3. Halvveisbyen: på halv og over halv, klokke uten tall
+  4. Minuttmyra: hvert eneste minutt
+  5. Døgnøya: 24-timers tid, morgen, ettermiddag, kveld og natt
+  6. Tidsmaskinen: tidsregning fram og tilbake (buss, film, gaming, kake i ovnen)
+- **Klokkevarianter:** vanlige tall, romertall, bare 12/3/6/9, og helt uten tall.
+- **Arkade, 7 småspill:** Lynrunde, Sant eller usant, Finn klokka, Klokke-memory, Still på tid, Tidslinja og Overlevelse. Egne rekorder og merker for hvert spill.
+- **Dagens utfordring:** 10 nye oppgaver hver dag (samme for samme dag), 50 bonus-XP første gang.
+- **71 merker** i 9 kategorier, alle med fremdriftsmåler.
+- **Stil:** 10 bakgrunner og 8 klokkedesign som låses opp underveis. Viserfargene er alltid rød (time) og blå (minutt), siden leksjonene viser til dem.
+- **Øv fritt** og **Lær klokka** (10 leksjoner).
+- **8 rangtitler**, XP, stjerner og dager på rad.
+
+## Variasjon
+
+- Spillet husker de siste 120 oppgavene og unngår dem i nye runder, også etter «Start på nytt».
+- Tekstoppgavene trekker fra mange scenarier og navn, og spørsmålsformuleringene varierer.
+- Feil svar kommer igjen senere i samme runde, som motsatt oppgavetype.
 
 ## Pedagogikk
 
@@ -36,7 +50,7 @@ Service worker krever `http://localhost` eller HTTPS.
 node --test klokka/tests/*.test.mjs
 ```
 
-Dekker norsk tidstekst for alle 720 klokkeslett, svaralternativer og rundegenerering for alle nivåer.
+Dekker norsk tidstekst for alle 720 klokkeslett, alle 36 nivåer, arkadeoppgavene, merker, opplåsing, variasjon mellom runder, dagens utfordring og overgang fra gammel lagring.
 
 ## Publisere
 

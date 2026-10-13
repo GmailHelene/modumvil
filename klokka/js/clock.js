@@ -34,6 +34,8 @@ const ZONES = [
   { from: 40, to: 60, cls: 'z-pa', label: 'på', at: 50 },
 ];
 
+const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+
 export class Clock {
   constructor(host, opts = {}) {
     this.host = host;
@@ -41,6 +43,8 @@ export class Clock {
     this.step = opts.step || 5;
     this.helper = !!opts.helper;
     this.zones = !!opts.zones;
+    this.numberStyle = opts.numbers || 'arabic';
+    this.mini = !!opts.mini;
     this.onChange = opts.onChange || (() => {});
     this.onTick = opts.onTick || (() => {});
     this.total = 0;
@@ -52,7 +56,7 @@ export class Clock {
   build() {
     const svg = el('svg', {
       viewBox: '0 0 200 200',
-      class: `clock${this.interactive ? ' clock--interactive' : ''}`,
+      class: `clock${this.interactive ? ' clock--interactive' : ''}${this.mini ? ' clock--mini' : ''}`,
       role: this.interactive ? 'slider' : 'img',
     });
     if (this.interactive) {
@@ -93,7 +97,6 @@ export class Clock {
     this.numberNodes = [];
     for (let i = 1; i <= 12; i += 1) {
       const t = el('text', { class: 'hour-number' }, this.numbers);
-      t.textContent = String(i);
       this.numberNodes.push([t, i]);
     }
 
@@ -118,18 +121,27 @@ export class Clock {
   applyOptions() {
     this.zoneLayer.style.display = this.zones ? '' : 'none';
     this.minuteLabels.style.display = this.helper ? '' : 'none';
+    // The helper ring shows minutes, so the hour numbers come back with it.
+    const style = this.helper && this.numberStyle !== 'roman' ? 'arabic' : this.numberStyle;
     const r = this.helper ? R - 32 : R - 22;
     for (const [t, i] of this.numberNodes) {
-      const [x, y] = polar(r, i * 30);
+      const [x, y] = polar(style === 'roman' ? r + 2 : r, i * 30);
       t.setAttribute('x', x);
       t.setAttribute('y', y);
+      const visible = style === 'arabic' || style === 'roman' || (style === 'quarters' && i % 3 === 0);
+      t.textContent = visible ? (style === 'roman' ? ROMAN[i] : String(i)) : '';
+      t.classList.toggle('hour-number--roman', style === 'roman');
     }
+    this.svg.setAttribute('data-numbers', style);
   }
 
-  setOptions({ helper, zones, step } = {}) {
+  setOptions({
+    helper, zones, step, numbers,
+  } = {}) {
     if (helper !== undefined) this.helper = helper;
     if (zones !== undefined) this.zones = zones;
     if (step !== undefined) this.step = step;
+    if (numbers !== undefined) this.numberStyle = numbers;
     this.applyOptions();
   }
 
