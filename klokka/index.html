@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Klokkemester</title>
+  <meta name="description" content="Lær den analoge klokka på norsk. Spill nivåer, ta lynrunder og øv fritt. Virker uten nett.">
+  <meta name="theme-color" content="#1b1640">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Klokkemester">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Hopp til innhold</a>
+  <main id="main" tabindex="-1">
+
+    <!-- Hjem -->
+    <section class="screen" data-screen="home" aria-labelledby="home-title">
+      <header class="home-head">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fff8e7" stroke="#ffd23f" stroke-width="5"/><line x1="32" y1="32" x2="32" y2="14" stroke="#4cc9f0" stroke-width="4" stroke-linecap="round"/><line x1="32" y1="32" x2="44" y2="38" stroke="#ff6b6b" stroke-width="5" stroke-linecap="round"/><circle cx="32" cy="32" r="3.5" fill="#1b1640"/></svg>
+        </div>
+        <h1 id="home-title">Klokkemester</h1>
+      </header>
+
+      <div class="card player">
+        <div class="player-row">
+          <div>
+            <p class="rank-label">Din rang</p>
+            <p class="rank" data-bind="rank"></p>
+          </div>
+          <div class="chips">
+            <span class="chip" title="Stjerner"><span aria-hidden="true">⭐</span> <span data-bind="stars"></span><span class="sr"> stjerner</span></span>
+            <span class="chip" title="Dager på rad"><span aria-hidden="true">🔥</span> <span data-bind="days"></span><span class="sr"> dager på rad</span></span>
+          </div>
+        </div>
+        <div class="xpbar" role="progressbar" aria-label="Poeng til neste rang" aria-valuemin="0" aria-valuemax="100" data-bind="xpbar">
+          <span class="xpbar-fill"></span>
+        </div>
+        <p class="xp-text" data-bind="xptext"></p>
+      </div>
+
+      <nav class="menu" aria-label="Hovedmeny">
+        <a class="menu-btn menu-btn--play" href="#/nivaer"><span class="menu-icon" aria-hidden="true">🎮</span><span><b>Spill</b><small>7 nivåer, fra hele timer til tidsregning</small></span></a>
+        <a class="menu-btn menu-btn--lyn" href="#/lyn"><span class="menu-icon" aria-hidden="true">⚡</span><span><b>Lynrunde</b><small>60 sekunder. Hvor mange klarer du?</small></span></a>
+        <a class="menu-btn" href="#/ov"><span class="menu-icon" aria-hidden="true">🕹️</span><span><b>Øv fritt</b><small>Dra viserne og se hva klokka er</small></span></a>
+        <a class="menu-btn" href="#/laer"><span class="menu-icon" aria-hidden="true">📘</span><span><b>Lær klokka</b><small>Korte forklaringer med eksempler</small></span></a>
+        <div class="menu-row">
+          <a class="menu-btn menu-btn--small" href="#/merker"><span class="menu-icon" aria-hidden="true">🏅</span><b>Merker</b></a>
+          <a class="menu-btn menu-btn--small" href="#/innstillinger"><span class="menu-icon" aria-hidden="true">⚙️</span><b>Innstillinger</b></a>
+        </div>
+        <button class="btn btn--ghost install" type="button" data-action="install" hidden>📲 Installer som app</button>
+      </nav>
+    </section>
+
+    <!-- Nivåer -->
+    <section class="screen" data-screen="levels" aria-labelledby="levels-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="levels-title">Velg nivå</h1>
+        <span class="chip"><span aria-hidden="true">⭐</span> <span data-bind="stars"></span></span>
+      </header>
+      <ol class="levels" data-bind="levels"></ol>
+    </section>
+
+    <!-- Nivå-intro -->
+    <section class="screen" data-screen="intro" aria-labelledby="intro-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/nivaer" aria-label="Tilbake til nivåer">←</a>
+        <h1 id="intro-title" data-bind="introTitle"></h1>
+        <span></span>
+      </header>
+      <div class="intro">
+        <div class="clock-box clock-box--small" data-bind="introClock"></div>
+        <p class="intro-text" data-bind="introText"></p>
+        <p class="intro-hint">10 oppgaver. 7 riktige på første forsøk låser opp neste nivå.</p>
+        <button class="btn btn--big" type="button" data-action="start-round">Start!</button>
+      </div>
+    </section>
+
+    <!-- Spill -->
+    <section class="screen" data-screen="game" aria-labelledby="q-prompt" hidden>
+      <header class="topbar game-top">
+        <a class="icon-btn" href="#/nivaer" aria-label="Avslutt runden">✕</a>
+        <div class="dots" data-bind="dots" aria-hidden="true"></div>
+        <span class="combo" data-bind="combo" aria-live="polite"></span>
+      </header>
+      <p class="sr" data-bind="progressText" aria-live="polite"></p>
+      <div class="game-body">
+        <div class="clock-wrap">
+          <div class="clock-box" data-bind="displayClock"></div>
+          <div class="clock-box" data-bind="setClock" hidden></div>
+          <button class="hint-btn" type="button" data-action="hint" aria-label="Vis hjelp på klokka">💡</button>
+        </div>
+        <div class="question">
+          <h2 id="q-prompt" class="prompt" data-bind="prompt" tabindex="-1"></h2>
+          <p class="target" data-bind="target" hidden></p>
+          <div class="options" data-bind="options"></div>
+          <p class="live-readout" data-bind="liveReadout" hidden></p>
+          <button class="btn btn--big" type="button" data-action="check" data-bind="checkBtn" hidden>Sjekk</button>
+        </div>
+      </div>
+      <div class="feedback" data-bind="feedback" role="status" aria-live="polite" hidden>
+        <p class="feedback-title" data-bind="fbTitle"></p>
+        <ul class="feedback-explain" data-bind="fbExplain"></ul>
+        <button class="btn btn--big" type="button" data-action="next">Neste</button>
+      </div>
+    </section>
+
+    <!-- Resultat -->
+    <section class="screen" data-screen="result" aria-labelledby="result-title" hidden>
+      <div class="result">
+        <h1 id="result-title" data-bind="resultTitle"></h1>
+        <p class="result-stars" data-bind="resultStars"></p>
+        <p class="result-score" data-bind="resultScore"></p>
+        <p class="result-xp" data-bind="resultXp"></p>
+        <ul class="result-badges" data-bind="resultBadges"></ul>
+        <div class="result-actions">
+          <button class="btn btn--big" type="button" data-action="next-level" data-bind="nextLevelBtn">Neste nivå →</button>
+          <button class="btn" type="button" data-action="again">Spill igjen</button>
+          <a class="btn btn--ghost" href="#/nivaer">Til nivåene</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lynrunde -->
+    <section class="screen" data-screen="lyn" aria-labelledby="lyn-title" hidden>
+      <header class="topbar game-top">
+        <a class="icon-btn" href="#/" aria-label="Avslutt lynrunden">✕</a>
+        <h1 id="lyn-title" class="lyn-score"><span aria-hidden="true">⚡</span> <span data-bind="lynScore">0</span><span class="sr"> poeng</span></h1>
+        <span class="combo" data-bind="lynCombo"></span>
+      </header>
+      <div class="timer" aria-hidden="true"><span class="timer-fill" data-bind="lynTimer"></span></div>
+      <div class="lyn-start" data-bind="lynStart">
+        <p class="intro-text">Les så mange klokker du klarer på 60 sekunder. Feil svar koster 3 sekunder, så ikke gjett i blinde.</p>
+        <p class="lyn-best">Rekord: <b data-bind="lynBest">0</b></p>
+        <button class="btn btn--big" type="button" data-action="lyn-go">Kjør!</button>
+      </div>
+      <div class="game-body" data-bind="lynBody" hidden>
+        <div class="clock-wrap"><div class="clock-box" data-bind="lynClock"></div></div>
+        <div class="question">
+          <h2 class="prompt" data-bind="lynPrompt"></h2>
+          <div class="options" data-bind="lynOptions"></div>
+        </div>
+      </div>
+      <div class="lyn-end" data-bind="lynEnd" hidden>
+        <h2 data-bind="lynEndTitle"></h2>
+        <p class="result-score" data-bind="lynEndScore"></p>
+        <ul class="result-badges" data-bind="lynBadges"></ul>
+        <div class="result-actions">
+          <button class="btn btn--big" type="button" data-action="lyn-go">En gang til</button>
+          <a class="btn btn--ghost" href="#/">Til start</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Øv fritt -->
+    <section class="screen" data-screen="ov" aria-labelledby="ov-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="ov-title">Øv fritt</h1>
+        <span></span>
+      </header>
+      <div class="practice">
+        <div class="clock-box" data-bind="ovClock"></div>
+        <div class="readout" aria-live="polite">
+          <p class="readout-words" data-bind="ovWords"></p>
+          <p class="readout-digital"><span data-bind="ovDigital"></span> <span class="muted">eller</span> <span data-bind="ovDigital24"></span></p>
+        </div>
+        <div class="toggles" role="group" aria-label="Hjelpemidler">
+          <label class="toggle"><input type="checkbox" data-opt="helper" checked> Minutt-tall</label>
+          <label class="toggle"><input type="checkbox" data-opt="zones"> Fargesoner</label>
+          <label class="toggle"><input type="checkbox" data-opt="fine"> Hvert minutt</label>
+          <label class="toggle"><input type="checkbox" data-opt="pm"> Ettermiddag</label>
+        </div>
+        <ul class="explain-list" data-bind="ovExplain"></ul>
+        <div class="row">
+          <button class="btn" type="button" data-action="ov-now">Hva er klokka nå?</button>
+          <button class="btn" type="button" data-action="ov-random">Tilfeldig</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lær -->
+    <section class="screen" data-screen="laer" aria-labelledby="laer-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="laer-title">Lær klokka</h1>
+        <span class="chip" data-bind="lessonCount"></span>
+      </header>
+      <article class="lesson">
+        <h2 data-bind="lessonTitle" tabindex="-1"></h2>
+        <div class="clock-box clock-box--small" data-bind="lessonClock"></div>
+        <p class="lesson-example" data-bind="lessonExample" aria-live="polite"></p>
+        <button class="btn btn--ghost" type="button" data-action="lesson-example">Vis et annet eksempel</button>
+        <p class="lesson-text" data-bind="lessonText"></p>
+        <div class="row">
+          <button class="btn" type="button" data-action="lesson-prev">← Forrige</button>
+          <button class="btn btn--accent" type="button" data-action="lesson-next">Neste →</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Merker -->
+    <section class="screen" data-screen="merker" aria-labelledby="merker-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="merker-title">Merker</h1>
+        <span class="chip" data-bind="badgeCount"></span>
+      </header>
+      <ul class="badges" data-bind="badges"></ul>
+      <div class="card stats" data-bind="stats"></div>
+    </section>
+
+    <!-- Innstillinger -->
+    <section class="screen" data-screen="innstillinger" aria-labelledby="set-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="set-title">Innstillinger</h1>
+        <span></span>
+      </header>
+      <div class="settings">
+        <label class="setting"><span>Lyd</span><input type="checkbox" data-setting="sound"></label>
+        <label class="setting"><span>Vibrasjon</span><input type="checkbox" data-setting="vibrate"></label>
+        <label class="setting"><span>Lås opp alle nivåer<small>For voksne som vil hoppe rett til et nivå</small></span><input type="checkbox" data-setting="unlockAll"></label>
+        <button class="btn btn--ghost" type="button" data-action="install" hidden>📲 Installer som app</button>
+        <div class="card">
+          <h2>Legg til på hjemskjermen</h2>
+          <p><b>iPhone/iPad:</b> Åpne i Safari, trykk Del-knappen og velg «Legg til på Hjem-skjerm».</p>
+          <p><b>Android:</b> Trykk «Installer» over, eller menyen ⋮ i Chrome og «Installer app».</p>
+          <p>Etter første besøk virker spillet uten nett.</p>
+        </div>
+        <div class="card">
+          <h2>Personvern</h2>
+          <p>All fremgang lagres bare på denne enheten. Ingen konto, ingen sporing, ingen reklame. Ingenting sendes noe sted.</p>
+        </div>
+        <button class="btn btn--danger" type="button" data-action="reset">Nullstill all fremgang</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" data-bind="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript">Klokkemester trenger JavaScript for å virke.</p></noscript>
+</body>
+</html>
