@@ -1,4 +1,5 @@
 // Offline support. Bump VERSION when any file below changes, so phones fetch the new build.
+// cache: 'reload' bypasses the HTTP cache, so a new VERSION never stores stale copies.
 const VERSION = 'klokkemester-v1';
 const ASSETS = [
   './',
@@ -20,7 +21,7 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(VERSION).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  event.waitUntil(caches.open(VERSION).then((c) => c.addAll(ASSETS.map((url) => new Request(url, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {

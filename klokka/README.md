@@ -44,6 +44,12 @@ Kopier mappa til hvilken som helst statisk hosting (Netlify, Vercel, GitHub Page
 
 **Ved endringer:** øk `VERSION` i `sw.js`, ellers fortsetter installerte telefoner å bruke gammel versjon.
 
+### Domeneshop (eller annet Apache-webhotell) via SFTP
+
+1. Last opp innholdet i denne mappa til `www/klokke/` (uten `tests/` og `README.md`). `.htaccess` må være med; den er skjult, så slå på visning av skjulte filer i Cyberduck.
+2. Slå på HTTPS for domenet i Domeneshop-panelet. Service worker (offline/installering) virker bare over HTTPS.
+3. Åpne `https://helene.cloud/klokke/`.
+
 ## Personvern
 
 All fremgang lagres i `localStorage` på enheten. Ingen konto, ingen sporing, ingen analyse, ingen eksterne kall.
