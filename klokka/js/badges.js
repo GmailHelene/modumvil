@@ -42,6 +42,8 @@ export const BADGES = [
   B('Kunnskap', 'minuttmester', '🔬', 'Minuttjeger', '50 riktige på enkeltminutter', 50, () => state.totals.minuteCorrect),
   B('Kunnskap', 'stille100', '🕹️', 'Viserfører', 'Still klokka riktig 100 ganger', 100, () => state.totals.setCorrect),
   B('Kunnskap', 'stille300', '🎮', 'Visermester', 'Still klokka riktig 300 ganger', 300, () => state.totals.setCorrect),
+  B('Kunnskap', 'skriv25', '✏️', 'Skriveflink', 'Skriv 25 riktige svar selv', 25, () => state.totals.typedCorrect),
+  B('Kunnskap', 'skriv100', '🖋️', 'Klokkeskriver', 'Skriv 100 riktige svar selv', 100, () => state.totals.typedCorrect),
   B('Kunnskap', 'romer', '🏛️', 'Romer', 'To stjerner på et nivå med romertall', 1, () => (state.flags.roman ? 1 : 0)),
   B('Kunnskap', 'blind', '🙈', 'Blindflyger', 'Tre stjerner på et nivå uten tall', 1, () => (state.flags.blind ? 1 : 0)),
   // Dager

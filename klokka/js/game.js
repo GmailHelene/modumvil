@@ -247,6 +247,7 @@ const factories = {
       prompt: pick(READ_PROMPTS),
       options: buildOptions(h, m, 'words', level.step),
       answerText: phrase(h, m),
+      answerTime: { h, m },
     });
   },
   readDigital(level, stats) {
@@ -256,6 +257,7 @@ const factories = {
       prompt: pick(DIGITAL_PROMPTS),
       options: buildOptions(h, m, 'digital', level.step),
       answerText: digital12(h, m),
+      answerTime: { h, m },
     });
   },
   set(level, stats) {
@@ -298,6 +300,7 @@ const factories = {
     return baseQuestion('read', h24, m, {
       prompt: `Klokka er dette ${partOfDay(h24)}. Hva står det på en digital klokke?`,
       options,
+      answerTime: { h: h24, m },
       answerText: `${correct} (${phrase(h24, m)} ${partOfDay(h24)})`,
       explain: [
         ...explain(h24, m).slice(0, -1),
@@ -332,6 +335,7 @@ const factories = {
       prompt: pick(LATER)(pick(NAMES), durationText(delta)),
       options: buildOptions(t.h, t.m, 'words', 5),
       answerText: phrase(t.h, t.m),
+      answerTime: { h: t.h, m: t.m },
       explain: [
         `Klokka viser ${phrase(h, m)} (${digital12(h, m)}).`,
         `Legg til ${durationText(delta)}: ${digital12(h, m)} + ${delta} min = ${digital12(t.h, t.m)}.`,
@@ -348,6 +352,7 @@ const factories = {
       prompt: pick(BEFORE)(pick(NAMES), durationText(delta)),
       options: buildOptions(t.h, t.m, 'words', 5),
       answerText: phrase(t.h, t.m),
+      answerTime: { h: t.h, m: t.m },
       explain: [
         `Klokka viser ${phrase(h, m)} (${digital12(h, m)}).`,
         `Trekk fra ${durationText(delta)}: ${digital12(h, m)} - ${delta} min = ${digital12(t.h, t.m)}.`,
@@ -365,6 +370,7 @@ const factories = {
       prompt: `${what} ${phrase(t.h, t.m)}. Klokka er som vist. ${ask}`,
       options: durationOptions(wait),
       answerText: durationText(wait),
+      answerMinutes: wait,
       explain: [
         `Nå: ${phrase(h, m)} (${digital12(h, m)}).`,
         `${what}: ${phrase(t.h, t.m)} (${digital12(t.h, t.m)}).`,
@@ -383,6 +389,7 @@ const factories = {
       prompt: `${start} som vist på klokka, ${mid} ${durationText(dur)}. ${ask}`,
       options: buildOptions(t.h, t.m, 'words', 5),
       answerText: phrase(t.h, t.m),
+      answerTime: { h: t.h, m: t.m },
       explain: [
         `Start: ${phrase(h, m)} (${digital12(h, m)}).`,
         `${capitalize(durationText(dur))} senere: ${digital12(t.h, t.m)}.`,
@@ -409,6 +416,36 @@ export function questionKey(q) {
   return `${q.factory}:${q.h}:${q.m}:${q.isMath ? q.prompt.length : ''}`;
 }
 
+// ---- free-text answers ----
+
+const TYPE_PROMPTS = ['Hva er klokka? Skriv svaret.', 'Skriv hva klokka er.', 'Skriv klokkeslettet selv.', 'Hva viser klokka? Skriv det.'];
+
+// Turn a multiple-choice question into one where the answer is typed.
+export function toTyped(q) {
+  if (q.kind !== 'read') return q;
+  if (q.answerMinutes !== undefined) {
+    q.input = { mode: 'duration', minutes: q.answerMinutes };
+  } else if (q.factory === 'read24') {
+    q.input = { mode: 'time24', h: q.answerTime.h, m: q.answerTime.m };
+    q.prompt = q.prompt.replace('Hva står det på en digital klokke?', 'Skriv tiden med 24-timers klokke.');
+  } else if (q.answerTime) {
+    q.input = { mode: 'time', h: q.answerTime.h, m: q.answerTime.m };
+    if (!q.isMath) q.prompt = pick(TYPE_PROMPTS);
+    const t = q.answerTime;
+    q.answerText = `${phrase(t.h, t.m)} (${digital12(t.h, t.m)})`;
+  } else {
+    return q;
+  }
+  q.options = null;
+  q.typed = true;
+  return q;
+}
+
+// Share of reading tasks that are typed instead of multiple choice.
+export function typedShare(level) {
+  return level.timer ? 0.35 : 0.45;
+}
+
 // A round alternates question kinds so every round both reads and sets.
 // `recent` holds keys from earlier rounds: we try hard to avoid repeating them.
 export function makeRound(level, stats = {}, recent = []) {
@@ -428,6 +465,10 @@ export function makeRound(level, stats = {}, recent = []) {
     used.add(key);
     qs.push(q);
   }
+  // A good mix: a fixed share of the reading tasks become free-text, spread at random.
+  const reads = shuffle(qs.filter((q) => q.kind === 'read'));
+  const typedCount = Math.round(reads.length * typedShare(level));
+  reads.slice(0, typedCount).forEach(toTyped);
   return qs;
 }
 

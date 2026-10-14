@@ -6,6 +6,7 @@ Ren statisk side: HTML, CSS og JavaScript-moduler. Ingen byggsteg, ingen avhengi
 
 ## Innhold
 
+- **Fritekst og flervalg:** omtrent 45 % av leseoppgavene i hver runde må besvares ved å skrive (35 % på boss-nivåer med tidsfrist). Spillet godtar mange skrivemåter: `9`, `09`, `9:05`, `09:05`, `9.05`, `905`, «fem over ni», «5 over 9», «klokka er fem over ni», også alternative riktige formuleringer som «tjue over ni». Varighet kan skrives som `25`, `25 min`, «1 time og 10 minutter», `1:10` eller «et kvarter». Svar spillet ikke forstår, gir et hint i stedet for feil.
 - **Eventyret:** 6 verdener med 6 nivåer hver (36 nivåer). Hver verden ender med en boss: lengre runde, ofte med tidsfrist og færre tall på klokka.
   1. Klokkeskogen: hele, halve, kvart over og kvart på
   2. Femminuttsfjellet: fem og ti over/på, romertall
@@ -16,7 +17,7 @@ Ren statisk side: HTML, CSS og JavaScript-moduler. Ingen byggsteg, ingen avhengi
 - **Klokkevarianter:** vanlige tall, romertall, bare 12/3/6/9, og helt uten tall.
 - **Arkade, 7 småspill:** Lynrunde, Sant eller usant, Finn klokka, Klokke-memory, Still på tid, Tidslinja og Overlevelse. Egne rekorder og merker for hvert spill.
 - **Dagens utfordring:** 10 nye oppgaver hver dag (samme for samme dag), 50 bonus-XP første gang.
-- **71 merker** i 9 kategorier, alle med fremdriftsmåler.
+- **73 merker** i 9 kategorier, alle med fremdriftsmåler.
 - **Stil:** 10 bakgrunner og 8 klokkedesign som låses opp underveis. Viserfargene er alltid rød (time) og blå (minutt), siden leksjonene viser til dem.
 - **Øv fritt** og **Lær klokka** (10 leksjoner).
 - **8 rangtitler**, XP, stjerner og dager på rad.
@@ -50,7 +51,7 @@ Service worker krever `http://localhost` eller HTTPS.
 node --test klokka/tests/*.test.mjs
 ```
 
-Dekker norsk tidstekst for alle 720 klokkeslett, alle 36 nivåer, arkadeoppgavene, merker, opplåsing, variasjon mellom runder, dagens utfordring og overgang fra gammel lagring.
+Dekker norsk tidstekst for alle 720 klokkeslett, at fritekstsvar godtas i alle skrivemåter (både tall og ord for alle 720 klokkeslett), alle 36 nivåer, arkadeoppgavene, merker, opplåsing, variasjon mellom runder, dagens utfordring og overgang fra gammel lagring.
 
 ## Publisere
 

@@ -18,6 +18,7 @@ import {
 import { THEMES, FACES, themeById } from './themes.js';
 import { sound, vibrate, confetti } from './fx.js';
 import { LESSONS } from './content.js';
+import { checkTyped } from './answers.js';
 import * as arcade from './arcade.js';
 import {
   $, bind, setText, esc, toast, award, badgeList, starsHtml,
@@ -318,8 +319,27 @@ function showQuestion() {
   bind('prompt').textContent = q.prompt;
   const target = bind('target');
   const opts = bind('options');
+  const form = bind('typedForm');
+  form.hidden = true;
 
-  if (q.kind === 'read') {
+  if (q.kind === 'read' && q.typed) {
+    bind('displayClock').hidden = false;
+    bind('setClock').hidden = true;
+    displayClock.set(q.h, q.m);
+    target.hidden = true;
+    bind('checkBtn').hidden = true;
+    opts.hidden = true;
+    opts.innerHTML = '';
+    form.hidden = false;
+    const input = bind('typedInput');
+    input.value = '';
+    input.disabled = false;
+    bind('typedBtn').disabled = false;
+    bind('typedHint').textContent = TYPED_HINTS[q.input.mode];
+    bind('typedHint').classList.remove('typed-hint--warn');
+    input.placeholder = TYPED_PLACEHOLDERS[q.input.mode];
+    input.setAttribute('inputmode', q.input.mode === 'time24' ? 'decimal' : 'text');
+  } else if (q.kind === 'read') {
     bind('displayClock').hidden = false;
     bind('setClock').hidden = true;
     displayClock.set(q.h, q.m);
@@ -345,7 +365,37 @@ function showQuestion() {
   }
   if (level.timer && !q.repeat) startQuestionTimer(level.timer);
   else bind('qTimerWrap').hidden = true;
-  bind('prompt').focus({ preventScroll: true });
+  if (q.typed) bind('typedInput').focus({ preventScroll: true });
+  else bind('prompt').focus({ preventScroll: true });
+}
+
+const TYPED_HINTS = {
+  time: 'Skriv med tall eller ord. 9:05, 09:05 og «fem over ni» er like riktig.',
+  time24: 'Skriv med tall, for eksempel 21:45 eller 0945.',
+  duration: 'Skriv minutter, for eksempel 25, eller «1 time og 10 minutter».',
+};
+const TYPED_PLACEHOLDERS = {
+  time: 'f.eks. 9:05 eller fem over ni',
+  time24: 'f.eks. 21:45',
+  duration: 'f.eks. 25',
+};
+
+function submitTyped() {
+  const q = game.q;
+  if (!q || !q.typed || game.answered) return;
+  const text = bind('typedInput').value;
+  const res = checkTyped(q, text);
+  if (res.ok === null) {
+    // Not understood: no penalty, just a hint and another go.
+    bind('typedHint').textContent = res.hint;
+    bind('typedHint').classList.add('typed-hint--warn');
+    bind('typedInput').focus();
+    return;
+  }
+  bind('typedHint').classList.remove('typed-hint--warn');
+  bind('typedHint').textContent = TYPED_HINTS[q.input.mode];
+  game.typedText = text.trim();
+  onAnswer(res.ok, null);
 }
 
 function onAnswer(correct, chosenBtn, timedOut = false) {
@@ -391,7 +441,10 @@ function onAnswer(correct, chosenBtn, timedOut = false) {
   game.earned.push(...award());
 
   // Visual feedback on the options.
-  if (q.kind === 'read') {
+  if (q.typed) {
+    bind('typedInput').disabled = true;
+    bind('typedBtn').disabled = true;
+  } else if (q.kind === 'read') {
     bind('options').querySelectorAll('.option').forEach((b, i) => {
       b.disabled = true;
       if (q.options[i].correct) b.classList.add('option--right');
@@ -413,12 +466,16 @@ function onAnswer(correct, chosenBtn, timedOut = false) {
   } else {
     let title = 'Ikke helt. Slik tenker du:';
     if (timedOut) title = '⏱ Tiden gikk ut! Slik tenker du:';
+    else if (q.typed) title = `Ikke helt. Du skrev «${game.typedText}». Riktig: ${q.answerText}.`;
     else if (q.kind === 'set') title = `Ikke helt. Du stilte ${phrase(setClock.get().h, setClock.get().m)}.`;
     bind('fbTitle').textContent = title;
     bind('fbExplain').innerHTML = q.explain.map((l) => `<li>${esc(l)}</li>`).join('');
     if (q.kind === 'set') {
       setClock.setOptions({ helper: true });
       setTimeout(() => setClock.set(q.h, q.m), 450);
+    } else if (timedOut && q.typed) {
+      bind('typedInput').disabled = true;
+      bind('typedBtn').disabled = true;
     } else if (timedOut) {
       bind('options').querySelectorAll('.option').forEach((b) => { b.disabled = true; });
     }
@@ -749,6 +806,11 @@ document.addEventListener('click', (ev) => {
   }
 });
 
+bind('typedForm').addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  submitTyped();
+});
+
 document.addEventListener('change', (ev) => {
   const t = ev.target;
   if (t.matches('[data-setting]')) {
@@ -762,6 +824,7 @@ document.addEventListener('change', (ev) => {
 // Keyboard shortcuts 1-4 for answers.
 document.addEventListener('keydown', (ev) => {
   if (ev.altKey || ev.ctrlKey || ev.metaKey) return;
+  if (ev.target.matches && ev.target.matches('input, select, textarea')) return;
   const n = Number(ev.key);
   if (!(n >= 1 && n <= 4)) return;
   if (current === 'arcadeplay') {

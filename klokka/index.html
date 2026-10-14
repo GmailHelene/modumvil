@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Klokkemester</title>
-  <meta name="description" content="Lær den analoge klokka på norsk. 36 nivåer i 6 verdener, 7 arkadespill, dagens utfordring og over 70 merker. Virker uten nett.">
+  <meta name="description" content="Lær den analoge klokka på norsk. 36 nivåer i 6 verdener, 7 arkadespill, dagens utfordring fritekst- og flervalgsoppgaver og over 70 merker. Virker uten nett.">
   <meta name="theme-color" content="#1b1640">
   <meta name="color-scheme" content="dark">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -117,6 +117,12 @@
           <h2 id="q-prompt" class="prompt" data-bind="prompt" tabindex="-1"></h2>
           <p class="target" data-bind="target" hidden></p>
           <div class="options" data-bind="options"></div>
+          <form class="typed" data-bind="typedForm" autocomplete="off" hidden>
+            <label class="sr" for="typed-input">Ditt svar</label>
+            <input id="typed-input" class="typed-input" data-bind="typedInput" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done">
+            <button class="btn btn--big" type="submit" data-bind="typedBtn">Svar</button>
+            <p class="typed-hint" data-bind="typedHint" aria-live="polite"></p>
+          </form>
           <p class="live-readout" data-bind="liveReadout" hidden></p>
           <button class="btn btn--big" type="button" data-action="check" data-bind="checkBtn" hidden>Sjekk</button>
         </div>

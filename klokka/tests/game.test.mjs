@@ -57,7 +57,9 @@ test('alle nivåer lager gyldige runder', () => {
         assert.ok(q.prompt, 'prompt');
         assert.ok(q.explain.length > 0, 'explain');
         assert.doesNotMatch(q.prompt + q.explain.join(' '), /undefined|NaN|\{n\}/);
-        if (q.kind === 'read') {
+        if (q.kind === 'read' && q.typed) {
+          assert.ok(q.input, `${level.id} ${q.factory} mangler input`);
+        } else if (q.kind === 'read') {
           assert.equal(q.options.length, 4, `${level.id} ${q.factory}`);
           assert.equal(new Set(q.options.map((o) => o.label)).size, 4, `${level.id} ${q.factory} ${q.h}:${q.m}`);
           assert.equal(q.options.filter((o) => o.correct).length, 1);

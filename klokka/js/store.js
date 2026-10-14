@@ -14,7 +14,7 @@ const DEFAULTS = {
   bestStreak: 0,
   totals: {
     answered: 0, correct: 0, halvCorrect: 0, minuteCorrect: 0, setCorrect: 0,
-    perfect: 0, perfectNoHint: 0, rounds: 0, arcadePlays: 0, dailyDone: 0,
+    perfect: 0, perfectNoHint: 0, rounds: 0, arcadePlays: 0, dailyDone: 0, typedCorrect: 0,
   },
   days: { count: 0, last: null, best: 0 },
   arcade: {},
@@ -148,6 +148,7 @@ export function recordAnswer(q, correct) {
   if (['halv', 'paHalv', 'overHalv'].includes(zone)) state.totals.halvCorrect += 1;
   if (q.m % 5 !== 0) state.totals.minuteCorrect += 1;
   if (q.kind === 'set') state.totals.setCorrect += 1;
+  if (q.typed) state.totals.typedCorrect += 1;
 }
 
 export function rememberQuestions(keys) {

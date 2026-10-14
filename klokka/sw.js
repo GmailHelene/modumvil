@@ -1,12 +1,13 @@
 // Offline support. Bump VERSION when any file below changes, so phones fetch the new build.
 // cache: 'reload' bypasses the HTTP cache, so a new VERSION never stores stale copies.
-const VERSION = 'klokkemester-v2';
+const VERSION = 'klokkemester-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './css/app.css',
   './js/app.js',
+  './js/answers.js',
   './js/arcade.js',
   './js/arcade-data.js',
   './js/badges.js',
