@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="nb" data-theme="natt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Glosemester</title>
+  <meta name="description" content="Øv på ukas gloser og ukas ord. Diktat, se-dekk-skriv, bokstavsalat og sammensatte ord. Legg inn nye ord hver uke. Virker uten nett.">
+  <meta name="theme-color" content="#1b1640">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Glosemester">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <div class="bg-fx" aria-hidden="true"></div>
+  <a class="skip" href="#main">Hopp til innhold</a>
+  <main id="main" tabindex="-1">
+
+    <!-- Hjem -->
+    <section class="screen" data-screen="home" aria-labelledby="home-title">
+      <header class="home-head">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><rect x="6" y="6" width="52" height="52" rx="10" fill="#fff8e7" stroke="#ffd23f" stroke-width="5"/><text x="32" y="40" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="900" font-size="19" fill="#1b1640">abc</text><path d="M44 50 L56 38" stroke="#e63950" stroke-width="5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h1 id="home-title">Glosemester</h1>
+          <p class="home-sub">Ukas gloser og ukas ord</p>
+        </div>
+      </header>
+
+      <div class="card player">
+        <div class="player-row">
+          <div>
+            <p class="rank-label">Din rang</p>
+            <p class="rank" data-bind="rank"></p>
+          </div>
+          <div class="chips">
+            <span class="chip" title="Ord som sitter"><span aria-hidden="true">🧠</span> <span data-bind="knownChip"></span><span class="sr"> ord sitter</span></span>
+            <span class="chip" title="Merker"><span aria-hidden="true">🏅</span> <span data-bind="badgeChip"></span><span class="sr"> merker</span></span>
+            <span class="chip" title="Dager på rad"><span aria-hidden="true">🔥</span> <span data-bind="days"></span><span class="sr"> dager på rad</span></span>
+          </div>
+        </div>
+        <div class="xpbar" role="progressbar" aria-label="Poeng til neste rang" aria-valuemin="0" aria-valuemax="100" data-bind="xpbar">
+          <span class="xpbar-fill"></span>
+        </div>
+        <p class="xp-text" data-bind="xptext"></p>
+      </div>
+
+      <a class="week-card" href="#/uker">
+        <span class="week-card-icon" aria-hidden="true">📒</span>
+        <span class="week-card-main"><small>Du øver på</small><b data-bind="weekTitle"></b><small data-bind="weekKnown"></small>
+          <span class="known-bar" aria-hidden="true"><span data-bind="weekBar"></span></span></span>
+        <span class="week-card-change">Bytt</span>
+      </a>
+
+      <nav class="menu" aria-label="Hovedmeny">
+        <a class="menu-btn menu-btn--play" href="#/ov"><span class="menu-icon" aria-hidden="true">✏️</span><span><b>Øv</b><small>12 oppgaver, det meste skriver du selv</small></span></a>
+        <a class="menu-btn menu-btn--exam" href="#/test"><span class="menu-icon" aria-hidden="true">📝</span><span><b>Test deg</b><small data-bind="testText">Som en gloseprøve, uten hjelp</small></span></a>
+        <a class="menu-btn" href="#/feil"><span class="menu-icon" aria-hidden="true">🩹</span><span><b>Mine feil</b><small data-bind="mistakesText">Øv på ordene du bommer på</small></span></a>
+        <a class="menu-btn menu-btn--lyn" href="#/arkade"><span class="menu-icon" aria-hidden="true">🕹️</span><span><b>Arkade</b><small>Stavejakt og Skrivestafett</small></span></a>
+        <div class="menu-row menu-row--4">
+          <a class="menu-btn menu-btn--small" href="#/ordliste"><span class="menu-icon" aria-hidden="true">📖</span><b>Ordliste</b></a>
+          <a class="menu-btn menu-btn--small" href="#/merker"><span class="menu-icon" aria-hidden="true">🏅</span><b>Merker</b></a>
+          <a class="menu-btn menu-btn--small" href="#/stil"><span class="menu-icon" aria-hidden="true">🎨</span><b>Stil</b></a>
+          <a class="menu-btn menu-btn--small" href="#/innstillinger" aria-label="Innstillinger"><span class="menu-icon" aria-hidden="true">⚙️</span><b>Valg</b></a>
+        </div>
+        <button class="btn btn--ghost install" type="button" data-action="install" hidden>📲 Installer som app</button>
+      </nav>
+    </section>
+
+    <!-- Ordlister / uker -->
+    <section class="screen" data-screen="uker" aria-labelledby="uker-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="uker-title">Ordlister</h1>
+        <span></span>
+      </header>
+      <p class="screen-intro">Velg hva du vil øve på. Får du nye ord i leksa, legger du dem inn selv.</p>
+      <a class="btn btn--big" href="#/ny">＋ Legg inn nye ord</a>
+      <ul class="week-list" data-bind="weekList"></ul>
+    </section>
+
+    <!-- Redigering -->
+    <section class="screen" data-screen="editor" aria-labelledby="ed-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/uker" aria-label="Tilbake til ordlister">←</a>
+        <h1 id="ed-title" data-bind="edTitle">Nye ord</h1>
+        <span></span>
+      </header>
+      <form class="editor" data-bind="editor" novalidate>
+        <label class="field"><span>Navn på lista</span>
+          <input class="field-input" name="title" type="text" maxlength="40" placeholder="For eksempel: Uke 49" autocomplete="off"></label>
+        <label class="field"><span>Engelske gloser<small>Én per linje: engelsk = norsk. Flere riktige svar skilles med /</small></span>
+          <textarea class="field-input" name="glossText" rows="6" lang="en" spellcheck="false" autocapitalize="off" placeholder="brave = modig / tapper&#10;scared = redd&#10;be careful = vær forsiktig"></textarea></label>
+        <label class="field"><span>Ukas ord (norsk)<small>Ett per linje, eller skilt med komma. Sammensatte ord: vindusrute = vindu + rute</small></span>
+          <textarea class="field-input" name="wordText" rows="6" lang="nb" spellcheck="false" autocapitalize="off" placeholder="hjemme&#10;akkurat, alltid, aldri&#10;fotballbane = fotball + bane"></textarea></label>
+        <ul class="errors" data-bind="edErrors" role="alert" hidden></ul>
+        <button class="btn btn--big" type="submit">Lagre og øv</button>
+        <button class="btn btn--danger" type="button" data-action="delete-week" data-bind="edDelete" hidden>Slett lista</button>
+        <div class="card">
+          <h2>Tips</h2>
+          <p>Skriv ordene nøyaktig som i leksearket, appen retter etter dem. Stavefeil her blir stavefeil i spillet.</p>
+          <p>Alt lagres bare på denne telefonen.</p>
+        </div>
+      </form>
+    </section>
+
+    <!-- Intro -->
+    <section class="screen" data-screen="intro" aria-labelledby="intro-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake">←</a>
+        <h1 id="intro-title" data-bind="introTitle"></h1>
+        <span></span>
+      </header>
+      <div class="intro">
+        <p class="intro-sub" data-bind="introSub"></p>
+        <p class="intro-text" data-bind="introText"></p>
+        <ul class="intro-words" data-bind="introWords"></ul>
+        <p class="intro-hint" data-bind="introHint"></p>
+        <button class="btn btn--big" type="button" data-action="start-round" data-bind="startBtn">Start!</button>
+      </div>
+    </section>
+
+    <!-- Spill -->
+    <section class="screen" data-screen="game" aria-labelledby="q-prompt" hidden>
+      <header class="topbar game-top">
+        <a class="icon-btn" href="#/" aria-label="Avslutt runden">✕</a>
+        <div class="dots" data-bind="dots" aria-hidden="true"></div>
+        <span class="combo" data-bind="combo" aria-live="polite"></span>
+      </header>
+      <p class="sr" data-bind="progressText" aria-live="polite"></p>
+      <div class="qcard">
+        <p class="kind-tag" data-bind="kindTag"></p>
+        <h2 id="q-prompt" class="prompt" data-bind="prompt" tabindex="-1"></h2>
+        <p class="big-word" data-bind="big" hidden></p>
+        <div class="flashbar" data-bind="flashWrap" aria-hidden="true" hidden><span data-bind="flashBar"></span></div>
+        <p class="letters" data-bind="letters" hidden></p>
+        <p class="sentence" data-bind="sentence" hidden></p>
+        <p class="note" data-bind="note" hidden></p>
+        <div class="qtools">
+          <button class="tool-btn" type="button" data-action="cover" data-bind="coverBtn" hidden>🙈 Dekk til nå</button>
+          <button class="tool-btn" type="button" data-action="listen" data-bind="listenBtn" hidden>🔊 Hør igjen</button>
+          <button class="tool-btn" type="button" data-action="listen-slow" data-bind="slowBtn" hidden>🐢 Sakte</button>
+          <button class="tool-btn" type="button" data-action="hint" data-bind="hintBtn">💡 Hjelp</button>
+        </div>
+      </div>
+      <div class="question">
+        <div class="options" data-bind="options"></div>
+        <form class="typed" data-bind="typedForm" autocomplete="off" hidden>
+          <label class="sr" for="typed-input">Ditt svar</label>
+          <input id="typed-input" class="typed-input" data-bind="typedInput" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done">
+          <button class="btn btn--big" type="submit" data-bind="typedBtn">Svar</button>
+          <p class="typed-hint" data-bind="typedHint" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="feedback" data-bind="feedback" role="status" aria-live="polite" hidden>
+        <p class="feedback-title" data-bind="fbTitle"></p>
+        <p class="feedback-answer" data-bind="fbAnswer"></p>
+        <ul class="feedback-explain" data-bind="fbExplain"></ul>
+        <form class="copy" data-bind="copyForm" autocomplete="off" hidden>
+          <label for="copy-input" data-bind="copyLabel">Skriv det riktige ordet én gang, så husker du det bedre:</label>
+          <input id="copy-input" class="typed-input typed-input--small" data-bind="copyInput" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done">
+          <p class="typed-hint" data-bind="copyHint" aria-live="polite"></p>
+        </form>
+        <div class="row">
+          <button class="btn" type="button" data-action="speak-answer" data-bind="speakAnswerBtn">🔊 Hør</button>
+          <button class="btn btn--big" type="button" data-action="next">Neste</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resultat -->
+    <section class="screen" data-screen="result" aria-labelledby="result-title" hidden>
+      <div class="result">
+        <h1 id="result-title" data-bind="resultTitle"></h1>
+        <p class="result-stars" data-bind="resultStars"></p>
+        <p class="result-score" data-bind="resultScore"></p>
+        <p class="result-xp" data-bind="resultXp"></p>
+        <p class="result-known" data-bind="resultKnown"></p>
+        <div class="card result-mistakes" data-bind="resultMistakes" hidden></div>
+        <ul class="result-badges" data-bind="resultBadges"></ul>
+        <div class="result-actions">
+          <button class="btn btn--big" type="button" data-action="again">Én runde til, med nye oppgaver</button>
+          <a class="btn" href="#/feil" data-bind="resultMistakesLink" hidden>🩹 Øv på feilene</a>
+          <a class="btn btn--ghost" href="#/">Til start</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Arkade-meny -->
+    <section class="screen" data-screen="arcade" aria-labelledby="arcade-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="arcade-title">Arkade</h1>
+        <span></span>
+      </header>
+      <p class="screen-intro">Korte spill med ordene i lista du øver på. Slå dine egne rekorder.</p>
+      <ul class="arcade-list" data-bind="arcadeList"></ul>
+    </section>
+
+    <!-- Arkade-spill -->
+    <section class="screen" data-screen="arcadeplay" aria-labelledby="arc-title" hidden>
+      <header class="topbar game-top">
+        <a class="icon-btn" href="#/arkade" aria-label="Avslutt spillet">✕</a>
+        <h1 id="arc-title" class="arc-title" data-bind="arcTitle"></h1>
+        <span class="arc-score" data-bind="arcScore"></span>
+      </header>
+      <div class="timer" data-bind="arcTimerWrap" aria-hidden="true" hidden><span class="timer-fill" data-bind="arcTimer"></span></div>
+      <div class="lyn-start" data-bind="arcStart">
+        <p class="intro-text" data-bind="arcDesc"></p>
+        <p class="muted" data-bind="arcRules"></p>
+        <p class="lyn-best" data-bind="arcBest"></p>
+        <button class="btn btn--big" type="button" data-action="arc-go">Kjør!</button>
+      </div>
+      <div data-bind="arcBody" hidden></div>
+      <div class="lyn-end" data-bind="arcEnd" hidden>
+        <h2 data-bind="arcEndTitle"></h2>
+        <p class="result-score" data-bind="arcEndScore"></p>
+        <ul class="result-badges" data-bind="arcBadges"></ul>
+        <div class="result-actions">
+          <button class="btn btn--big" type="button" data-action="arc-go">En gang til</button>
+          <a class="btn btn--ghost" href="#/arkade">Til arkaden</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ordliste -->
+    <section class="screen" data-screen="ordliste" aria-labelledby="ord-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="ord-title">Ordliste</h1>
+        <span></span>
+      </header>
+      <div class="tabs" role="tablist" aria-label="Ordliste">
+        <button class="tab" type="button" role="tab" data-tab="ord" aria-selected="true">Ordene</button>
+        <button class="tab" type="button" role="tab" data-tab="tips" aria-selected="false">Tips</button>
+      </div>
+      <div data-bind="wordlist" role="tabpanel"></div>
+    </section>
+
+    <!-- Merker -->
+    <section class="screen" data-screen="merker" aria-labelledby="merker-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="merker-title">Merker</h1>
+        <span class="chip" data-bind="badgeCount"></span>
+      </header>
+      <div class="card stats" data-bind="stats"></div>
+      <div data-bind="badges"></div>
+    </section>
+
+    <!-- Stil -->
+    <section class="screen" data-screen="stil" aria-labelledby="stil-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="stil-title">Stil</h1>
+        <span class="chip" data-bind="styleCount"></span>
+      </header>
+      <p class="screen-intro">Velg bakgrunn. Flere låses opp når du øver.</p>
+      <ul class="style-grid" data-bind="themeList"></ul>
+    </section>
+
+    <!-- Innstillinger -->
+    <section class="screen" data-screen="innstillinger" aria-labelledby="set-title" hidden>
+      <header class="topbar">
+        <a class="icon-btn" href="#/" aria-label="Tilbake til start">←</a>
+        <h1 id="set-title">Innstillinger</h1>
+        <span></span>
+      </header>
+      <div class="settings">
+        <label class="setting"><span>Lyd</span><input type="checkbox" data-setting="sound"></label>
+        <label class="setting"><span>Opplesning<small>Trengs for diktat. Bruker telefonens egne stemmer.</small></span><input type="checkbox" data-setting="speak"></label>
+        <label class="setting"><span>Vibrasjon</span><input type="checkbox" data-setting="vibrate"></label>
+        <div class="card">
+          <h2>Stemmer på denne telefonen</h2>
+          <p data-bind="voiceStatus"></p>
+          <div class="row">
+            <button class="btn" type="button" data-say-test="en">🔊 Test engelsk</button>
+            <button class="btn" type="button" data-say-test="nb">🔊 Test norsk</button>
+          </div>
+        </div>
+        <button class="btn btn--ghost" type="button" data-action="install" hidden>📲 Installer som app</button>
+        <div class="card">
+          <h2>Legg til på hjemskjermen</h2>
+          <p><b>iPhone/iPad:</b> Åpne i Safari, trykk Del-knappen og velg «Legg til på Hjem-skjerm».</p>
+          <p><b>Android:</b> Trykk «Installer» over, eller menyen ⋮ i Chrome og «Installer app».</p>
+          <p>Etter første besøk virker appen uten nett.</p>
+        </div>
+        <div class="card">
+          <h2>Personvern</h2>
+          <p>All fremgang og alle ordlister lagres bare på denne enheten. Ingen konto, ingen sporing, ingen reklame. Ingenting sendes noe sted.</p>
+        </div>
+        <button class="btn btn--danger" type="button" data-action="reset">Start på nytt (nullstill fremgang)</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" data-bind="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript">Glosemester trenger JavaScript for å virke.</p></noscript>
+</body>
+</html>
